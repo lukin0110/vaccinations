@@ -1,0 +1,11 @@
+# Conda environment
+name: vaccinaties
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python~=3.8.6
+  - pip~=20.2
+  - requests~=2.24.0
+  - pandas~=1.2.2
+  - ulid-py~=1.1.0
