@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Dagelijkse update over de vaccinatie cijfers in Lommel.">
+  <meta name="author" content="">
+  <link rel="icon" type="image/svg+xml" href="/img/syringe.svg">
+  <link rel="icon" type="image/png" href="/img/syringe.png">
+  <meta name="theme-color" content="#198754">
+  <meta name="robots" content="index, follow">
+  <title>Covid Vaccinaties Lommel</title>
+  <meta property="og:title" content="Covid Vaccinaties Lommel">
+  <meta property="og:locale" content="nl_BE">
+  <meta property="og:url" content="https://lommel.lukin.be/">
+  <meta property="og:sitename" content="Covid Vaccinaties Lommel">
+  <meta property="og:type" content="website">
+  <meta property="og:description" content="Dagelijkse update over de vaccinatie cijfers in Lommel.">
+  <meta property="og:image" content="https://lommel.lukin.be/img/soeverein.jpg">
+  <meta property="og:image:url" content="https://lommel.lukin.be/img/soeverein.jpg">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:description" content="Dagelijkse update over de vaccinatie cijfers in Lommel.">
+  <meta name="twitter:image" content="https://lommel.lukin.be/img/soeverein.jpg">
+  <style>
+    canvas{
+      -moz-user-select: none;
+      -webkit-user-select: none;
+      -ms-user-select: none;
+    }
+	</style>
+  <script>
+    var LABELS = {{ $.Site.Data.numbers.labels }};
+    var FIRST_DOSE = {{ $.Site.Data.numbers.timeseries_first_dose }};
+    var SECOND_DOSE = {{ $.Site.Data.numbers.timeseries_second_dose }};
+  </script>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.css" integrity="sha512-/zs32ZEJh+/EO2N1b0PEdoA10JkdC3zJ8L5FTiQu82LR9S/rOQNfQN7U59U9BC12swNeRAz3HSzIL2vpp4fv3w==" crossorigin="anonymous" />
+</head>
+<body>
+  <main class="container" style="max-width: 80%">
+    <div class="px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+      <h1 class="display-4">Covid Vaccinaties in Lommel 💉</h1>
+      <p class="lead">Dagelijkse update over de vaccinatie cijfers in Lommel.<br>
+        Bron van de cijfers: <i>Vaccinnet+ registraties tot en met 25.02.2021.</i></p>
+    </div>
+    <div class="row">
+      <div class="col-md-12 col-md-8 col-lg-9 mb-5">
+        <canvas id="canvas"></canvas>
+      </div>
+      <div class="col-md-12 col-lg-3 mb-5">
+        <div class="card text-white bg-success mb-3">
+          <div class="card-header">Volledig gevaccineerd 🚀</div>
+          <div class="card-body">
+            <h2 class="card-title">{{ range last 1 $.Site.Data.numbers.timeseries_second_dose }}{{ . }}{{ end }}%</h2>
+            <p class="card-text">Dat zijn <strong>{{ $.Site.Data.numbers.second_dose }}</strong> van de
+              <strong>{{ lang.NumFmt 0 $.Site.Data.numbers.population "- , ." }}</strong> Lommelaars.</p>
+          </div>
+        </div>
+
+        <div class="card text-white bg-primary mb-3">
+          <div class="card-header">Minimum 1 dosis 🤗</div>
+          <div class="card-body">
+            <h2 class="card-title">{{ range last 1 $.Site.Data.numbers.timeseries_first_dose }}{{ . }}{{ end }} %</h2>
+            <p class="card-text">Dat zijn <strong>{{ $.Site.Data.numbers.first_dose }}</strong> van de
+              <strong>{{ lang.NumFmt 0 $.Site.Data.numbers.population "- , ." }}</strong> Lommelaars.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="pt-4 my-md-5 pt-md-5 border-top">
+      <div class="row">
+        <div class="col-6 col-md">
+          <small class="text-muted">Deze pagina focust enkel op de vaccinactie cijfers van <strong>Lommel</strong>.<br>
+          De cijfers van België kan je volgen via <a href="https://covid-vaccinatie.be/nl" target="_blank">covid-vaccinatie.be</a>
+          van <a href="https://twitter.com/jorisvaesen" target="_blank">@jorisvaesen</a></small>
+        </div>
+        <div class="col-6 col-md text-end">
+          <small class="d-block mb-3 text-muted">
+            💚 Pagina onderhouden door <a href="https://lukin.be" target="_blank">Maarten Huijsmans</a><br>
+            Feedback of vragen: <a href="mailto:maarten@lukin.be">maarten@lukin.be</a><br>
+            Bekijk de code op <a href="https://github.com/lukin0110/vaccinations-lommel" target="_blank">GitHub</a>
+          </small>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.min.js" integrity="sha512-SuxO9djzjML6b9w9/I07IWnLnQhgyYVSpHZx0JV97kGBfTIsUYlWflyuW4ypnvhBrslz1yJ3R+S14fdCWmSmSA==" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"></script>
+  <script>
+    // var colorBlue = 'rgb(54, 162, 235)';
+    var colorBlue = '#0d6efd';
+    // var colorGreen = 'rgb(75, 192, 192)';
+    var colorGreen = '#198754';
+
+		var config = {
+			type: 'line',
+			data: {
+				labels: LABELS,
+        datasets: [{
+					label: 'Minimum 1 dosis',
+					fill: false,
+          pointRadius:0,
+          datalabels: {color: colorBlue},
+					backgroundColor: colorBlue,
+					borderColor: colorBlue,
+          data: FIRST_DOSE
+				}, {
+					label: 'Volledig gevaccineerd',
+          fill: false,
+          pointRadius:0,
+          datalabels: {color: colorGreen},
+					backgroundColor: colorGreen,
+					borderColor: colorGreen,
+          data: SECOND_DOSE
+				}]
+			},
+			options: {
+        plugins: {
+          datalabels: {
+            align: 'right',
+              formatter: function (value, context) {
+                  return value.toString().replace(".", ",") + "%";
+              },
+              display: function (context) {
+                return context.dataIndex === context.dataset.data.length - 1;
+              }
+            }
+        },
+				responsive: true,
+        layout:{
+          padding: {
+            right:50
+          }
+        },
+				title: {
+					display: true,
+					text: 'Percentage van gevaccineerde Lommelaars'
+				},
+				tooltips: {
+					mode: 'index',
+					intersect: false
+				},
+				hover: {
+					mode: 'nearest',
+					intersect: false,
+				},
+				scales: {
+					xAxes: [{
+						display: true,
+						scaleLabel: {
+							display: false,
+              labelString: 'Dagen'
+						}
+					}],
+					yAxes: [{
+						display: true,
+						scaleLabel: {
+							display: false,
+              labelString: 'Percentage'
+						},
+            ticks: {
+              callback: function(v, i, vv) {
+                  return v.toFixed(2).toString().replace(".", ".") + "%";
+              }
+            }
+					}]
+				},
+			}
+		};
+
+		window.onload = function() {
+			var ctx = document.getElementById('canvas').getContext('2d');
+			window.myLine = new Chart(ctx, config);
+		};
+	</script>
+</body>
+</html>
