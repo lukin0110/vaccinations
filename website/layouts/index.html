@@ -27,6 +27,11 @@
       -webkit-user-select: none;
       -ms-user-select: none;
     }
+    @media only screen and (min-width: 1200px) {
+      #main {
+        max-width: 80%;
+      }
+    }
 	</style>
   <script>
     var LABELS = {{ $.Site.Data.numbers.labels }};
@@ -38,14 +43,14 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.css" integrity="sha512-/zs32ZEJh+/EO2N1b0PEdoA10JkdC3zJ8L5FTiQu82LR9S/rOQNfQN7U59U9BC12swNeRAz3HSzIL2vpp4fv3w==" crossorigin="anonymous" />
 </head>
 <body>
-  <main class="container" style="max-width: 80%">
-    <div class="px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+  <main class="container" id="main">
+    <div class="px-3 py-3 pt-md-5 pb-md-4 mb-4 mx-auto text-center">
       <h1 class="display-4">Covid Vaccinaties in Lommel 💉</h1>
-      <p class="lead">Dagelijkse update over de vaccinatie cijfers in Lommel.<br>
-        Bron van de cijfers: <i>Vaccinnet+ registraties tot en met 25.02.2021.</i></p>
+      <p class="lead mb-0">Dagelijkse update over de vaccinatie cijfers in Lommel.</p>
+      <small class="text-muted">Bron van de cijfers: <i>Vaccinnet+ registraties tot en met 25.02.2021.</i></small>
     </div>
     <div class="row">
-      <div class="col-md-12 col-md-8 col-lg-9 mb-5">
+      <div class="col-md-12 col-md-8 col-lg-9 mb-5 h-100">
         <canvas id="canvas"></canvas>
       </div>
       <div class="col-md-12 col-lg-3 mb-5">
