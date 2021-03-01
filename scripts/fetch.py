@@ -83,14 +83,17 @@ def crunch_range(start_date: date, end_date: date, municipality: str) -> Any:
     }
 
     current = DailyResult(1, 0, 0)
+    last_date = start_date
     for d in date_range:
         try:
             current = crunch(d, municipality)
+            last_date = d
         except FileNotFoundError:
             # If it fails re-use the previous results. There is no data for the weekends for
             # example
             pass
 
+        results["last_date"] = f"{last_date:%d/%m/%Y}"
         results["population"] = current.population
         results["minimum_one_dose"] = current.total_minimum_one_dose
         results["second_dose"] = current.total_second_dose

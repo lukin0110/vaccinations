@@ -30,8 +30,6 @@ python fetch.py
 ```
 
 ## TODO
-- Store Graph as image
 - Graph per age
 - Graph per gender
 - Generate og image with current stats
-

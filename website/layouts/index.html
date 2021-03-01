@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="nl"
       xmlns:og="http://opengraphprotocol.org/schema/"
-      xmlns:fb="http://www.facebook.com/2008/fbml" xmlns="http://www.w3.org/1999/html">
+      xmlns:fb="http://www.facebook.com/2008/fbml"
+      xmlns="http://www.w3.org/1999/html">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="{{ .Site.Params.description }}">
-  <meta name="author" content="">
+  <meta name="author" content="{{ .Site.Author.name }}">
   <link rel="icon" type="image/svg+xml" href="/img/syringe.svg">
   <link rel="icon" type="image/png" href="/img/syringe.png">
   <meta name="theme-color" content="#198754">
@@ -58,34 +59,42 @@
       -->
     </div>
     <div class="row">
-      <div class="col-md-12 col-md-8 col-lg-9 mb-5 h-100 pb-2 graph">
+      <div class="col-md-12 col-lg-9 mb-3 h-100 pb-2 graph">
         <canvas id="canvas"></canvas>
       </div>
-      <div class="col-md-12 col-lg-3 mb-3">
-        <div class="card text-white bg-success mb-2">
-          <div class="card-header">Volledig gevaccineerd 🚀</div>
-          <div class="card-body">
-            <h3 class="card-title">{{ range last 1 $.Site.Data.numbers.timeseries_second_dose }}{{ . }}{{ end }}%</h3>
-            <p class="card-text">Dat zijn <strong>{{ $.Site.Data.numbers.second_dose }}</strong> van de
-              <strong>{{ lang.NumFmt 0 $.Site.Data.numbers.population "- , ." }}</strong> Lommelaars.</p>
+      <div class="col-md-12 col-lg-3">
+        <div class="row">
+          <div class="col-md-6 col-lg-12 col-sm-12 d-flex">
+            <div class="card text-white bg-success mb-2 flex-fill">
+              <div class="card-header">Volledig gevaccineerd 🚀</div>
+              <div class="card-body">
+                <h3 class="card-title">{{ range last 1 $.Site.Data.numbers.timeseries_second_dose }}{{ . }}{{ end }} %</h3>
+                <p class="card-text">Dat zijn <strong>{{ $.Site.Data.numbers.second_dose }}</strong> van de
+                  <strong>{{ lang.NumFmt 0 $.Site.Data.numbers.population "- , ." }}</strong> Lommelaars.</p>
+              </div>
+            </div>
           </div>
-        </div>
 
-        <div class="card text-white bg-primary mb-2">
-          <div class="card-header">Minimum 1 dosis 🤗</div>
-          <div class="card-body">
-            <h3 class="card-title">{{ range last 1 $.Site.Data.numbers.timeseries_minimum_one_dose }}{{ . }}{{ end }} %</h3>
-            <p class="card-text">Dat zijn <strong>{{ $.Site.Data.numbers.minimum_one_dose }}</strong> van de
-              <strong>{{ lang.NumFmt 0 $.Site.Data.numbers.population "- , ." }}</strong> Lommelaars.</p>
+          <div class="col-md-6 col-lg-12 d-flex">
+            <div class="card text-white bg-primary mb-2 flex-fill">
+              <div class="card-header">Minimum 1 dosis 🤗</div>
+              <div class="card-body">
+                <h3 class="card-title">{{ range last 1 $.Site.Data.numbers.timeseries_minimum_one_dose }}{{ . }}{{ end }} %</h3>
+                <p class="card-text">Dat zijn <strong>{{ $.Site.Data.numbers.minimum_one_dose }}</strong> van de
+                  <strong>{{ lang.NumFmt 0 $.Site.Data.numbers.population "- , ." }}</strong> Lommelaars die minstens 1 vaccinatie hebben gehad.</p>
+              </div>
+            </div>
           </div>
-        </div>
 
-        <div class="card">
-          <div class="card-body">
-            <h6 class="card-title">Bron van de cijfers 🔍</h6>
-            <small class="text-muted"><a href="https://www.laatjevaccineren.be/vaccinnet" target="_blank">Vaccinnet+</a>
-              is het vaccinatie platform van de Vlaamse Overheid. Cijfers worden dagelijks geïmporteerd, behalve op weekenddagen.</small><br><br>
-            <small class="text-muted">Laatste update: 25.02.2021</small>
+          <div class="col-md-12 d-flex">
+            <div class="card mb-3 flex-fill">
+            <div class="card-body">
+              <h6 class="card-title">Bron van de cijfers 🔍</h6>
+              <small class="text-muted"><a href="https://www.laatjevaccineren.be/vaccinnet" target="_blank">Vaccinnet+</a>
+                is het vaccinatie platform van de Vlaamse Overheid. Cijfers worden dagelijks geïmporteerd, behalve op weekenddagen.</small><br><br>
+              <small class="text-muted">Laatste update: {{ $.Site.Data.numbers.last_date }}</small>
+            </div>
+          </div>
           </div>
         </div>
       </div>
@@ -101,8 +110,8 @@
         </div>
         <div class="col-md-12 col-lg-6 col-md mb-3">
           <small class="d-block mb-3 text-muted">
-            Pagina onderhouden door <a href="https://lukin.be" target="_blank">Maarten Huijsmans</a><br>
-            Feedback of vragen: <a href="mailto:maarten@lukin.be">maarten@lukin.be</a><br>
+            Pagina onderhouden door <a href="https://lukin.be" target="_blank">{{ .Site.Author.name }}</a><br>
+            Feedback of vragen: <a href="mailto:{{ .Site.Author.email }}">{{ .Site.Author.email }}</a><br>
             Bekijk de code op <a href="https://github.com/lukin0110/vaccinations-lommel" target="_blank">GitHub</a>
           </small>
         </div>
@@ -126,14 +135,6 @@
 			data: {
 				labels: LABELS,
         datasets: [{
-					label: 'Minimum 1 dosis',
-					fill: false,
-          pointRadius:0,
-          datalabels: {color: colorBlue},
-					backgroundColor: colorBlue,
-					borderColor: colorBlue,
-          data: ONE_DOSE
-				}, {
 					label: 'Volledig gevaccineerd',
           fill: false,
           pointRadius:0,
@@ -141,6 +142,14 @@
 					backgroundColor: colorGreen,
 					borderColor: colorGreen,
           data: SECOND_DOSE
+				}, {
+					label: 'Minimum 1 dosis',
+					fill: false,
+          pointRadius:0,
+          datalabels: {color: colorBlue},
+					backgroundColor: colorBlue,
+					borderColor: colorBlue,
+          data: ONE_DOSE
 				}]
 			},
 			options: {
