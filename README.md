@@ -21,12 +21,13 @@ hugo server --minify --ignoreCache
 ```
 
 ## Import & process CSV
-Will download the CSV and compute the numbers for a given municipality (eg: Lommel). The CSV will be added to the 
-[data folder](./data). The output the crunched numbers will be add the [Hugo data folder](./website/data/).
+A script that downloads the CSV and compute the numbers for a given municipality (eg: Lommel). The CSV will be added to 
+the[data folder](./data). The output of the crunched numbers will be added to the [Hugo data folder](./website/data/).
 
 ```bash
 cd scripts
-python fetch.py 
+python fetch.py fetch
+python fetch.py crunch
 ```
 
 ## TODO
