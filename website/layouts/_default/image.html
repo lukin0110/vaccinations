@@ -11,47 +11,70 @@
       -webkit-user-select: none;
       -ms-user-select: none;
     }
+    .card-header {
+      font-size: 1.5em;
+    }
+    .card-text {
+      font-size: 1.3em;
+    }
 	</style>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.css" integrity="sha512-/zs32ZEJh+/EO2N1b0PEdoA10JkdC3zJ8L5FTiQu82LR9S/rOQNfQN7U59U9BC12swNeRAz3HSzIL2vpp4fv3w==" crossorigin="anonymous" />
 </head>
 <body>
   <h1>Image</h1>
-  <div class="mb-5" id="target"></div>
+  <div class="mb-5" id="target" style="border: 1px solid black"></div>
 
   <h1>Source</h1>
   <main class="container" id="source" style="width: 1000px;background-color: white">
     <div class="row">
-      <div class="col-md-12 mb-3 h-100 pb-2">
-        <canvas id="canvas"></canvas>
+      <div class="col-12">
+        <h2 class="text-center">Percentage van gevaccineerde Lommelaars op {{ $.Site.Data.numbers.last_date }} 💚</h2>
       </div>
     </div>
     <div class="row">
       <div class="col-md-6 d-flex">
         <div class="card text-white bg-success mb-2 flex-fill">
-          <div class="card-header">Volledig gevaccineerd</div>
+          <div class="card-header">Volledig gevaccineerd 🚀</div>
           <div class="card-body">
-            <h3 class="card-title">{{ range last 1 $.Site.Data.numbers.timeseries_second_dose }}{{ . }}{{ end }} %</h3>
-            <p class="card-text">Dat zijn <strong>{{ $.Site.Data.numbers.second_dose }}</strong> van de
-              <strong>{{ lang.NumFmt 0 $.Site.Data.numbers.population "- , ." }}</strong> Lommelaars.</p>
+            <div class="row">
+              <div class="col-4">
+                <h2 class="card-title">{{ range last 1 $.Site.Data.numbers.timeseries_second_dose }}{{ . }}{{ end }}%</h2>
+              </div>
+              <div class="col-8">
+                <p class="card-text ml-3">Dat zijn <strong>{{ $.Site.Data.numbers.second_dose }}</strong> van de
+                  <strong>{{ lang.NumFmt 0 $.Site.Data.numbers.population "- , ." }}</strong> Lommelaars.</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
       <div class="col-md-6 d-flex">
         <div class="card text-white bg-primary mb-2 flex-fill">
-          <div class="card-header">Minimum 1 dosis</div>
+          <div class="card-header">Minstens 1 dosis gehad 🤗</div>
           <div class="card-body">
-            <h3 class="card-title">{{ range last 1 $.Site.Data.numbers.timeseries_minimum_one_dose }}{{ . }}{{ end }} %</h3>
-            <p class="card-text">Dat zijn <strong>{{ $.Site.Data.numbers.minimum_one_dose }}</strong> van de
-              <strong>{{ lang.NumFmt 0 $.Site.Data.numbers.population "- , ." }}</strong> Lommelaars die al minstens 1 dosis hebben gehad.</p>
+            <div class="row">
+              <div class="col-4">
+                <h2 class="card-title">{{ range last 1 $.Site.Data.numbers.timeseries_minimum_one_dose }}{{ . }}{{ end }}%</h2>
+              </div>
+              <div class="col-8">
+                <p class="card-text">Dat zijn <strong>{{ $.Site.Data.numbers.minimum_one_dose }}</strong> van de
+                <strong>{{ lang.NumFmt 0 $.Site.Data.numbers.population "- , ." }}</strong> Lommelaars.</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
     <div class="row">
+      <div class="col-md-12 mb-3 h-100">
+        <canvas id="canvas"></canvas>
+      </div>
+    </div>
+    <div class="row">
       <div class="col-12">
-        <p class="text-center">Volg de dagelijkse updates via <strong>lommel.lukin.be</strong></p>
+        <p class="text-center" style="font-size: 1.3em">Volg de dagelijkse updates via <strong>lommel.lukin.be</strong></p>
       </div>
     </div>
   </main>
@@ -69,7 +92,6 @@
 
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.min.js" integrity="sha512-SuxO9djzjML6b9w9/I07IWnLnQhgyYVSpHZx0JV97kGBfTIsUYlWflyuW4ypnvhBrslz1yJ3R+S14fdCWmSmSA==" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"></script>
   <script>
     var LAST_DATE = '{{ $.Site.Data.numbers.last_date }}';
     var LABELS = {{ $.Site.Data.numbers.labels }};
@@ -94,7 +116,7 @@
 					borderColor: colorGreen,
           data: SECOND_DOSE
 				}, {
-					label: 'Minimum 1 dosis',
+					label: 'Minstens 1 dosis gehad',
 					fill: false,
           pointRadius: 0,
           lineTension: 0,
@@ -105,29 +127,10 @@
 				}]
 			},
 			options: {
-        plugins: {
-          datalabels: {
-            align: 'right',
-              formatter: function (value, context) {
-                  return value.toString().replace(".", ",") + "%";
-              },
-              display: function (context) {
-                return context.dataIndex === context.dataset.data.length - 1;
-              }
-            }
-        },
 				responsive: true,
         maintainAspectRatio: true,
-        layout:{
-          padding: {
-            right: 50
-          }
-        },
 				title: {
-					display: true,
-					text: 'Percentage van gevaccineerde Lommelaars op ' + LAST_DATE,
-          fontSize: 32,
-          fontColor: 'rgb(33, 37, 41)'
+					display: false
         },
 				tooltips: {
 					mode: 'index',
@@ -140,6 +143,9 @@
 				scales: {
 					xAxes: [{
 						display: true,
+            ticks: {
+              fontSize: 15
+            },
 						scaleLabel: {
 							display: false,
               labelString: 'Dagen'
@@ -152,6 +158,7 @@
               labelString: 'Percentage'
 						},
             ticks: {
+              fontSize: 15,
               callback: function(v, i, vv) {
                   return v.toFixed(2).toString().replace(".", ".") + "%";
               }
@@ -167,7 +174,8 @@
 		};
 	</script>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js" integrity="sha512-s/XK4vYVXTGeUSv4bRPOuxSDmDlTedEpMEcAQk0t/FMd9V6ft8iXdwSBxV0eD60c6w/tjotSlKu9J2AAW1ckTA==" crossorigin="anonymous"></script>
+<!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js" integrity="sha512-s/XK4vYVXTGeUSv4bRPOuxSDmDlTedEpMEcAQk0t/FMd9V6ft8iXdwSBxV0eD60c6w/tjotSlKu9J2AAW1ckTA==" crossorigin="anonymous"></script>-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js" integrity="sha512-OqcrADJLG261FZjar4Z6c4CfLqd861A3yPNMb+vRQ2JwzFT49WT4lozrh3bcKxHxtDTgNiqgYbEUStzvZQRfgQ==" crossorigin="anonymous"></script>
   <script>
       setTimeout(function(){
         html2canvas(document.getElementById("source"), {
