@@ -30,11 +30,14 @@
       -webkit-user-select: none;
       -ms-user-select: none;
     }
+    body {
+        background-image: linear-gradient(150deg,#ffffff 0%,#F8F8F8 95%);
+    }
     .graph {
         background-color: #f8f8f8;
         border-radius: .25rem;
         border: 1px solid rgba(0,0,0,.05);
-        background-image: linear-gradient(180deg,#ffffff 0%,#F8F8F8 95%);
+        background-image: linear-gradient(150deg,#ffffff 0%,#F8F8F8 95%);
         box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
     }
     @media only screen and (min-width: 1200px) {
@@ -81,7 +84,7 @@
               <div class="card-body">
                 <h3 class="card-title">{{ range last 1 $.Site.Data.numbers.timeseries_minimum_one_dose }}{{ . }}{{ end }} %</h3>
                 <p class="card-text">Dat zijn <strong>{{ $.Site.Data.numbers.minimum_one_dose }}</strong> van de
-                  <strong>{{ lang.NumFmt 0 $.Site.Data.numbers.population "- , ." }}</strong> Lommelaars die minstens 1 vaccinatie hebben gehad.</p>
+                  <strong>{{ lang.NumFmt 0 $.Site.Data.numbers.population "- , ." }}</strong> Lommelaars die al minstens 1 dosis hebben gehad.</p>
               </div>
             </div>
           </div>
@@ -138,6 +141,7 @@
 					label: 'Volledig gevaccineerd',
           fill: false,
           pointRadius:0,
+          lineTension: 0,
           datalabels: {color: colorGreen},
 					backgroundColor: colorGreen,
 					borderColor: colorGreen,
@@ -146,6 +150,7 @@
 					label: 'Minimum 1 dosis',
 					fill: false,
           pointRadius:0,
+          lineTension: 0,
           datalabels: {color: colorBlue},
 					backgroundColor: colorBlue,
 					borderColor: colorBlue,
@@ -189,7 +194,7 @@
 					xAxes: [{
 						display: true,
 						scaleLabel: {
-							display: false,
+							display: true,
               labelString: 'Dagen'
 						}
 					}],
@@ -200,8 +205,8 @@
               labelString: 'Percentage'
 						},
             ticks: {
-              callback: function(v, i, vv) {
-                  return v.toFixed(2).toString().replace(".", ".") + "%";
+              callback: function(value, index, values) {
+                  return value.toFixed(2).toString().replace(".", ".") + "%";
               }
             }
 					}]

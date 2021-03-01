@@ -44,7 +44,7 @@
           <div class="card-body">
             <h3 class="card-title">{{ range last 1 $.Site.Data.numbers.timeseries_minimum_one_dose }}{{ . }}{{ end }} %</h3>
             <p class="card-text">Dat zijn <strong>{{ $.Site.Data.numbers.minimum_one_dose }}</strong> van de
-              <strong>{{ lang.NumFmt 0 $.Site.Data.numbers.population "- , ." }}</strong> Lommelaars die minstens 1 vaccinatie hebben gehad.</p>
+              <strong>{{ lang.NumFmt 0 $.Site.Data.numbers.population "- , ." }}</strong> Lommelaars die al minstens 1 dosis hebben gehad.</p>
           </div>
         </div>
       </div>
@@ -88,6 +88,7 @@
 					label: 'Volledig gevaccineerd',
           fill: false,
           pointRadius: 0,
+          lineTension: 0,
           datalabels: {color: colorGreen},
 					backgroundColor: colorGreen,
 					borderColor: colorGreen,
@@ -96,6 +97,7 @@
 					label: 'Minimum 1 dosis',
 					fill: false,
           pointRadius: 0,
+          lineTension: 0,
           datalabels: {color: colorBlue},
 					backgroundColor: colorBlue,
 					borderColor: colorBlue,
