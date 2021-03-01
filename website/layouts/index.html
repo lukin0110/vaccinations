@@ -67,7 +67,7 @@
             <div class="card text-white bg-success mb-2 flex-fill">
               <div class="card-header">Volledig gevaccineerd 🚀</div>
               <div class="card-body">
-                <h3 class="card-title">{{ range last 1 $.Site.Data.numbers.timeseries_second_dose }}{{ . }}{{ end }} %</h3>
+                <h3 class="card-title">{{ range last 1 $.Site.Data.numbers.timeseries_second_dose }}{{ . }}{{ end }}%</h3>
                 <p class="card-text">Dat zijn <strong>{{ $.Site.Data.numbers.second_dose }}</strong> van de
                   <strong>{{ lang.NumFmt 0 $.Site.Data.numbers.population "- , ." }}</strong> Lommelaars.</p>
               </div>
@@ -78,7 +78,7 @@
             <div class="card text-white bg-primary mb-2 flex-fill">
               <div class="card-header">Minstens 1 dosis gehad 🤗</div>
               <div class="card-body">
-                <h3 class="card-title">{{ range last 1 $.Site.Data.numbers.timeseries_minimum_one_dose }}{{ . }}{{ end }} %</h3>
+                <h3 class="card-title">{{ range last 1 $.Site.Data.numbers.timeseries_minimum_one_dose }}{{ . }}{{ end }}%</h3>
                 <p class="card-text">Dat zijn <strong>{{ $.Site.Data.numbers.minimum_one_dose }}</strong> van de
                   <strong>{{ lang.NumFmt 0 $.Site.Data.numbers.population "- , ." }}</strong> Lommelaars.</p>
               </div>
