@@ -54,20 +54,22 @@
   <main class="container" id="main">
     <div class="px-3 py-3 pt-md-5 pb-md-4 mb-4 mx-auto text-center">
       <h1 class="display-4">Covid Vaccinaties in Lommel 💉</h1>
-      <p class="lead mb-0">Dagelijkse update over de vaccinatie cijfers in Lommel. 💚 </p>
-      <small class="text-muted">Laatste update: {{ $.Site.Data.numbers.last_date }}</small>
+      <p class="lead mb-0">Dagelijkse update over de vaccinatie cijfers van inwoners van Lommel. 💚 </p>
+      <small class="text-muted">Bron: <a href="https://www.laatjevaccineren.be/vaccinnet" target="_blank">Vaccinnet+</a>
+         // Laatste update: {{ $.Site.Data.numbers.last_date }}</small>
     </div>
     <div class="row">
-      <div class="col-md-12 col-lg-9 mb-3 h-100 pb-2 graph">
-        <canvas id="canvas"></canvas>
+      <div class="col-md-12 col-lg-9 mb-3 h-100 pb-2 mb-5 graph">
+        <h5 class="text-center mt-3">Percentage van gevaccineerde Lommelaars</h5>
+        <canvas id="canvasTotal"></canvas>
       </div>
-      <div class="col-md-12 col-lg-3">
+      <div class="col-md-12 col-lg-3 mb-5">
         <div class="row">
           <div class="col-md-6 col-lg-12 col-sm-12 d-flex">
             <div class="card text-white bg-success mb-2 flex-fill">
               <div class="card-header">Volledig gevaccineerd 🚀</div>
               <div class="card-body">
-                <h3 class="card-title">{{ range last 1 $.Site.Data.numbers.timeseries_second_dose }}{{ . }}{{ end }}%</h3>
+                <h3 class="card-title">{{ range last 1 $.Site.Data.numbers.total.timeseries_second_dose }}{{ . }}{{ end }}%</h3>
                 <p class="card-text">Dat zijn <strong>{{ $.Site.Data.numbers.second_dose }}</strong> van de
                   <strong>{{ lang.NumFmt 0 $.Site.Data.numbers.population "- , ." }}</strong> Lommelaars.</p>
               </div>
@@ -78,32 +80,75 @@
             <div class="card text-white bg-primary mb-2 flex-fill">
               <div class="card-header">Minstens 1 dosis gehad 🤗</div>
               <div class="card-body">
-                <h3 class="card-title">{{ range last 1 $.Site.Data.numbers.timeseries_minimum_one_dose }}{{ . }}{{ end }}%</h3>
+                <h3 class="card-title">{{ range last 1 $.Site.Data.numbers.total.timeseries_minimum_one_dose }}{{ . }}{{ end }}%</h3>
                 <p class="card-text">Dat zijn <strong>{{ $.Site.Data.numbers.minimum_one_dose }}</strong> van de
                   <strong>{{ lang.NumFmt 0 $.Site.Data.numbers.population "- , ." }}</strong> Lommelaars.</p>
               </div>
             </div>
           </div>
-
-          <div class="col-md-12 d-flex">
-            <div class="card mb-3 flex-fill">
-            <div class="card-body">
-              <h6 class="card-title">Bron van de cijfers 🔍</h6>
-              <small class="text-muted"><a href="https://www.laatjevaccineren.be/vaccinnet" target="_blank">Vaccinnet+</a>
-                is het vaccinatie platform van de Vlaamse Overheid. Cijfers worden dagelijks geïmporteerd, behalve op weekenddagen.</small><br><br>
-              <small class="text-muted">Laatste update: {{ $.Site.Data.numbers.last_date }}</small>
-            </div>
-          </div>
-          </div>
         </div>
       </div>
     </div>
 
-    <footer class="pt-4 my-md-5 pt-md-4 border-top">
+    <div class="row pt-5 border-top">
+      <div class="col-md-12 col-lg-4 mb-5">
+        <div class="row">
+          <!--
+          <div class="col-md-12 col-lg-12 col-sm-12 d-flex">
+            <div class="card mb-2 flex-fill">
+              <div class="card-body">
+                <p class="card-text">Percentage van gevaccineerde mensen binnen iedere leeftijdscategorie.</p>
+              </div>
+            </div>
+          </div>
+          -->
+
+          <div class="col-md-6 col-lg-12 col-sm-12 d-flex">
+            <div class="card text-white bg-success mb-2 flex-fill">
+              <div class="card-header">Volledig gevaccineerde 80-plussers 🚀</div>
+              <div class="card-body">
+                <h3 class="card-title">{{ index $.Site.Data.numbers.per_age.percentage_second_dose 0 }}%</h3>
+                <p class="card-text">Dat zijn <strong>{{ index $.Site.Data.numbers.per_age.second_dose 0 }}</strong> van de
+                  <strong>{{ lang.NumFmt 0 (index $.Site.Data.numbers.population_per_age 0) "- , ." }}</strong> mensen ouder dan 80 jaar.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-lg-12 d-flex">
+            <div class="card text-white bg-primary mb-2 flex-fill">
+              <div class="card-header">80-plussers met enkel 1 dosis 🤗</div>
+              <div class="card-body">
+                <h3 class="card-title">{{ index $.Site.Data.numbers.per_age.percentage_first_dose 0 }}%</h3>
+                <p class="card-text">Dat zijn <strong>{{ index $.Site.Data.numbers.per_age.first_dose 0 }}</strong> van de
+                  <strong>{{ lang.NumFmt 0 (index $.Site.Data.numbers.population_per_age 0) "- , ." }}</strong> mensen ouder dan 80 jaar die nog maar 1 dosis hebben gehad.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12 col-lg-8 mb-5 h-100 pb-2 graph">
+        <h5 class="text-center mt-3">Percentage van gevaccineerde Lommelaars per leeftijdscategorie</h5>
+        <canvas id="canvasPerAge"></canvas>
+      </div>
+    </div>
+
+    <div class="row pt-3 border-top">
+      <div class="row">
+        <div class="col-12">
+          <h6 class="text-center">Bron van de cijfers 🔍</h6>
+          <p class="text-center text-muted"><a href="https://www.laatjevaccineren.be/vaccinnet" target="_blank">Vaccinnet+</a> is
+            het vaccinatie platform van de Vlaamse Overheid. Cijfers worden dagelijks geïmporteerd, behalve op weekenddagen.</p>
+          <p class="text-center text-muted">Laatste update: {{ $.Site.Data.numbers.last_date }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!--<footer class="pt-3 my-md-5 pt-md-4 border-top">-->
+    <footer class="pt-3 pt-md-4 border-top">
       <div class="row">
         <!-- col-md-12 col-lg-3 -->
         <div class="col-md-12 col-lg-6 col-md mb-3">
-          <small class="text-muted">Deze pagina focust enkel op de vaccinactie cijfers van <strong>Lommel</strong>.<br>
+          <small class="text-muted">Deze pagina focust enkel op de vaccinatie cijfers van <strong>Lommel</strong>.<br>
           De cijfers van België kan je volgen via <a href="https://covid-vaccinatie.be/nl" target="_blank">covid-vaccinatie.be</a>
           van <a href="https://twitter.com/jorisvaesen" target="_blank">@jorisvaesen</a></small>
         </div>
@@ -120,37 +165,53 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.min.js" integrity="sha512-SuxO9djzjML6b9w9/I07IWnLnQhgyYVSpHZx0JV97kGBfTIsUYlWflyuW4ypnvhBrslz1yJ3R+S14fdCWmSmSA==" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"></script>
+
   <script>
-    var LABELS = {{ $.Site.Data.numbers.labels }};
-    var ONE_DOSE = {{ $.Site.Data.numbers.timeseries_minimum_one_dose }};
-    var SECOND_DOSE = {{ $.Site.Data.numbers.timeseries_second_dose }};
+    // Data for the datasets
+    var TOTAL_LABELS = {{ $.Site.Data.numbers.total.labels }};
+    var TOTAL_ONE_DOSE = {{ $.Site.Data.numbers.total.timeseries_minimum_one_dose }};
+    var TOTAL_SECOND_DOSE = {{ $.Site.Data.numbers.total.timeseries_second_dose }};
+    var PER_AGE_LABELS = {{ $.Site.Data.numbers.per_age.labels }};
+    var PER_AGE_FIRST_DOSE = {{ $.Site.Data.numbers.per_age.percentage_first_dose }};
+    var PER_AGE_SECOND_DOSE = {{ $.Site.Data.numbers.per_age.percentage_second_dose }};
   </script>
+
   <script>
+    Chart.plugins.unregister(ChartDataLabels);
+
     var colorBlue = '#0d6efd';
     var colorGreen = '#198754';
 
-		var config = {
+    Chart.Tooltip.positioners.custom = function(elements, eventPosition) {
+      return {
+        x: eventPosition.x,
+        y: eventPosition.y
+      };
+    };
+
+		var configTotal = {
+      plugins: [ChartDataLabels],
 			type: 'line',
 			data: {
-				labels: LABELS,
+				labels: TOTAL_LABELS,
         datasets: [{
 					label: 'Volledig gevaccineerd',
           fill: false,
           pointRadius:0,
           lineTension: 0,
-          datalabels: {color: colorGreen},
+          datalabels: { color: colorGreen },
 					backgroundColor: colorGreen,
 					borderColor: colorGreen,
-          data: SECOND_DOSE
+          data: TOTAL_SECOND_DOSE
 				}, {
 					label: 'Minstens 1 dosis gehad',
 					fill: false,
           pointRadius:0,
           lineTension: 0,
-          datalabels: {color: colorBlue},
+          datalabels: { color: colorBlue },
 					backgroundColor: colorBlue,
 					borderColor: colorBlue,
-          data: ONE_DOSE
+          data: TOTAL_ONE_DOSE
 				}]
 			},
 			options: {
@@ -173,10 +234,7 @@
           }
         },
 				title: {
-					display: true,
-					text: 'Percentage van gevaccineerde Lommelaars',
-          fontSize: 14,
-          fontColor: 'rgb(33, 37, 41)'
+					display: false
         },
 				tooltips: {
 					mode: 'index',
@@ -210,9 +268,77 @@
 			}
 		};
 
+		var configPerAge = {
+      type: 'horizontalBar',
+      data: {
+			labels: PER_AGE_LABELS,
+			datasets: [{
+        label: 'Volledig gevaccineerd',
+        backgroundColor: colorGreen,
+        data: PER_AGE_SECOND_DOSE
+      }, {
+        label: 'Enkel 1 dosis gehad',
+        backgroundColor: colorBlue,
+        data: PER_AGE_FIRST_DOSE
+        }]
+      },
+      options: {
+					title: {
+						display: false
+					},
+					tooltips: {
+            mode: 'index',
+            intersect: true,
+              position: 'custom',
+              callbacks: {
+                footer: function(tooltipItems, data) {
+                  let total = 0;
+                  for (let i = 0; i < tooltipItems.length; i++) {
+                      total += tooltipItems[i].xLabel;
+                  }
+                  return 'Totaal: ' + total.toFixed(2) + '%';
+                }
+              }
+					},
+					responsive: true,
+					scales: {
+						xAxes: [{
+							stacked: true,
+              display: true,
+              ticks: { max: 100 },
+              // gridLines: {
+              //   display: true,
+              //   drawBorder: true,
+              //   drawOnChartArea: false
+              // },
+              scaleLabel: {
+                display: false,
+                labelString: 'Percentage'
+              }
+						}],
+						yAxes: [{
+							stacked: true,
+              display: true,
+              // gridLines: {
+              //   display: true,
+              //   drawBorder: true,
+              //   drawOnChartArea: false
+              // },
+              scaleLabel: {
+                display: false,
+                labelString: 'Leeftijd'
+              }
+						}]
+					}
+				}
+    }
+
 		window.onload = function() {
-			var ctx = document.getElementById('canvas').getContext('2d');
-			window.myLine = new Chart(ctx, config);
+			var ctxTotal = document.getElementById('canvasTotal').getContext('2d');
+			new Chart(ctxTotal, configTotal);
+
+			var ctxPerAge = document.getElementById('canvasPerAge').getContext('2d');
+			new Chart(ctxPerAge, configPerAge);
 		};
 	</script>
 </body>

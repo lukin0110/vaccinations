@@ -39,7 +39,7 @@
           <div class="card-body">
             <div class="row">
               <div class="col-4">
-                <h2 class="card-title">{{ range last 1 $.Site.Data.numbers.timeseries_second_dose }}{{ . }}{{ end }}%</h2>
+                <h2 class="card-title">{{ range last 1 $.Site.Data.numbers.total.timeseries_second_dose }}{{ . }}{{ end }}%</h2>
               </div>
               <div class="col-8">
                 <p class="card-text ml-3">Dat zijn <strong>{{ $.Site.Data.numbers.second_dose }}</strong> van de
@@ -56,7 +56,7 @@
           <div class="card-body">
             <div class="row">
               <div class="col-4">
-                <h2 class="card-title">{{ range last 1 $.Site.Data.numbers.timeseries_minimum_one_dose }}{{ . }}{{ end }}%</h2>
+                <h2 class="card-title">{{ range last 1 $.Site.Data.numbers.total.timeseries_minimum_one_dose }}{{ . }}{{ end }}%</h2>
               </div>
               <div class="col-8">
                 <p class="card-text">Dat zijn <strong>{{ $.Site.Data.numbers.minimum_one_dose }}</strong> van de
@@ -93,10 +93,9 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.min.js" integrity="sha512-SuxO9djzjML6b9w9/I07IWnLnQhgyYVSpHZx0JV97kGBfTIsUYlWflyuW4ypnvhBrslz1yJ3R+S14fdCWmSmSA==" crossorigin="anonymous"></script>
   <script>
-    var LAST_DATE = '{{ $.Site.Data.numbers.last_date }}';
-    var LABELS = {{ $.Site.Data.numbers.labels }};
-    var ONE_DOSE = {{ $.Site.Data.numbers.timeseries_minimum_one_dose }};
-    var SECOND_DOSE = {{ $.Site.Data.numbers.timeseries_second_dose }};
+    var TOTAL_LABELS = {{ $.Site.Data.numbers.total.labels }};
+    var TOTAL_ONE_DOSE = {{ $.Site.Data.numbers.total.timeseries_minimum_one_dose }};
+    var TOTAL_SECOND_DOSE = {{ $.Site.Data.numbers.total.timeseries_second_dose }};
   </script>
   <script>
     var colorBlue = '#0d6efd';
@@ -105,7 +104,7 @@
 		var config = {
 			type: 'line',
 			data: {
-				labels: LABELS,
+				labels: TOTAL_LABELS,
         datasets: [{
 					label: 'Volledig gevaccineerd',
           fill: false,
@@ -114,7 +113,7 @@
           datalabels: {color: colorGreen},
 					backgroundColor: colorGreen,
 					borderColor: colorGreen,
-          data: SECOND_DOSE
+          data: TOTAL_SECOND_DOSE
 				}, {
 					label: 'Minstens 1 dosis gehad',
 					fill: false,
@@ -123,7 +122,7 @@
           datalabels: {color: colorBlue},
 					backgroundColor: colorBlue,
 					borderColor: colorBlue,
-          data: ONE_DOSE
+          data: TOTAL_ONE_DOSE
 				}]
 			},
 			options: {
@@ -144,21 +143,23 @@
 					xAxes: [{
 						display: true,
             ticks: {
-              fontSize: 15
+              fontSize: 17
             },
 						scaleLabel: {
-							display: false,
-              labelString: 'Dagen'
+							display: true,
+              labelString: 'Dagen',
+              fontSize: 14
 						}
 					}],
 					yAxes: [{
 						display: true,
 						scaleLabel: {
-							display: false,
-              labelString: 'Percentage'
+							display: true,
+              labelString: 'Percentage',
+              fontSize: 14
 						},
             ticks: {
-              fontSize: 15,
+              fontSize: 17,
               callback: function(v, i, vv) {
                   return v.toFixed(2).toString().replace(".", ".") + "%";
               }

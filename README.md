@@ -30,7 +30,9 @@ python fetch.py fetch
 python fetch.py crunch
 ```
 
-## TODO
-- Graph Distribution per age
+## TODO 
 - Graph Distribution per gender
 - Generate og image with current stats
+
+Requests from other municipalities:
+- Peer, Hechtel, Hasselt, Bree
