@@ -1,10 +1,11 @@
 """Fetch CSV and compute daily numbers."""
 import json
-import requests
 import pandas as pd
+import requests
+import typer
 from os import path
 from dataclasses import dataclass
-from datetime import date
+from datetime import date, datetime
 from typing import Any
 
 CSV_ENDPOINT = "https://www.laatjevaccineren.be/vaccination-info/get"
@@ -103,15 +104,30 @@ def crunch_range(start_date: date, end_date: date, municipality: str) -> Any:
     return results
 
 
-if __name__ == "__main__":
-    # current_date = date(2021, 2, 25)
-    # fetch(current_date)
-    # print(crunch(current_date, "Lommel"))
+cli = typer.Typer()
 
-    # start_date = date(2021, 1, 11)
-    _start_date = date(2021, 2, 1)
+
+@cli.command(name="fetch")
+def do_fetch(date_to_fetch: str = "28-02-2021") -> None:
+    """Fetch a CSV file."""
+    dt = datetime.strptime(date_to_fetch, "%d-%m-%Y")
+    typer.echo(f"Fetching {dt.date()}")
+    fetch(dt.date())
+    typer.echo(crunch(dt.date(), "Lommel"))
+
+
+@cli.command(name="crunch")
+def do_crunch() -> None:
+    """Compute timeseries & store results to a JSON file."""
+    typer.echo("Hallo")
+    # _start_date = date(2021, 1, 11)
+    _start_date = date(2021, 2, 24)
     _end_date = date.today()
     print(f"Crunch numbers from {_start_date} to {_end_date}")
     data = crunch_range(_start_date, _end_date, "Lommel")
     print("Store JSON")
     json.dump(data, open(json_path(), "w"), indent=4)
+
+
+if __name__ == "__main__":
+    cli()
