@@ -26,8 +26,8 @@ the[data folder](./data). The output of the crunched numbers will be added to th
 
 ```bash
 cd scripts
-python fetch.py fetch
-python fetch.py crunch
+python process.py fetch
+python process.py crunch
 ```
 
 ## TODO 

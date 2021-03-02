@@ -5,7 +5,7 @@ import requests
 import typer
 from os import path
 from dataclasses import dataclass
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from typing import Any, List
 
 CSV_ENDPOINT = "https://www.laatjevaccineren.be/vaccination-info/get"
@@ -152,7 +152,7 @@ cli = typer.Typer()
 
 
 @cli.command(name="fetch")
-def do_fetch(date_to_fetch: str = "28-02-2021") -> None:
+def do_fetch(date_to_fetch: str = "01-03-2021") -> None:
     """Fetch a CSV file."""
     dt = datetime.strptime(date_to_fetch, "%d-%m-%Y")
     typer.echo(f"Fetching {dt.date()}")
@@ -166,7 +166,7 @@ def do_crunch() -> None:
     typer.echo("Hallo")
     # _start_date = date(2021, 1, 11)
     _start_date = date(2021, 2, 24)
-    _end_date = date.today()
+    _end_date = date.today() - timedelta(days=1)
     print(f"Crunch numbers from {_start_date} to {_end_date}")
     data = crunch_range(_start_date, _end_date, "Lommel")
     print("Store JSON")
