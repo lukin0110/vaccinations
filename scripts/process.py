@@ -104,9 +104,9 @@ def crunch_per_age(df: pd.DataFrame) -> Dict[str, Any]:
             return "60-79"
         return "80+"
 
+    df["AGE_CD"] = df.apply(lambda row: re_arrange(row["AGE_CD"]), axis=1)
     last_date = pd.Timestamp(sorted(df["DATE"].unique(), reverse=True)[0])
     df = df[df["DATE"] == last_date]
-    df["AGE_CD"] = df.apply(lambda row: re_arrange(row["AGE_CD"]), axis=1)
     # print(df)
     df_ages = df.groupby("AGE_CD", as_index=False).agg({
         'POPULATION_NBR': sum,
@@ -178,6 +178,7 @@ def do_crunch() -> None:
     municipality = "Lommel"
     # municipality = "Bree"
     # municipality = "Hasselt"
+    municipality = "Genk"
     data = crunch(df, _start_date, _end_date, municipality)
     print("Store JSON")
     print(data)
