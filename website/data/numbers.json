@@ -1,5 +1,5 @@
 {
-    "total": {
+    "history_all": {
         "labels": [
             "24-02",
             "25-02",
@@ -8,8 +8,11 @@
             "28-02",
             "01-03"
         ],
+        "population": 34245,
+        "minimum_one_dose": 1512,
+        "second_dose": 930,
         "timeseries_minimum_one_dose": [
-            0.0,
+            0,
             3.65,
             3.65,
             3.65,
@@ -17,7 +20,7 @@
             4.42
         ],
         "timeseries_second_dose": [
-            0.0,
+            0,
             2.65,
             2.65,
             2.65,
@@ -25,17 +28,35 @@
             2.72
         ]
     },
-    "last_date": "01/03/2021",
-    "population": 34245,
-    "population_per_age": [
-        1923,
-        7788,
-        9864,
-        7778,
-        6892
-    ],
-    "minimum_one_dose": 1512,
-    "second_dose": 930,
+    "history_adults": {
+        "labels": [
+            "24-02",
+            "25-02",
+            "26-02",
+            "27-02",
+            "28-02",
+            "01-03"
+        ],
+        "population": 28115,
+        "minimum_one_dose": 1510,
+        "second_dose": 929,
+        "timeseries_minimum_one_dose": [
+            0,
+            4.44,
+            4.44,
+            4.44,
+            4.55,
+            5.37
+        ],
+        "timeseries_second_dose": [
+            0,
+            3.22,
+            3.22,
+            3.22,
+            3.23,
+            3.3
+        ]
+    },
     "per_age": {
         "labels": [
             "80+",
@@ -43,6 +64,13 @@
             "40-59",
             "20-39",
             "0-19"
+        ],
+        "population": [
+            1923,
+            7788,
+            9864,
+            7778,
+            6892
         ],
         "first_dose": [
             21,
@@ -72,5 +100,6 @@
             2.43,
             0.1
         ]
-    }
+    },
+    "last_date": "01/03/2021"
 }

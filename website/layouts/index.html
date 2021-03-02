@@ -31,14 +31,17 @@
       -ms-user-select: none;
     }
     body {
-        background-image: linear-gradient(150deg,#ffffff 0%,#F8F8F8 95%);
+        background-image: linear-gradient(150deg,#ffffff 30%,#F8F8F8 95%);
+        /*background-image: linear-gradient(150deg,#ffffff 30%,red 95%);*/
     }
     .graph {
         background-color: #f8f8f8;
         border-radius: .25rem;
         border: 1px solid rgba(0,0,0,.05);
         background-image: linear-gradient(150deg,#ffffff 0%,#F8F8F8 95%);
-        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+        /*background-image: linear-gradient(150deg,#F8F8F8 0%,#ffffff 95%);*/
+        /*background-image: linear-gradient(150deg,transparent 70%,red 95%);*/
+        /*box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);*/
     }
     @media only screen and (min-width: 1200px) {
       #main {
@@ -52,37 +55,102 @@
 </head>
 <body>
   <main class="container" id="main">
-    <div class="px-3 py-3 pt-md-5 pb-md-4 mb-4 mx-auto text-center">
+    <div class="px-3 py-3 py-md-5 mb-4 mx-auto text-center">
       <h1 class="display-4">Covid Vaccinaties in Lommel 💉</h1>
       <p class="lead mb-0">Dagelijkse update over de vaccinatie cijfers van inwoners van Lommel. 💚 </p>
       <small class="text-muted">Bron: <a href="https://www.laatjevaccineren.be/vaccinnet" target="_blank">Vaccinnet+</a>
          // Laatste update: {{ $.Site.Data.numbers.last_date }}</small>
     </div>
-    <div class="row">
-      <div class="col-md-12 col-lg-9 mb-3 h-100 pb-2 mb-5 graph">
-        <h5 class="text-center mt-3">Percentage van gevaccineerde Lommelaars</h5>
-        <canvas id="canvasTotal"></canvas>
+
+    <div class="row py-3 py-md-5 border-top">
+      <div class="md-12">
+        <ul class="nav nav-pills nav-fill" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#history-all" role="tab">Alle leeftijden</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#history-adults" role="tab">Enkel volwassenen (18+)</a>
+          </li>
+        </ul>
       </div>
-      <div class="col-md-12 col-lg-3 mb-5">
+    </div>
+
+    <div class="tab-content mb-3 mb-md-5">
+      <div class="tab-pane show active" id="history-all" role="tabpanel">
         <div class="row">
-          <div class="col-md-6 col-lg-12 col-sm-12 d-flex">
-            <div class="card text-white bg-success mb-2 flex-fill">
-              <div class="card-header">Volledig gevaccineerd 🚀</div>
-              <div class="card-body">
-                <h3 class="card-title">{{ range last 1 $.Site.Data.numbers.total.timeseries_second_dose }}{{ . }}{{ end }}%</h3>
-                <p class="card-text">Dat zijn <strong>{{ $.Site.Data.numbers.second_dose }}</strong> van de
-                  <strong>{{ lang.NumFmt 0 $.Site.Data.numbers.population "- , ." }}</strong> Lommelaars.</p>
+          <div class="col-md-12 col-lg-9 pb-3 h-100">
+            <h5 class="text-center">Percentage van gevaccineerde Lommelaars (alle leeftijden)</h5>
+            <canvas id="canvasHistoryAll"></canvas>
+          </div>
+          <div class="col-md-12 col-lg-3">
+            <div class="row">
+              <div class="col-md-6 col-lg-12 col-sm-12 d-flex">
+                <div class="card text-white border-0 bg-success mb-3 flex-fill">
+                  <div class="card-header">Volledig gevaccineerd 🚀</div>
+                  <div class="card-body">
+                    <h3 class="card-title">{{ range last 1 $.Site.Data.numbers.history_all.timeseries_second_dose }}{{ lang.NumFmt 2 . }}{{ end }}%</h3>
+                    <p class="card-text">Dat zijn <strong>{{ $.Site.Data.numbers.history_all.second_dose }}</strong> van de
+                      <strong>{{ lang.NumFmt 0 $.Site.Data.numbers.history_all.population "- , ." }}</strong> Lommelaars.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6 col-lg-12 d-flex">
+                <div class="card text-white border-0 bg-primary flex-fill">
+                  <div class="card-header">Minstens 1 dosis gehad 🤗</div>
+                  <div class="card-body">
+                    <h3 class="card-title">{{ range last 1 $.Site.Data.numbers.history_all.timeseries_minimum_one_dose }}{{ lang.NumFmt 2 . }}{{ end }}%</h3>
+                    <p class="card-text">Dat zijn <strong>{{ $.Site.Data.numbers.history_all.minimum_one_dose }}</strong> van de
+                      <strong>{{ lang.NumFmt 0 $.Site.Data.numbers.history_all.population "- , ." }}</strong> Lommelaars.</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
+        </div>
+      </div>
 
-          <div class="col-md-6 col-lg-12 d-flex">
-            <div class="card text-white bg-primary mb-2 flex-fill">
-              <div class="card-header">Minstens 1 dosis gehad 🤗</div>
-              <div class="card-body">
-                <h3 class="card-title">{{ range last 1 $.Site.Data.numbers.total.timeseries_minimum_one_dose }}{{ . }}{{ end }}%</h3>
-                <p class="card-text">Dat zijn <strong>{{ $.Site.Data.numbers.minimum_one_dose }}</strong> van de
-                  <strong>{{ lang.NumFmt 0 $.Site.Data.numbers.population "- , ." }}</strong> Lommelaars.</p>
+      <div class="tab-pane" id="history-adults" role="tabpanel">
+        <div class="row">
+          <div class="col-md-12 col-lg-9 pb-3 h-100">
+            <h5 class="text-center">Percentage van gevaccineerde Lommelaars (enkel volwassenen)</h5>
+            <canvas id="canvasHistoryAdults"></canvas>
+          </div>
+          <div class="col-md-12 col-lg-3">
+            <div class="row">
+              <div class="col-md-6 col-lg-12 col-sm-12 d-flex">
+                <div class="card text-white border-0 bg-success mb-3 flex-fill">
+                  <div class="card-header">Volledig gevaccineerd 🚀</div>
+                  <div class="card-body">
+                    <h3 class="card-title">{{ range last 1 $.Site.Data.numbers.history_adults.timeseries_second_dose }}{{ lang.NumFmt 2 . }}{{ end }}%</h3>
+                    <p class="card-text">Dat zijn <strong>{{ $.Site.Data.numbers.history_adults.second_dose }}</strong> van de
+                      <strong>{{ lang.NumFmt 0 $.Site.Data.numbers.history_adults.population "- , ." }}</strong> volwassen Lommelaars.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6 col-lg-12 d-flex">
+                <div class="card text-white border-0 bg-primary mb-3 flex-fill">
+                  <div class="card-header">Minstens 1 dosis gehad 🤗</div>
+                  <div class="card-body">
+                    <h3 class="card-title">{{ range last 1 $.Site.Data.numbers.history_adults.timeseries_minimum_one_dose }}{{ lang.NumFmt 2 . }}{{ end }}%</h3>
+                    <p class="card-text">Dat zijn <strong>{{ $.Site.Data.numbers.history_adults.minimum_one_dose }}</strong> van de
+                      <strong>{{ lang.NumFmt 0 $.Site.Data.numbers.history_adults.population "- , ." }}</strong> volwassen Lommelaars.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-12 d-flex">
+                <div class="card mb-2 p-3 flex-fill">
+                  <blockquote class="blockquote mb-0">
+                    <p title="De Standaard"><a href="https://www.standaard.be/cnt/dmf20210112_97389052" target="_blank" class="text-dark">"Er zijn op dit moment onvoldoende wetenschappelijke argumenten om mensen onder de 18 jaar te vaccineren"</a></p>
+                    <footer class="blockquote-footer">
+                      <small>
+                        Jan De Maeseneer <cite title="De Standaard">professor emeritus huisartsengeneeskunde (UGent)</cite>
+                      </small>
+                    </footer>
+                  </blockquote>
+                </div>
               </div>
             </div>
           </div>
@@ -90,12 +158,12 @@
       </div>
     </div>
 
-    <div class="row pt-5 border-top">
-      <div class="col-md-12 col-lg-8 mb-5 h-100 pb-2 graph">
-        <h5 class="text-center mt-3">Percentage van gevaccineerde Lommelaars per leeftijdscategorie</h5>
+    <div class="row py-3 py-md-5 my-md-5 border-top">
+      <div class="col-md-12 col-lg-8 mt-md-5 pb-3 h-100">
+        <h5 class="text-center">Percentage van gevaccineerde Lommelaars per leeftijdscategorie</h5>
         <canvas id="canvasPerAge"></canvas>
       </div>
-      <div class="col-md-12 col-lg-4 mb-5">
+      <div class="col-md-12 col-lg-4 mt-md-5">
         <div class="row">
           <!--
           <div class="col-md-12 col-lg-12 col-sm-12 d-flex">
@@ -106,6 +174,7 @@
             </div>
           </div>
           -->
+          <!--
           <div class="col-md-12 col-lg-12 col-sm-12 d-flex">
             <div class="card text-white bg-warning mb-3">
               <div class="card-body">
@@ -115,25 +184,26 @@
               </div>
             </div>
           </div>
+          -->
 
           <div class="col-md-6 col-lg-12 col-sm-12 d-flex">
-            <div class="card text-white bg-success mb-2 flex-fill">
+            <div class="card text-white border-0 bg-success mb-3 flex-fill">
               <div class="card-header">Volledig gevaccineerde 80-plussers 🚀</div>
               <div class="card-body">
                 <h3 class="card-title">{{ index $.Site.Data.numbers.per_age.percentage_second_dose 0 }}%</h3>
                 <p class="card-text">Dat zijn <strong>{{ index $.Site.Data.numbers.per_age.second_dose 0 }}</strong> van de
-                  <strong>{{ lang.NumFmt 0 (index $.Site.Data.numbers.population_per_age 0) "- , ." }}</strong> mensen ouder dan 80 jaar.</p>
+                  <strong>{{ lang.NumFmt 0 (index $.Site.Data.numbers.per_age.population 0) "- , ." }}</strong> mensen ouder dan 80 jaar.</p>
               </div>
             </div>
           </div>
 
           <div class="col-md-6 col-lg-12 d-flex">
-            <div class="card text-white bg-primary mb-2 flex-fill">
+            <div class="card text-white border-0 bg-primary mb-3 flex-fill">
               <div class="card-header">80-plussers met enkel 1 dosis 🤗</div>
               <div class="card-body">
                 <h3 class="card-title">{{ index $.Site.Data.numbers.per_age.percentage_first_dose 0 }}%</h3>
                 <p class="card-text">Dat zijn <strong>{{ index $.Site.Data.numbers.per_age.first_dose 0 }}</strong> van de
-                  <strong>{{ lang.NumFmt 0 (index $.Site.Data.numbers.population_per_age 0) "- , ." }}</strong> mensen ouder dan 80 jaar die nog maar 1 dosis hebben gehad.</p>
+                  <strong>{{ lang.NumFmt 0 (index $.Site.Data.numbers.per_age.population 0) "- , ." }}</strong> mensen ouder dan 80 jaar die nog maar 1 dosis hebben gehad.</p>
               </div>
             </div>
           </div>
@@ -141,19 +211,18 @@
       </div>
     </div>
 
-    <div class="row pt-3 border-top">
+    <div class="row py-5 border-top" style="opacity: 0.5">
       <div class="row">
-        <div class="col-12">
-          <h6 class="text-center">Bron van de cijfers 🔍</h6>
-          <p class="text-center text-muted"><a href="https://www.laatjevaccineren.be/vaccinnet" target="_blank">Vaccinnet+</a> is
-            het vaccinatie platform van de Vlaamse Overheid. Cijfers worden dagelijks geïmporteerd, behalve op weekenddagen.</p>
-          <p class="text-center text-muted">Laatste update: {{ $.Site.Data.numbers.last_date }}</p>
+        <div class="col-12 text-center">
+          <h6>Bron van de cijfers 🔍</h6>
+          <small class="text-muted"><a href="https://www.laatjevaccineren.be/vaccinnet" target="_blank">Vaccinnet+</a> is
+            het vaccinatie platform van de Vlaamse Overheid. Cijfers worden dagelijks geïmporteerd, behalve op weekenddagen.</small><br>
+          <small class="text-muted">Laatste update: {{ $.Site.Data.numbers.last_date }}</small>
         </div>
       </div>
     </div>
 
-    <!--<footer class="pt-3 my-md-5 pt-md-4 border-top">-->
-    <footer class="pt-3 pt-md-4 border-top">
+    <footer class="pt-4 pt-md-4 border-top" style="opacity: 0.5">
       <div class="row">
         <!-- col-md-12 col-lg-3 -->
         <div class="col-md-12 col-lg-6 col-md mb-3">
@@ -172,14 +241,22 @@
     </footer>
   </main>
 
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <!-- Chart js -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.min.js" integrity="sha512-SuxO9djzjML6b9w9/I07IWnLnQhgyYVSpHZx0JV97kGBfTIsUYlWflyuW4ypnvhBrslz1yJ3R+S14fdCWmSmSA==" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"></script>
 
   <script>
     // Data for the datasets
-    var TOTAL_LABELS = {{ $.Site.Data.numbers.total.labels }};
-    var TOTAL_ONE_DOSE = {{ $.Site.Data.numbers.total.timeseries_minimum_one_dose }};
-    var TOTAL_SECOND_DOSE = {{ $.Site.Data.numbers.total.timeseries_second_dose }};
+    var HISTORY_ALL_LABELS = {{ $.Site.Data.numbers.history_all.labels }};
+    var HISTORY_ALL_ONE_DOSE = {{ $.Site.Data.numbers.history_all.timeseries_minimum_one_dose }};
+    var HISTORY_ALL_SECOND_DOSE = {{ $.Site.Data.numbers.history_all.timeseries_second_dose }};
+    var HISTORY_ADULTS_LABELS = {{ $.Site.Data.numbers.history_adults.labels }};
+    var HISTORY_ADULTS_ONE_DOSE = {{ $.Site.Data.numbers.history_adults.timeseries_minimum_one_dose }};
+    var HISTORY_ADULTS_SECOND_DOSE = {{ $.Site.Data.numbers.history_adults.timeseries_second_dose }};
     var PER_AGE_LABELS = {{ $.Site.Data.numbers.per_age.labels }};
     var PER_AGE_FIRST_DOSE = {{ $.Site.Data.numbers.per_age.percentage_first_dose }};
     var PER_AGE_SECOND_DOSE = {{ $.Site.Data.numbers.per_age.percentage_second_dose }};
@@ -198,31 +275,36 @@
       };
     };
 
-		var configTotal = {
+    function dataHistory(labels, second, one) {
+      return {
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Volledig gevaccineerd',
+            fill: false,
+            pointRadius: 0,
+            lineTension: 0.06,
+            datalabels: {color: colorGreen},
+            backgroundColor: colorGreen,
+            borderColor: colorGreen,
+            data: second
+          }, {
+            label: 'Minstens 1 dosis gehad',
+            fill: false,
+            pointRadius: 0,
+            lineTension: 0.06,
+            datalabels: {color: colorBlue},
+            backgroundColor: colorBlue,
+            borderColor: colorBlue,
+            data: one
+          }]
+        }
+      };
+    }
+
+		var configHistory = {
       plugins: [ChartDataLabels],
 			type: 'line',
-			data: {
-				labels: TOTAL_LABELS,
-        datasets: [{
-					label: 'Volledig gevaccineerd',
-          fill: false,
-          pointRadius:0,
-          lineTension: 0,
-          datalabels: { color: colorGreen },
-					backgroundColor: colorGreen,
-					borderColor: colorGreen,
-          data: TOTAL_SECOND_DOSE
-				}, {
-					label: 'Minstens 1 dosis gehad',
-					fill: false,
-          pointRadius:0,
-          lineTension: 0,
-          datalabels: { color: colorBlue },
-					backgroundColor: colorBlue,
-					borderColor: colorBlue,
-          data: TOTAL_ONE_DOSE
-				}]
-			},
 			options: {
         plugins: {
           datalabels: {
@@ -315,11 +397,6 @@
 							stacked: true,
               display: true,
               ticks: { max: 100 },
-              // gridLines: {
-              //   display: true,
-              //   drawBorder: true,
-              //   drawOnChartArea: false
-              // },
               scaleLabel: {
                 display: false,
                 labelString: 'Percentage'
@@ -328,11 +405,6 @@
 						yAxes: [{
 							stacked: true,
               display: true,
-              // gridLines: {
-              //   display: true,
-              //   drawBorder: true,
-              //   drawOnChartArea: false
-              // },
               scaleLabel: {
                 display: false,
                 labelString: 'Leeftijd'
@@ -343,8 +415,10 @@
     }
 
 		window.onload = function() {
-			var ctxTotal = document.getElementById('canvasTotal').getContext('2d');
-			new Chart(ctxTotal, configTotal);
+			var ctxHistoryAll = document.getElementById('canvasHistoryAll').getContext('2d');
+			new Chart(ctxHistoryAll, Object.assign({}, configHistory, dataHistory(HISTORY_ALL_LABELS, HISTORY_ALL_SECOND_DOSE, HISTORY_ALL_ONE_DOSE)));
+			var ctxHistoryAdults = document.getElementById('canvasHistoryAdults').getContext('2d');
+			new Chart(ctxHistoryAdults, Object.assign({}, configHistory, dataHistory(HISTORY_ADULTS_LABELS, HISTORY_ADULTS_SECOND_DOSE, HISTORY_ADULTS_ONE_DOSE)));
 
 			var ctxPerAge = document.getElementById('canvasPerAge').getContext('2d');
 			new Chart(ctxPerAge, configPerAge);

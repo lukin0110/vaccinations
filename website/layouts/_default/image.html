@@ -39,11 +39,11 @@
           <div class="card-body">
             <div class="row">
               <div class="col-4">
-                <h2 class="card-title">{{ range last 1 $.Site.Data.numbers.total.timeseries_second_dose }}{{ . }}{{ end }}%</h2>
+                <h2 class="card-title">{{ range last 1 $.Site.Data.numbers.history_all.timeseries_second_dose }}{{ . }}{{ end }}%</h2>
               </div>
               <div class="col-8">
-                <p class="card-text ml-3">Dat zijn <strong>{{ $.Site.Data.numbers.second_dose }}</strong> van de
-                  <strong>{{ lang.NumFmt 0 $.Site.Data.numbers.population "- , ." }}</strong> Lommelaars.</p>
+                <p class="card-text ml-3">Dat zijn <strong>{{ $.Site.Data.numbers.history_all.second_dose }}</strong> van de
+                  <strong>{{ lang.NumFmt 0 $.Site.Data.numbers.history_all.population "- , ." }}</strong> Lommelaars.</p>
               </div>
             </div>
           </div>
@@ -56,11 +56,11 @@
           <div class="card-body">
             <div class="row">
               <div class="col-4">
-                <h2 class="card-title">{{ range last 1 $.Site.Data.numbers.total.timeseries_minimum_one_dose }}{{ . }}{{ end }}%</h2>
+                <h2 class="card-title">{{ range last 1 $.Site.Data.numbers.history_all.timeseries_minimum_one_dose }}{{ . }}{{ end }}%</h2>
               </div>
               <div class="col-8">
-                <p class="card-text">Dat zijn <strong>{{ $.Site.Data.numbers.minimum_one_dose }}</strong> van de
-                <strong>{{ lang.NumFmt 0 $.Site.Data.numbers.population "- , ." }}</strong> Lommelaars.</p>
+                <p class="card-text">Dat zijn <strong>{{ $.Site.Data.numbers.history_all.minimum_one_dose }}</strong> van de
+                <strong>{{ lang.NumFmt 0 $.Site.Data.numbers.history_all.population "- , ." }}</strong> Lommelaars.</p>
               </div>
             </div>
           </div>
@@ -79,23 +79,11 @@
     </div>
   </main>
 
-<!--          <div class="col-md-12 d-flex">-->
-<!--            <div class="card mb-3 flex-fill">-->
-<!--            <div class="card-body">-->
-<!--              <h6 class="card-title">Bron van de cijfers 🔍</h6>-->
-<!--              <small class="text-muted"><a href="https://www.laatjevaccineren.be/vaccinnet" target="_blank">Vaccinnet+</a>-->
-<!--                is het vaccinatie platform van de Vlaamse Overheid. Cijfers worden dagelijks geïmporteerd, behalve op weekenddagen.</small><br><br>-->
-<!--              <small class="text-muted">Laatste update: 25.02.2021</small>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--          </div>-->
-
-
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.min.js" integrity="sha512-SuxO9djzjML6b9w9/I07IWnLnQhgyYVSpHZx0JV97kGBfTIsUYlWflyuW4ypnvhBrslz1yJ3R+S14fdCWmSmSA==" crossorigin="anonymous"></script>
   <script>
-    var TOTAL_LABELS = {{ $.Site.Data.numbers.total.labels }};
-    var TOTAL_ONE_DOSE = {{ $.Site.Data.numbers.total.timeseries_minimum_one_dose }};
-    var TOTAL_SECOND_DOSE = {{ $.Site.Data.numbers.total.timeseries_second_dose }};
+    var TOTAL_LABELS = {{ $.Site.Data.numbers.history_all.labels }};
+    var TOTAL_ONE_DOSE = {{ $.Site.Data.numbers.history_all.timeseries_minimum_one_dose }};
+    var TOTAL_SECOND_DOSE = {{ $.Site.Data.numbers.history_all.timeseries_second_dose }};
   </script>
   <script>
     var colorBlue = '#0d6efd';

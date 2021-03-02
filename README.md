@@ -22,7 +22,7 @@ hugo server --minify --ignoreCache
 
 ## Import & process CSV
 A script that downloads the CSV and compute the numbers for a given municipality (eg: Lommel). The CSV will be added to 
-the[data folder](./data). The output of the crunched numbers will be added to the [Hugo data folder](./website/data/).
+the [data folder](./data). The output of the crunched numbers will be added to the [Hugo data folder](./website/data/).
 
 ```bash
 cd scripts
@@ -30,9 +30,15 @@ python process.py fetch
 python process.py crunch
 ```
 
-## TODO 
+## Deployment
+
+Webpage is hosted on [AWS Amplify](https://aws.amazon.com/amplify/) and automatically deployed on each commit. 
+
+
+## TODO
+- Github Actions
 - Graph Distribution per gender
 - Generate og image with current stats
 
 Requests from other municipalities:
-- Peer, Hechtel, Hasselt, Bree
+- Peer, Hechtel, Hasselt, Bree, Genk
