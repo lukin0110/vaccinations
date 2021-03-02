@@ -29,7 +29,7 @@
   <main class="container" id="source" style="width: 1000px;background-color: white">
     <div class="row">
       <div class="col-12">
-        <h2 class="text-center">Percentage van gevaccineerde Lommelaars op {{ $.Site.Data.numbers.last_date }} 💚</h2>
+        <h2 class="text-center">Percentage van gevaccineerde Lommelaars op {{ $.Site.Data.numbers_lommel.last_date }} 💚</h2>
       </div>
     </div>
     <div class="row">
@@ -39,11 +39,11 @@
           <div class="card-body">
             <div class="row">
               <div class="col-4">
-                <h2 class="card-title">{{ range last 1 $.Site.Data.numbers.history_all.timeseries_second_dose }}{{ . }}{{ end }}%</h2>
+                <h2 class="card-title">{{ range last 1 $.Site.Data.numbers_lommel.history_all.timeseries_second_dose }}{{ . }}{{ end }}%</h2>
               </div>
               <div class="col-8">
-                <p class="card-text ml-3">Dat zijn <strong>{{ $.Site.Data.numbers.history_all.second_dose }}</strong> van de
-                  <strong>{{ lang.NumFmt 0 $.Site.Data.numbers.history_all.population "- , ." }}</strong> Lommelaars.</p>
+                <p class="card-text ml-3">Dat zijn <strong>{{ $.Site.Data.numbers_lommel.history_all.second_dose }}</strong> van de
+                  <strong>{{ lang.NumFmt 0 $.Site.Data.numbers_lommel.history_all.population "- , ." }}</strong> Lommelaars.</p>
               </div>
             </div>
           </div>
@@ -56,11 +56,11 @@
           <div class="card-body">
             <div class="row">
               <div class="col-4">
-                <h2 class="card-title">{{ range last 1 $.Site.Data.numbers.history_all.timeseries_minimum_one_dose }}{{ . }}{{ end }}%</h2>
+                <h2 class="card-title">{{ range last 1 $.Site.Data.numbers_lommel.history_all.timeseries_minimum_one_dose }}{{ . }}{{ end }}%</h2>
               </div>
               <div class="col-8">
-                <p class="card-text">Dat zijn <strong>{{ $.Site.Data.numbers.history_all.minimum_one_dose }}</strong> van de
-                <strong>{{ lang.NumFmt 0 $.Site.Data.numbers.history_all.population "- , ." }}</strong> Lommelaars.</p>
+                <p class="card-text">Dat zijn <strong>{{ $.Site.Data.numbers_lommel.history_all.minimum_one_dose }}</strong> van de
+                <strong>{{ lang.NumFmt 0 $.Site.Data.numbers_lommel.history_all.population "- , ." }}</strong> Lommelaars.</p>
               </div>
             </div>
           </div>
@@ -81,9 +81,9 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.min.js" integrity="sha512-SuxO9djzjML6b9w9/I07IWnLnQhgyYVSpHZx0JV97kGBfTIsUYlWflyuW4ypnvhBrslz1yJ3R+S14fdCWmSmSA==" crossorigin="anonymous"></script>
   <script>
-    var TOTAL_LABELS = {{ $.Site.Data.numbers.history_all.labels }};
-    var TOTAL_ONE_DOSE = {{ $.Site.Data.numbers.history_all.timeseries_minimum_one_dose }};
-    var TOTAL_SECOND_DOSE = {{ $.Site.Data.numbers.history_all.timeseries_second_dose }};
+    var TOTAL_LABELS = {{ $.Site.Data.numbers_lommel.history_all.labels }};
+    var TOTAL_ONE_DOSE = {{ $.Site.Data.numbers_lommel.history_all.timeseries_minimum_one_dose }};
+    var TOTAL_SECOND_DOSE = {{ $.Site.Data.numbers_lommel.history_all.timeseries_second_dose }};
   </script>
   <script>
     var colorBlue = '#0d6efd';
