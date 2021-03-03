@@ -297,6 +297,7 @@
             label: 'Volledig gevaccineerd',
             fill: false,
             pointRadius: 0,
+            pointHoverRadius: 6,
             lineTension: 0.07,
             datalabels: {color: colorGreen},
             backgroundColor: colorGreen,
@@ -306,6 +307,7 @@
             label: 'Minstens 1 dosis gehad',
             fill: false,
             pointRadius: 0,
+            pointHoverRadius: 6,
             lineTension: 0.07,
             datalabels: {color: colorBlue},
             backgroundColor: colorBlue,
@@ -364,6 +366,7 @@
               labelString: 'Percentage'
 						},
             ticks: {
+              suggestedMax: 7,
               callback: function(value, index, values) {
                   return value.toFixed(2).toString().replace(".", ".") + "%";
               }
