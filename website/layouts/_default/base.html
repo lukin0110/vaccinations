@@ -205,7 +205,7 @@
               <div class="card-header">Volledig gevaccineerde 80-plussers 🚀</div>
               <div class="card-body">
                 <h3 class="card-title">{{ index $data.per_age.percentage_second_dose 0 }}%</h3>
-                <p class="card-text">Dat zijn <strong>{{ index $data.per_age.second_dose 0 }}</strong> van de
+                <p class="card-text">Dat zijn <strong>{{ lang.NumFmt 2 (index $data.per_age.second_dose 0) }}</strong> van de
                   <strong>{{ lang.NumFmt 0 (index $data.per_age.population 0) "- , ." }}</strong> mensen ouder dan 80 jaar.</p>
               </div>
             </div>
@@ -215,7 +215,7 @@
             <div class="card text-white border-0 bg-primary mb-3 flex-fill">
               <div class="card-header">80-plussers met enkel 1 dosis 🤗</div>
               <div class="card-body">
-                <h3 class="card-title">{{ index $data.per_age.percentage_first_dose 0 }}%</h3>
+                <h3 class="card-title">{{ lang.NumFmt 2 (index $data.per_age.percentage_first_dose 0) }}%</h3>
                 <p class="card-text">Dat zijn <strong>{{ index $data.per_age.first_dose 0 }}</strong> van de
                   <strong>{{ lang.NumFmt 0 (index $data.per_age.population 0) "- , ." }}</strong> mensen ouder dan 80 jaar die nog maar 1 dosis hebben gehad.</p>
               </div>
