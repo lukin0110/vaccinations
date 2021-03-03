@@ -2,9 +2,9 @@
 set -e
 
 # TODO: check if git is clean
-now=$(date +'%d-%m-%Y')
-python scripts/process.py fetch ${now}
+yesterday=$(date -j -v-1d +'%d-%m-%Y')
+python scripts/process.py fetch ${yesterday}
 python scripts/process.py crunch
 
 #git add data/ website/data/
-#git commit -m "Update ${now}"
+#git commit -m "Update ${yesterday}"

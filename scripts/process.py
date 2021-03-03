@@ -8,6 +8,7 @@ from datetime import date, datetime, timedelta
 from typing import Any, Dict
 
 CSV_ENDPOINT = "https://www.laatjevaccineren.be/vaccination-info/get"
+MUNICIPALITIES = ["Bree", "Genk", "Hasselt", "Hechtel-Eksel", "Lommel", "Peer", "Pelt"]
 
 
 def data_path(date_of_file: date) -> str:
@@ -175,14 +176,12 @@ def do_crunch() -> None:
     print(f"Loading data from {_start_date} to {_end_date}")
     df = load_range(_start_date, _end_date)
     print(f"Crunch daily numbers")
-    municipality = "Lommel"
-    # municipality = "Bree"
-    # municipality = "Hasselt"
-    municipality = "Genk"
-    data = crunch(df, _start_date, _end_date, municipality)
-    print("Store JSON")
-    print(data)
-    json.dump(data, open(json_path(municipality), "w"), indent=4)
+    for municipality in MUNICIPALITIES:
+        data = crunch(df, _start_date, _end_date, municipality)
+        jp = json_path(municipality)
+        print(f"Store JSON: {jp}")
+        # print(data)
+        json.dump(data, open(jp, "w"), indent=4)
 
 
 if __name__ == "__main__":

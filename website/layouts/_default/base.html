@@ -3,6 +3,8 @@
 {{ $data := (index $.Site.Data .Params.Data )}}
 {{ $municipality := .Params.Municipality }}
 {{ $inhabitants := .Params.Inhabitants }}
+{{ $title := printf "Covid Vaccinaties %s" .Params.Municipality }}
+{{ $description := printf "Dagelijkse update over de vaccinatie cijfers in %s." .Params.Municipality }}
 
 <html lang="nl"
       xmlns:og="http://opengraphprotocol.org/schema/"
@@ -11,23 +13,23 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="{{ .Site.Params.description }}">
+  <meta name="description" content="{{ $description }}">
   <meta name="author" content="{{ .Site.Author.name }}">
   <link rel="icon" type="image/svg+xml" href="/img/syringe.svg">
   <link rel="icon" type="image/png" href="/img/syringe.png">
   <meta name="theme-color" content="#198754">
   <meta name="robots" content="index, follow">
-  <title>{{ .Title }}</title>
-  <meta property="og:title" content="{{ .Title }}">
+  <title>{{ $title }}</title>
+  <meta property="og:title" content="{{ $title }}">
   <meta property="og:locale" content="nl_BE">
   <meta property="og:url" content="https://lommel.lukin.be/{{ lower $municipality }}/">
-  <meta property="og:sitename" content="{{ .Title }}">
+  <meta property="og:sitename" content="{{ $title }}">
   <meta property="og:type" content="website">
-  <meta property="og:description" content="{{ .Site.Params.description }}">
+  <meta property="og:description" content="{{ $description }}">
   <meta property="og:image" content="https://lommel.lukin.be/img/soeverein.png">
   <meta property="og:image:url" content="https://lommel.lukin.be/img/soeverein.png">
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:description" content="{{ .Site.Params.description }}">
+  <meta name="twitter:description" content="{{ $description }}">
   <meta name="twitter:image" content="https://lommel.lukin.be/img/soeverein.png">
   <style>
     canvas{
@@ -288,7 +290,7 @@
             label: 'Volledig gevaccineerd',
             fill: false,
             pointRadius: 0,
-            lineTension: 0.06,
+            lineTension: 0.07,
             datalabels: {color: colorGreen},
             backgroundColor: colorGreen,
             borderColor: colorGreen,
@@ -297,7 +299,7 @@
             label: 'Minstens 1 dosis gehad',
             fill: false,
             pointRadius: 0,
-            lineTension: 0.06,
+            lineTension: 0.07,
             datalabels: {color: colorBlue},
             backgroundColor: colorBlue,
             borderColor: colorBlue,
