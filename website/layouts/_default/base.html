@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Define Data from the Hugo data folder. Eg: `numbers_bree` -->
+<!-- Define Data from the Hugo data folder. Eg: `numbers_lommel` -->
 {{ $data := (index $.Site.Data .Params.Data )}}
 {{ $municipality := .Params.Municipality }}
 {{ $inhabitants := .Params.Inhabitants }}
@@ -65,8 +65,10 @@
     <div class="px-3 py-3 py-md-5 mb-4 mx-auto text-center">
       <h1 class="display-4">Covid Vaccinaties in {{ $municipality }} 💉</h1>
       <p class="lead mb-0">Dagelijkse update over de vaccinatie cijfers van inwoners van {{ $municipality }}. 💚 </p>
-      <small class="text-muted">Bron: <a href="https://www.laatjevaccineren.be/vaccinnet" target="_blank">Vaccinnet+</a>
-         // Laatste update: {{ $data.last_date }}</small>
+      <small class="text-muted">Laatste update: {{ $data.last_date }}
+        <strong>//</strong> Dagelijks update in de voormiddag
+        <strong>//</strong> Bron: <a href="https://www.laatjevaccineren.be/vaccinnet" target="_blank">Vaccinnet+</a>
+      </small>
     </div>
 
     <div class="row py-3 py-md-5 border-top">
@@ -148,7 +150,11 @@
               </div>
 
               <div class="col-12 d-flex">
-                <div class="card mb-2 p-3 flex-fill">
+                <div class="card mb-2 p-2 flex-fill">
+                  <div class="card-body">
+                    <div class="card-text">De focus van de vaccinatiestrategie ligt momenteel op volwassenen (18+).</div>
+                  </div>
+                  <!--
                   <blockquote class="blockquote mb-0">
                     <p title="De Standaard"><a href="https://www.standaard.be/cnt/dmf20210112_97389052" target="_blank" class="text-dark">"Er zijn op dit moment onvoldoende wetenschappelijke argumenten om mensen onder de 18 jaar te vaccineren"</a></p>
                     <footer class="blockquote-footer">
@@ -157,6 +163,7 @@
                       </small>
                     </footer>
                   </blockquote>
+                  -->
                 </div>
               </div>
             </div>
@@ -426,7 +433,6 @@
 			new Chart(ctxHistoryAll, Object.assign({}, configHistory, dataHistory(HISTORY_ALL_LABELS, HISTORY_ALL_SECOND_DOSE, HISTORY_ALL_ONE_DOSE)));
 			var ctxHistoryAdults = document.getElementById('canvasHistoryAdults').getContext('2d');
 			new Chart(ctxHistoryAdults, Object.assign({}, configHistory, dataHistory(HISTORY_ADULTS_LABELS, HISTORY_ADULTS_SECOND_DOSE, HISTORY_ADULTS_ONE_DOSE)));
-
 			var ctxPerAge = document.getElementById('canvasPerAge').getContext('2d');
 			new Chart(ctxPerAge, configPerAge);
 		};

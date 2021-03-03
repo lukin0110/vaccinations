@@ -1,4 +1,9 @@
 <!DOCTYPE html>
+<!-- Define Data from the Hugo data folder. Eg: `numbers_lommel` -->
+{{ $data := (index $.Site.Data .Params.Data )}}
+{{ $municipality := .Params.Municipality }}
+{{ $inhabitants := .Params.Inhabitants }}
+
 <html lang="nl">
 <head>
   <meta charset="utf-8">
@@ -21,15 +26,15 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.css" integrity="sha512-/zs32ZEJh+/EO2N1b0PEdoA10JkdC3zJ8L5FTiQu82LR9S/rOQNfQN7U59U9BC12swNeRAz3HSzIL2vpp4fv3w==" crossorigin="anonymous" />
 </head>
-<body>
-  <h1>Image</h1>
-  <div class="mb-5" id="target" style="border: 1px solid black"></div>
+<body class="p-5">
+  <h1 class="border-bottom">Image</h1>
+  <div class="mb-5" id="target" style="border: 1px solid black" title="Right click to download the image"></div>
 
-  <h1>Source</h1>
+  <h1 class="border-bottom">Source</h1>
   <main class="container" id="source" style="width: 1000px;background-color: white">
     <div class="row">
       <div class="col-12">
-        <h2 class="text-center">Percentage van gevaccineerde Lommelaars op {{ $.Site.Data.numbers_lommel.last_date }} 💚</h2>
+        <h3 class="text-center">Percentage van gevaccineerde {{ $inhabitants }} (18+) op {{ $data.last_date }} 💚</h3>
       </div>
     </div>
     <div class="row">
@@ -39,11 +44,11 @@
           <div class="card-body">
             <div class="row">
               <div class="col-4">
-                <h2 class="card-title">{{ range last 1 $.Site.Data.numbers_lommel.history_all.timeseries_second_dose }}{{ . }}{{ end }}%</h2>
+                <h2 class="card-title">{{ range last 1 $data.history_adults.timeseries_second_dose }}{{ . }}{{ end }}%</h2>
               </div>
               <div class="col-8">
-                <p class="card-text ml-3">Dat zijn <strong>{{ $.Site.Data.numbers_lommel.history_all.second_dose }}</strong> van de
-                  <strong>{{ lang.NumFmt 0 $.Site.Data.numbers_lommel.history_all.population "- , ." }}</strong> Lommelaars.</p>
+                <p class="card-text ml-3">Dat zijn <strong>{{ $data.history_adults.second_dose }}</strong> van de
+                  <strong>{{ lang.NumFmt 0 $data.history_adults.population "- , ." }}</strong> volwassen {{ $inhabitants }}.</p>
               </div>
             </div>
           </div>
@@ -56,11 +61,11 @@
           <div class="card-body">
             <div class="row">
               <div class="col-4">
-                <h2 class="card-title">{{ range last 1 $.Site.Data.numbers_lommel.history_all.timeseries_minimum_one_dose }}{{ . }}{{ end }}%</h2>
+                <h2 class="card-title">{{ range last 1 $data.history_adults.timeseries_minimum_one_dose }}{{ . }}{{ end }}%</h2>
               </div>
               <div class="col-8">
-                <p class="card-text">Dat zijn <strong>{{ $.Site.Data.numbers_lommel.history_all.minimum_one_dose }}</strong> van de
-                <strong>{{ lang.NumFmt 0 $.Site.Data.numbers_lommel.history_all.population "- , ." }}</strong> Lommelaars.</p>
+                <p class="card-text">Dat zijn <strong>{{ $data.history_adults.minimum_one_dose }}</strong> van de
+                <strong>{{ lang.NumFmt 0 $data.history_adults.population "- , ." }}</strong> volwassen {{ $inhabitants }}.</p>
               </div>
             </div>
           </div>
@@ -74,17 +79,18 @@
     </div>
     <div class="row">
       <div class="col-12">
-        <p class="text-center" style="font-size: 1.3em">Volg de dagelijkse updates via <strong>lommel.lukin.be</strong></p>
+        <p class="text-center" style="font-size: 1.3em">Volg de dagelijkse updates via <strong>vaccinaties.lukin.be/{{ lower $municipality }}/</strong></p>
       </div>
     </div>
   </main>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.min.js" integrity="sha512-SuxO9djzjML6b9w9/I07IWnLnQhgyYVSpHZx0JV97kGBfTIsUYlWflyuW4ypnvhBrslz1yJ3R+S14fdCWmSmSA==" crossorigin="anonymous"></script>
   <script>
-    var TOTAL_LABELS = {{ $.Site.Data.numbers_lommel.history_all.labels }};
-    var TOTAL_ONE_DOSE = {{ $.Site.Data.numbers_lommel.history_all.timeseries_minimum_one_dose }};
-    var TOTAL_SECOND_DOSE = {{ $.Site.Data.numbers_lommel.history_all.timeseries_second_dose }};
+    var HISTORY_ADULTS_LABELS = {{ $data.history_adults.labels }};
+    var HISTORY_ADULTS_ONE_DOSE = {{ $data.history_adults.timeseries_minimum_one_dose }};
+    var HISTORY_ADULTS_SECOND_DOSE = {{ $data.history_adults.timeseries_second_dose }};
   </script>
+
   <script>
     var colorBlue = '#0d6efd';
     var colorGreen = '#198754';
@@ -92,25 +98,27 @@
 		var config = {
 			type: 'line',
 			data: {
-				labels: TOTAL_LABELS,
+				labels: HISTORY_ADULTS_LABELS,
         datasets: [{
 					label: 'Volledig gevaccineerd',
           fill: false,
           pointRadius: 0,
-          lineTension: 0,
+          pointHoverRadius: 0,
+          lineTension: 0.07,
           datalabels: {color: colorGreen},
 					backgroundColor: colorGreen,
 					borderColor: colorGreen,
-          data: TOTAL_SECOND_DOSE
+          data: HISTORY_ADULTS_SECOND_DOSE
 				}, {
 					label: 'Minstens 1 dosis gehad',
 					fill: false,
           pointRadius: 0,
-          lineTension: 0,
+          pointHoverRadius: 0,
+          lineTension: 0.07,
           datalabels: {color: colorBlue},
 					backgroundColor: colorBlue,
 					borderColor: colorBlue,
-          data: TOTAL_ONE_DOSE
+          data: HISTORY_ADULTS_ONE_DOSE
 				}]
 			},
 			options: {
@@ -120,12 +128,11 @@
 					display: false
         },
 				tooltips: {
-					mode: 'index',
-					intersect: false
+          enabled: false
 				},
 				hover: {
 					mode: 'nearest',
-					intersect: false,
+					intersect: false
 				},
 				scales: {
 					xAxes: [{
@@ -159,7 +166,7 @@
 
 		window.onload = function() {
 			var ctx = document.getElementById('canvas').getContext('2d');
-			window.myLine = new Chart(ctx, config);
+			new Chart(ctx, config);
 		};
 	</script>
 
@@ -175,7 +182,6 @@
           }
         })
       }, 500)
-
   </script>
 </body>
 </html>
