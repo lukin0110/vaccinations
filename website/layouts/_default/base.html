@@ -20,12 +20,6 @@
   <meta name="theme-color" content="#198754">
   <meta name="robots" content="index, follow">
   <title>{{ $title }}</title>
-  <!-- Fix to redirect lommel.lukin.be to vaccinaties.lukin.be/lommel/-->
-  <script>
-    if (window.location.hostname === 'vaccinaties.lukin.be' && window.location.pathname === "/") {
-      window.location.href = "https://vaccinaties.lukin.be/lommel/";
-    }
-  </script>
   <meta property="og:title" content="{{ $title }}">
   <meta property="og:locale" content="nl_BE">
   <meta property="og:url" content="https://vaccinaties.lukin.be/{{ lower $municipality }}/">
