@@ -8,7 +8,7 @@ from datetime import date, datetime, timedelta
 from typing import Any, Dict
 
 CSV_ENDPOINT = "https://www.laatjevaccineren.be/vaccination-info/get"
-MUNICIPALITIES = ["Bree", "Genk", "Hasselt", "Hechtel-Eksel", "Lommel", "Peer", "Pelt"]
+MUNICIPALITIES = ["Bree", "Genk", "Hasselt", "Hechtel-Eksel", "Lommel", "Peer", "Pelt", "Zonhoven"]
 
 
 def data_path(date_of_file: date) -> str:

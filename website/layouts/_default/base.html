@@ -5,6 +5,7 @@
 {{ $inhabitants := .Params.Inhabitants }}
 {{ $title := printf "Covid Vaccinaties %s" .Params.Municipality }}
 {{ $description := printf "Dagelijkse update over de vaccinatie cijfers in %s." .Params.Municipality }}
+{{ $ogImage := (cond (ne ($.Param "og") nil) .Params.Og "default.png") }}
 
 <html lang="nl"
       xmlns:og="http://opengraphprotocol.org/schema/"
@@ -26,11 +27,11 @@
   <meta property="og:sitename" content="{{ $title }}">
   <meta property="og:type" content="website">
   <meta property="og:description" content="{{ $description }}">
-  <meta property="og:image" content="https://vaccinaties.lukin.be/img/og/lommel.png">
-  <meta property="og:image:url" content="https://vaccinaties.lukin.be/img/og/lommel.png">
+  <meta property="og:image" content="https://vaccinaties.lukin.be/img/og/{{ $ogImage }}">
+  <meta property="og:image:url" content="https://vaccinaties.lukin.be/img/og/{{ $ogImage }}">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:description" content="{{ $description }}">
-  <meta name="twitter:image" content="https://vaccinaties.lukin.be/img/og/lommel.png">
+  <meta name="twitter:image" content="https://vaccinaties.lukin.be/img/og/{{ $ogImage }}">
   <style>
     canvas{
       -moz-user-select: none;
@@ -66,7 +67,7 @@
       <h1 class="display-4">Covid Vaccinaties in {{ $municipality }} 💉</h1>
       <p class="lead mb-0">Dagelijkse update over de vaccinatie cijfers van inwoners van {{ $municipality }}. 💚 </p>
       <small class="text-muted">Laatste update: {{ $data.last_date }}
-        <strong>//</strong> Dagelijks update in de voormiddag
+        <strong>//</strong> Dagelijkse update in de voormiddag
         <strong>//</strong> Bron: <a href="https://www.laatjevaccineren.be/vaccinnet" target="_blank">Vaccinnet+</a>
       </small>
     </div>
@@ -205,7 +206,7 @@
               <div class="card-header">Volledig gevaccineerde 80-plussers 🚀</div>
               <div class="card-body">
                 <h3 class="card-title">{{ index $data.per_age.percentage_second_dose 0 }}%</h3>
-                <p class="card-text">Dat zijn <strong>{{ lang.NumFmt 2 (index $data.per_age.second_dose 0) }}</strong> van de
+                <p class="card-text">Dat zijn <strong>{{ index $data.per_age.second_dose 0 }}</strong> van de
                   <strong>{{ lang.NumFmt 0 (index $data.per_age.population 0) "- , ." }}</strong> mensen ouder dan 80 jaar.</p>
               </div>
             </div>
