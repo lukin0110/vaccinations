@@ -8,7 +8,30 @@ from datetime import date, datetime, timedelta
 from typing import Any, Dict
 
 CSV_ENDPOINT = "https://www.laatjevaccineren.be/vaccination-info/get"
-MUNICIPALITIES = ["Bree", "Genk", "Hasselt", "Hechtel-Eksel", "Lommel", "Peer", "Pelt", "Zonhoven"]
+MUNICIPALITIES = [
+    "Beringen",
+    "Bree",
+    "Bocholt",
+    "Genk",
+    "Hamont-Achel",
+    "Hasselt",
+    "Hechtel-Eksel",
+    "Houthalen-Helchteren",
+    "Leopoldsburg",
+    "Lommel",
+    "Oudsbergen",
+    "Peer",
+    "Pelt",
+    "Tongeren",
+    "Zonhoven"
+]
+
+# TODO
+# "Hamont-Achel",
+# "Hechtel-Eksel",
+# "Houthalen-Helchteren",
+# "Oudsbergen",
+# "Tongeren",
 
 
 def data_path(date_of_file: date) -> str:

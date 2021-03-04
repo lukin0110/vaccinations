@@ -76,17 +76,17 @@
       <div class="md-12">
         <ul class="nav nav-pills nav-fill" role="tablist">
           <li class="nav-item">
-            <a class="nav-link active" data-toggle="tab" href="#history-all" role="tab">Alle leeftijden</a>
+            <a class="nav-link active" data-toggle="tab" href="#history-adults" role="tab">Enkel volwassenen (18+)</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#history-adults" role="tab">Enkel volwassenen (18+)</a>
+            <a class="nav-link" data-toggle="tab" href="#history-all" role="tab">Alle leeftijden</a>
           </li>
         </ul>
       </div>
     </div>
 
     <div class="tab-content mb-3 mb-md-5">
-      <div class="tab-pane show active" id="history-all" role="tabpanel">
+      <div class="tab-pane" id="history-all" role="tabpanel">
         <div class="row">
           <div class="col-md-12 col-lg-9 pb-3 h-100">
             <h5 class="text-center">Percentage van gevaccineerde {{ $inhabitants }} (alle leeftijden)</h5>
@@ -120,7 +120,7 @@
         </div>
       </div>
 
-      <div class="tab-pane" id="history-adults" role="tabpanel">
+      <div class="tab-pane show active" id="history-adults" role="tabpanel">
         <div class="row">
           <div class="col-md-12 col-lg-9 pb-3 h-100">
             <h5 class="text-center">Percentage van gevaccineerde {{ $inhabitants }} (enkel volwassenen)</h5>
@@ -218,7 +218,7 @@
               <div class="card-body">
                 <h3 class="card-title">{{ lang.NumFmt 2 (index $data.per_age.percentage_first_dose 0) }}%</h3>
                 <p class="card-text">Dat zijn <strong>{{ index $data.per_age.first_dose 0 }}</strong> van de
-                  <strong>{{ lang.NumFmt 0 (index $data.per_age.population 0) "- , ." }}</strong> mensen ouder dan 80 jaar die nog maar 1 dosis hebben gehad.</p>
+                  <strong>{{ lang.NumFmt 0 (index $data.per_age.population 0) "- , ." }}</strong> mensen ouder dan 80 jaar.</p>
               </div>
             </div>
           </div>
@@ -231,7 +231,7 @@
         <div class="col-12 text-center">
           <h6>Bron van de cijfers 🔍</h6>
           <small class="text-muted"><a href="https://www.laatjevaccineren.be/vaccinnet" target="_blank">Vaccinnet+</a> is
-            het vaccinatie platform van de Vlaamse Overheid. Cijfers worden dagelijks in de voormiddag geïmporteerd,
+            het vaccinatie platform van de Vlaamse Overheid.<br>Cijfers worden dagelijks in de voormiddag geïmporteerd,
             behalve op weekenddagen.</small><br><small class="text-muted">Laatste update: {{ $data.last_date }}</small>
         </div>
       </div>
@@ -258,7 +258,7 @@
 
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>-->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
   <!-- Chart js -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.min.js" integrity="sha512-SuxO9djzjML6b9w9/I07IWnLnQhgyYVSpHZx0JV97kGBfTIsUYlWflyuW4ypnvhBrslz1yJ3R+S14fdCWmSmSA==" crossorigin="anonymous"></script>
@@ -273,8 +273,11 @@
     var HISTORY_ADULTS_ONE_DOSE = {{ $data.history_adults.timeseries_minimum_one_dose }};
     var HISTORY_ADULTS_SECOND_DOSE = {{ $data.history_adults.timeseries_second_dose }};
     var PER_AGE_LABELS = {{ $data.per_age.labels }};
-    var PER_AGE_FIRST_DOSE = {{ $data.per_age.percentage_first_dose }};
-    var PER_AGE_SECOND_DOSE = {{ $data.per_age.percentage_second_dose }};
+    var PER_AGE_PERCENTAGE_FIRST_DOSE = {{ $data.per_age.percentage_first_dose }};
+    var PER_AGE_PERCENTAGE_SECOND_DOSE = {{ $data.per_age.percentage_second_dose }};
+    var PER_AGE_FIRST_DOSE = {{ $data.per_age.first_dose }};
+    var PER_AGE_SECOND_DOSE = {{ $data.per_age.second_dose }};
+    var PER_AGE_POPULATION = {{ $data.per_age.population }};
   </script>
 
   <script>
@@ -299,7 +302,7 @@
             fill: false,
             pointRadius: 0,
             pointHoverRadius: 6,
-            lineTension: 0.07,
+            lineTension: 0.08,
             datalabels: {color: colorGreen},
             backgroundColor: colorGreen,
             borderColor: colorGreen,
@@ -309,7 +312,7 @@
             fill: false,
             pointRadius: 0,
             pointHoverRadius: 6,
-            lineTension: 0.07,
+            lineTension: 0.08,
             datalabels: {color: colorBlue},
             backgroundColor: colorBlue,
             borderColor: colorBlue,
@@ -326,19 +329,19 @@
         plugins: {
           datalabels: {
             align: 'right',
-              formatter: function (value, context) {
-                  return value.toString().replace(".", ",") + "%";
-              },
-              display: function (context) {
-                return context.dataIndex === context.dataset.data.length - 1;
-              }
+            formatter: function (value, context) {
+              return value.toString().replace(".", ",") + "%";
+            },
+            display: function (context) {
+              return context.dataIndex === context.dataset.data.length - 1;
             }
+          }
         },
 				responsive: true,
         maintainAspectRatio: true,
         layout:{
           padding: {
-            right:50
+            right: 50
           }
         },
 				title: {
@@ -367,7 +370,7 @@
               labelString: 'Percentage'
 						},
             ticks: {
-              suggestedMax: 7,
+              suggestedMax: 10,
               callback: function(value, index, values) {
                   return value.toFixed(2).toString().replace(".", ".") + "%";
               }
@@ -377,59 +380,78 @@
 			}
 		};
 
-		var configPerAge = {
-      type: 'horizontalBar',
-      data: {
-			labels: PER_AGE_LABELS,
+    var dataPerAge = {
+      labels: PER_AGE_LABELS,
 			datasets: [{
         label: 'Volledig gevaccineerd',
         backgroundColor: colorGreen,
-        data: PER_AGE_SECOND_DOSE
+        data: PER_AGE_PERCENTAGE_SECOND_DOSE
       }, {
         label: 'Enkel 1 dosis gehad',
         backgroundColor: colorBlue,
-        data: PER_AGE_FIRST_DOSE
-        }]
-      },
+        data: PER_AGE_PERCENTAGE_FIRST_DOSE
+      }]
+    };
+
+		var configPerAge = {
+      plugins: [ChartDataLabels],
+      type: 'horizontalBar',
+      data: dataPerAge,
       options: {
-					title: {
-						display: false
-					},
-					tooltips: {
-            mode: 'index',
-            intersect: true,
-              position: 'custom',
-              callbacks: {
-                footer: function(tooltipItems, data) {
-                  let total = 0;
-                  for (let i = 0; i < tooltipItems.length; i++) {
-                      total += tooltipItems[i].xLabel;
-                  }
-                  return 'Totaal: ' + total.toFixed(2) + '%';
-                }
-              }
-					},
-					responsive: true,
-					scales: {
-						xAxes: [{
-							stacked: true,
-              display: true,
-              ticks: { max: 100 },
-              scaleLabel: {
-                display: false,
-                labelString: 'Percentage'
-              }
-						}],
-						yAxes: [{
-							stacked: true,
-              display: true,
-              scaleLabel: {
-                display: false,
-                labelString: 'Leeftijd'
-              }
-						}]
-					}
-				}
+        title: {
+          display: false
+        },
+        plugins: {
+          datalabels: {
+            align: 'right',
+            formatter: function (value, context) {
+              var p = "     ";
+              var i = context.dataIndex;
+              var percentage =  (PER_AGE_PERCENTAGE_FIRST_DOSE[i] + PER_AGE_PERCENTAGE_SECOND_DOSE[i]).toFixed(2);
+              var persons = Math.floor(PER_AGE_FIRST_DOSE[i] + PER_AGE_SECOND_DOSE[i]).toLocaleString().replace(",", ".");
+              var population = Math.floor(PER_AGE_POPULATION[i]).toLocaleString().replace(",", ".");
+              return p + percentage.toString().replace(".", ",") + "%\n" + p + persons + " van de " + population;
+            },
+            display: function (context) {
+              return context.datasetIndex === 1;
+            }
+          }
+        },
+        tooltips: {
+          mode: 'index',
+          intersect: true,
+          position: 'custom'
+          // callbacks: {
+          //   footer: function(tooltipItems, data) {
+          //     let total = 0;
+          //     for (let i = 0; i < tooltipItems.length; i++) {
+          //         total += tooltipItems[i].xLabel;
+          //     }
+          //     return 'Totaal: ' + total.toFixed(2) + '%';
+          //   }
+          // }
+        },
+        responsive: true,
+        scales: {
+          xAxes: [{
+            stacked: true,
+            display: true,
+            ticks: { max: 100 },
+            scaleLabel: {
+              display: false,
+              labelString: 'Percentage'
+            }
+          }],
+          yAxes: [{
+            stacked: true,
+            display: true,
+            scaleLabel: {
+              display: false,
+              labelString: 'Leeftijd'
+            }
+          }]
+        }
+      }
     }
 
 		window.onload = function() {
