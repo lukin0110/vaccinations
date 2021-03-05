@@ -1,11 +1,13 @@
 """Fetch CSV and compute daily numbers."""
 import json
+import locale
 import pandas as pd
 import requests
 import typer
 from os import path
 from datetime import date, datetime, timedelta
 from typing import Any, Dict
+locale.setlocale(locale.LC_ALL, "nl_BE")
 
 CSV_ENDPOINT = "https://www.laatjevaccineren.be/vaccination-info/get"
 MUNICIPALITIES = [
@@ -105,9 +107,11 @@ def crunch_history(df: pd.DataFrame) -> Dict[str, Any]:
         "minimum_one_dose": total_first_dose + total_second_dose,
         "first_dose": total_first_dose,
         "second_dose": total_second_dose,
-        "timeseries_minimum_one_dose": [0] + grouped["VACCINATED_ONE_DOSIS_NBR"].apply(
+        "timeseries_minimum_one_dose": [0] + grouped["VACCINATED_ONE_DOSIS_NBR"].tolist(),
+        "timeseries_second_dose": [0] + grouped["VACCINATED_SECOND_DOSIS_NBR"].tolist(),
+        "timeseries_percentage_minimum_one_dose": [0] + grouped["VACCINATED_ONE_DOSIS_NBR"].apply(
             lambda v: round(v / population * 100, 2)).tolist(),
-        "timeseries_second_dose": [0] + grouped["VACCINATED_SECOND_DOSIS_NBR"].apply(
+        "timeseries_percentage_second_dose": [0] + grouped["VACCINATED_SECOND_DOSIS_NBR"].apply(
             lambda v: round(v / population * 100, 2)).tolist()
     }
 
@@ -152,7 +156,8 @@ def crunch_per_age(df: pd.DataFrame) -> Dict[str, Any]:
 def crunch(df: pd.DataFrame, start_date: date, end_date: date, municipality: str) -> Any:
     """."""
     date_range = pd.date_range(start=start_date, end=end_date).tolist()
-    labels = [f"{d:%d-%m}" for d in date_range]
+    # labels = [f"{d:%d-%m}" for d in date_range]
+    labels = [f"{d:%d-%b}" for d in date_range]
     mdf = df[df["MUNICIPALITY"] == municipality]
 
     return {
@@ -198,6 +203,7 @@ def do_crunch() -> None:
     df = load_range(_start_date, _end_date)
     print(f"Crunch daily numbers")
     for municipality in MUNICIPALITIES:
+    # for municipality in ["Lommel"]:
         data = crunch(df, _start_date, _end_date, municipality)
         jp = json_path(municipality)
         print(f"Store JSON: {jp}")

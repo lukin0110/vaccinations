@@ -80,10 +80,10 @@
             <div class="card-body">
               <div class="row">
                 <div class="col-4">
-                  <h2 class="card-title">{{ range last 1 $data.history_adults.timeseries_second_dose }}{{ lang.NumFmt 2 . }}{{ end }}%</h2>
+                  <h2 class="card-title">{{ range last 1 $data.history_adults.timeseries_percentage_second_dose }}{{ lang.NumFmt 2 . }}{{ end }}%</h2>
                 </div>
                 <div class="col-8">
-                  <p class="card-text ml-3">Dat zijn <strong>{{ $data.history_adults.second_dose }}</strong> van de
+                  <p class="card-text ml-3">Dat zijn <strong>{{ lang.NumFmt 0 $data.history_adults.second_dose "- , ." }}</strong> van de
                     <strong>{{ lang.NumFmt 0 $data.history_adults.population "- , ." }}</strong> volwassen {{ $inhabitants }}.</p>
                 </div>
               </div>
@@ -97,10 +97,10 @@
             <div class="card-body">
               <div class="row">
                 <div class="col-4">
-                  <h2 class="card-title">{{ range last 1 $data.history_adults.timeseries_minimum_one_dose }}{{ lang.NumFmt 2 . }}{{ end }}%</h2>
+                  <h2 class="card-title">{{ range last 1 $data.history_adults.timeseries_percentage_minimum_one_dose }}{{ lang.NumFmt 2 . }}{{ end }}%</h2>
                 </div>
                 <div class="col-8">
-                  <p class="card-text">Dat zijn <strong>{{ $data.history_adults.minimum_one_dose }}</strong> van de
+                  <p class="card-text">Dat zijn <strong>{{ lang.NumFmt 0 $data.history_adults.minimum_one_dose "- , ." }}</strong> van de
                   <strong>{{ lang.NumFmt 0 $data.history_adults.population "- , ." }}</strong> volwassen {{ $inhabitants }}.</p>
                 </div>
               </div>
@@ -137,7 +137,7 @@
                   <h2 class="card-title">{{  lang.NumFmt 2 (index $data.per_age.percentage_second_dose 0) }}%</h2>
                 </div>
                 <div class="col-8">
-                  <p class="card-text ml-3">Dat zijn <strong>{{ index $data.per_age.second_dose 0 }}</strong> van de
+                  <p class="card-text ml-3">Dat zijn <strong>{{ lang.NumFmt 0 (index $data.per_age.second_dose 0) "- , ." }}</strong> van de
                   <strong>{{ lang.NumFmt 0 (index $data.per_age.population 0) "- , ." }}</strong> mensen ouder dan 80 jaar.</p>
                 </div>
               </div>
@@ -154,7 +154,7 @@
                   <h3 class="card-title">{{ lang.NumFmt 2 (index $data.per_age.percentage_first_dose 0) }}%</h3>
                 </div>
                 <div class="col-8">
-                  <p class="card-text">Dat zijn <strong>{{ index $data.per_age.first_dose 0 }}</strong> van de
+                  <p class="card-text">Dat zijn <strong>{{ lang.NumFmt 0 (index $data.per_age.first_dose 0) "- , ." }}</strong> van de
                   <strong>{{ lang.NumFmt 0 (index $data.per_age.population 0) "- , ." }}</strong> mensen ouder dan 80 jaar.</p>
                 </div>
               </div>
@@ -183,8 +183,8 @@
   <script>
     // Data for the datasets
     var HISTORY_ADULTS_LABELS = {{ $data.history_adults.labels }};
-    var HISTORY_ADULTS_ONE_DOSE = {{ $data.history_adults.timeseries_minimum_one_dose }};
-    var HISTORY_ADULTS_SECOND_DOSE = {{ $data.history_adults.timeseries_second_dose }};
+    var HISTORY_ADULTS_PERCENTAGE_ONE_DOSE = {{ $data.history_adults.timeseries_percentage_minimum_one_dose }};
+    var HISTORY_ADULTS_PERCENTAGE_SECOND_DOSE = {{ $data.history_adults.timeseries_percentage_second_dose }};
     var PER_AGE_LABELS = {{ $data.per_age.labels }};
     var PER_AGE_PERCENTAGE_FIRST_DOSE = {{ $data.per_age.percentage_first_dose }};
     var PER_AGE_PERCENTAGE_SECOND_DOSE = {{ $data.per_age.percentage_second_dose }};
@@ -213,7 +213,7 @@
           datalabels: {color: colorGreen},
 					backgroundColor: colorGreen,
 					borderColor: colorGreen,
-          data: HISTORY_ADULTS_SECOND_DOSE
+          data: HISTORY_ADULTS_PERCENTAGE_SECOND_DOSE
 				}, {
 					label: 'Minstens 1 dosis gehad',
 					fill: false,
@@ -223,7 +223,7 @@
           datalabels: {color: colorBlue},
 					backgroundColor: colorBlue,
 					borderColor: colorBlue,
-          data: HISTORY_ADULTS_ONE_DOSE
+          data: HISTORY_ADULTS_PERCENTAGE_ONE_DOSE
 				}]
 			}
     };
