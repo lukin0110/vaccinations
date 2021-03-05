@@ -18,6 +18,7 @@ MUNICIPALITIES = [
     "Hamont-Achel",
     "Hasselt",
     "Hechtel-Eksel",
+    "Heusden-Zolder",
     "Houthalen-Helchteren",
     "Leopoldsburg",
     "Lommel",
@@ -29,12 +30,6 @@ MUNICIPALITIES = [
     "Turnhout",
     "Zonhoven"
 ]
-
-# TODO
-# "Hechtel-Eksel",
-# "Houthalen-Helchteren",
-# "Oudsbergen",
-# "Tongeren",
 
 
 def data_path(date_of_file: date) -> str:
