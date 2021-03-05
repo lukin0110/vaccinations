@@ -331,7 +331,16 @@
 		var configHistory = {
       plugins: [ChartDataLabels],
 			type: 'line',
+      responsive: true,
+      maintainAspectRatio: true,
 			options: {
+				title: {
+					display: false
+        },
+        legend: {
+          display: true,
+          labels: { fontSize: fontSize1 }
+        },
         plugins: {
           datalabels: {
             align: 'right',
@@ -343,19 +352,10 @@
             }
           }
         },
-				responsive: true,
-        maintainAspectRatio: true,
         layout:{
           padding: {
             right: 50
           }
-        },
-				title: {
-					display: false
-        },
-        legend: {
-          display: true,
-          labels: { fontSize: fontSize1 }
         },
 				tooltips: {
 					mode: 'index',
@@ -386,7 +386,7 @@
             ticks: {
               fontSize: fontSize2,
               suggestedMax: 10,
-              callback: function(value, index, values) {
+              callback: function(value) {
                   return value.toFixed(2).toString().replace(".", ".") + "%";
               }
             }
@@ -396,22 +396,25 @@
 		};
 
     var dataPerAge = {
-      labels: PER_AGE_LABELS,
-			datasets: [{
-        label: 'Volledig gevaccineerd',
-        backgroundColor: colorGreen,
-        data: PER_AGE_PERCENTAGE_SECOND_DOSE
-      }, {
-        label: 'Enkel 1 dosis gehad',
-        backgroundColor: colorBlue,
-        data: PER_AGE_PERCENTAGE_FIRST_DOSE
-      }]
+      data: {
+        labels: PER_AGE_LABELS,
+        datasets: [{
+          label: 'Volledig gevaccineerd',
+          backgroundColor: colorGreen,
+          data: PER_AGE_PERCENTAGE_SECOND_DOSE
+        }, {
+          label: 'Enkel 1 dosis gehad',
+          backgroundColor: colorBlue,
+          data: PER_AGE_PERCENTAGE_FIRST_DOSE
+        }]
+      }
     };
 
 		var configPerAge = {
       plugins: [ChartDataLabels],
       type: 'horizontalBar',
-      data: dataPerAge,
+      responsive: true,
+      maintainAspectRatio: true,
       options: {
         title: {
           display: false
@@ -453,7 +456,6 @@
           //   }
           // }
         },
-        responsive: true,
         scales: {
           xAxes: [{
             stacked: true,
@@ -489,7 +491,7 @@
     var charts = [
       ["canvasHistoryAll", Object.assign({}, configHistory, dataHistory(HISTORY_ALL_LABELS, HISTORY_ALL_SECOND_DOSE, HISTORY_ALL_ONE_DOSE))],
       ["canvasHistoryAdults", Object.assign({}, configHistory, dataHistory(HISTORY_ADULTS_LABELS, HISTORY_ADULTS_SECOND_DOSE, HISTORY_ADULTS_ONE_DOSE))],
-      ["canvasPerAge", configPerAge]
+      ["canvasPerAge", Object.assign({}, configPerAge, dataPerAge)]
     ];
 
     // Render once the page has been loaded

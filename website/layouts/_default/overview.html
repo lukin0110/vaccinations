@@ -96,7 +96,7 @@
             <div class="card-body">
               <div class="row">
                 <div class="col-4">
-                  <h2 class="card-title">{{ range last 1 $data.history_adults.timeseries_second_dose }}{{ . }}{{ end }}%</h2>
+                  <h2 class="card-title">{{ range last 1 $data.history_adults.timeseries_second_dose }}{{ lang.NumFmt 2 . }}{{ end }}%</h2>
                 </div>
                 <div class="col-8">
                   <p class="card-text ml-3">Dat zijn <strong>{{ $data.history_adults.second_dose }}</strong> van de
@@ -112,7 +112,7 @@
             <div class="card-body">
               <div class="row">
                 <div class="col-4">
-                  <h2 class="card-title">{{ range last 1 $data.history_adults.timeseries_minimum_one_dose }}{{ . }}{{ end }}%</h2>
+                  <h2 class="card-title">{{ range last 1 $data.history_adults.timeseries_minimum_one_dose }}{{ lang.NumFmt 2 . }}{{ end }}%</h2>
                 </div>
                 <div class="col-8">
                   <p class="card-text">Dat zijn <strong>{{ $data.history_adults.minimum_one_dose }}</strong> van de
