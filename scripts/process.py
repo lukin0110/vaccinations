@@ -9,7 +9,9 @@ from typing import Any, Dict
 
 CSV_ENDPOINT = "https://www.laatjevaccineren.be/vaccination-info/get"
 MUNICIPALITIES = [
+    "Alken",
     "Beringen",
+    "Bilzen",
     "Bree",
     "Bocholt",
     "Genk",
