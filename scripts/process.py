@@ -19,15 +19,16 @@ MUNICIPALITIES = [
     "Houthalen-Helchteren",
     "Leopoldsburg",
     "Lommel",
+    "Nijlen",
     "Oudsbergen",
     "Peer",
     "Pelt",
     "Tongeren",
+    "Turnhout",
     "Zonhoven"
 ]
 
 # TODO
-# "Hamont-Achel",
 # "Hechtel-Eksel",
 # "Houthalen-Helchteren",
 # "Oudsbergen",

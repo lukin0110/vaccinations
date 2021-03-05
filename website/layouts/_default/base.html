@@ -285,6 +285,8 @@
 
     var colorBlue = '#0d6efd';
     var colorGreen = '#198754';
+    var fontSize1 = 14;
+    var fontSize2 = 16;
 
     Chart.Tooltip.positioners.custom = function(elements, eventPosition) {
       return {
@@ -347,6 +349,10 @@
 				title: {
 					display: false
         },
+        legend: {
+          display: true,
+          labels: { fontSize: fontSize1 }
+        },
 				tooltips: {
 					mode: 'index',
 					intersect: false
@@ -360,8 +366,12 @@
 						display: true,
 						scaleLabel: {
 							display: true,
-              labelString: 'Dagen'
-						}
+              labelString: 'Dagen',
+              fontSize: fontSize1
+						},
+            ticks: {
+              fontSize: fontSize2
+            }
 					}],
 					yAxes: [{
 						display: true,
@@ -370,6 +380,7 @@
               labelString: 'Percentage'
 						},
             ticks: {
+              fontSize: fontSize2,
               suggestedMax: 10,
               callback: function(value, index, values) {
                   return value.toFixed(2).toString().replace(".", ".") + "%";
@@ -401,9 +412,16 @@
         title: {
           display: false
         },
+        legend: {
+          display: true,
+          labels: { fontSize: fontSize1 }
+        },
         plugins: {
           datalabels: {
             align: 'right',
+            font: {
+              size: fontSize1
+            },
             formatter: function (value, context) {
               var p = "     ";
               var i = context.dataIndex;
@@ -436,15 +454,24 @@
           xAxes: [{
             stacked: true,
             display: true,
-            ticks: { max: 100 },
+            ticks: {
+              fontSize: fontSize2,
+              max: 100,
+              callback: function(v, i, vv) {
+               return v + "%";
+              }
+            },
             scaleLabel: {
               display: false,
               labelString: 'Percentage'
-            }
+            },
           }],
           yAxes: [{
             stacked: true,
             display: true,
+            ticks: {
+              fontSize: fontSize2
+            },
             scaleLabel: {
               display: false,
               labelString: 'Leeftijd'
@@ -454,13 +481,19 @@
       }
     }
 
+    // List all charts to render
+    var charts = [
+      ["canvasHistoryAll", Object.assign({}, configHistory, dataHistory(HISTORY_ALL_LABELS, HISTORY_ALL_SECOND_DOSE, HISTORY_ALL_ONE_DOSE))],
+      ["canvasHistoryAdults", Object.assign({}, configHistory, dataHistory(HISTORY_ADULTS_LABELS, HISTORY_ADULTS_SECOND_DOSE, HISTORY_ADULTS_ONE_DOSE))],
+      ["canvasPerAge", configPerAge]
+    ];
+
+    // Render once the page has been loaded
 		window.onload = function() {
-			var ctxHistoryAll = document.getElementById('canvasHistoryAll').getContext('2d');
-			new Chart(ctxHistoryAll, Object.assign({}, configHistory, dataHistory(HISTORY_ALL_LABELS, HISTORY_ALL_SECOND_DOSE, HISTORY_ALL_ONE_DOSE)));
-			var ctxHistoryAdults = document.getElementById('canvasHistoryAdults').getContext('2d');
-			new Chart(ctxHistoryAdults, Object.assign({}, configHistory, dataHistory(HISTORY_ADULTS_LABELS, HISTORY_ADULTS_SECOND_DOSE, HISTORY_ADULTS_ONE_DOSE)));
-			var ctxPerAge = document.getElementById('canvasPerAge').getContext('2d');
-			new Chart(ctxPerAge, configPerAge);
+      for(var i=0; i<charts.length; i++) {
+        var ctx = document.getElementById(charts[i][0]).getContext('2d');
+        new Chart(ctx, charts[i][1]);
+      }
 		};
 	</script>
 </body>
