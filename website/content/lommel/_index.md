@@ -1,5 +1,5 @@
 ---
-layout: base
+layout: municipality
 data: numbers_lommel
 municipality: Lommel
 inhabitants: Lommelaars

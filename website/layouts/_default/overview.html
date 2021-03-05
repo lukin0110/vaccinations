@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+{{ $last_date := (index $.Site.Data "numbers_lommel" ).last_date }}
+{{ $title := printf "Covid Vaccinaties per gemeente" }}
+{{ $description := printf "Dagelijkse update over de vaccinatie cijfers in jouw gemeente."}}
+
+<html lang="nl"
+      xmlns:og="http://opengraphprotocol.org/schema/"
+      xmlns:fb="http://www.facebook.com/2008/fbml"
+      xmlns="http://www.w3.org/1999/html">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="{{ $description }}">
+  <meta name="author" content="{{ .Site.Author.name }}">
+  <link rel="icon" type="image/svg+xml" href="/img/syringe.svg">
+  <link rel="icon" type="image/png" href="/img/syringe.png">
+  <meta name="theme-color" content="#198754">
+  <meta name="robots" content="index, follow">
+  <link rel='dns-prefetch' href='//cdnjs.cloudflare.com'/>
+  <link rel='dns-prefetch' href='//maxcdn.bootstrapcdn.com'/>
+  <link rel='dns-prefetch' href='//code.jquery.com'/>
+  <link rel='dns-prefetch' href='//cdn.jsdelivr.net'/>
+  <title>{{ $title }}</title>
+  <meta property="og:title" content="{{ $title }}">
+  <meta property="og:locale" content="nl_BE">
+  <meta property="og:url" content="https://vaccinaties.lukin.be/">
+  <meta property="og:sitename" content="{{ $title }}">
+  <meta property="og:type" content="website">
+  <meta property="og:description" content="{{ $description }}">
+  <meta property="og:image" content="https://vaccinaties.lukin.be/img/og/default.png">
+  <meta property="og:image:url" content="https://vaccinaties.lukin.be/img/og/default.png">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:description" content="{{ $description }}">
+  <meta name="twitter:image" content="https://vaccinaties.lukin.be/img/og/default.png">
+  <style>
+    canvas{
+      -moz-user-select: none;
+      -webkit-user-select: none;
+      -ms-user-select: none;
+    }
+    body {
+      background-image: linear-gradient(150deg,#ffffff 30%,#F8F8F8 95%);
+    }
+    .municipality:hover {
+      /*background-color: #efefef;*/
+      background-image: linear-gradient(0deg,#ffffff 30%,#F8F8F8 95%);
+      cursor: pointer;
+      box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.4);
+      transform: scale(1.03);
+    }
+    @media only screen and (min-width: 1200px) {
+      #main {
+        max-width: 80%;
+      }
+    }
+	</style>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.css" integrity="sha512-/zs32ZEJh+/EO2N1b0PEdoA10JkdC3zJ8L5FTiQu82LR9S/rOQNfQN7U59U9BC12swNeRAz3HSzIL2vpp4fv3w==" crossorigin="anonymous" />
+  {{ template "_internal/google_analytics.html" . }}
+</head>
+<body>
+  <main class="container" id="main">
+    <div class="px-3 py-3 py-md-5 mb-4 mx-auto text-center">
+      <h1 class="display-4">Covid Vaccinaties per gemeente 💉</h1>
+      <p class="lead mb-0">Dagelijkse update over de vaccinatie cijfers van inwoners per gemeente. 💚 </p>
+      <small class="text-muted">Laatste update: {{ $last_date }}
+        <strong>//</strong> Dagelijks in de voormiddag
+        <strong>//</strong> Bron: <a href="https://www.laatjevaccineren.be/vaccinnet" target="_blank">Vaccinnet+</a>
+      </small>
+    </div>
+
+    <div class="row mb-5 justify-content-md-center">
+      <div class="col-12 col-md-6">
+        <div class="alert alert-success" role="alert">
+          <h4 class="alert-heading">👋 Welkom</h4>
+          <p>Website was origineel bedoeld om de <a href="/lommel/">vaccinatie cijfers van <strong>Lommel</strong> te
+            visualiseren</a>. Ik heb ondertussen de vraag gekregen om dit ook voor andere gemeentes te doen.</p>
+          <p>Ik doe dit vrijwillig en heb niet alle tijd van de wereld. Ik ga ze stap voor stap toevoegen. 🙏</p>
+          <hr>
+          <p class="text-center mb-0">Neem gerust contact op: <a href="mailto:{{ .Site.Author.email }}?subject=Vaccinatie cijfers per gemeente">Maarten Huijsmans</a></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="row pb-5 pb-md-5">
+      {{ range where .Site.Pages "Params.layout" "municipality" }}
+      {{ $inhabitants := .Params.Inhabitants }}
+      {{ $data := (index $.Site.Data .Params.Data )}}
+      <div class="municipality row py-4 border-top" onclick="window.location = '{{ .Permalink }}'">
+        <div class="col-12 col-md-2">
+          <h2><a href="{{ .Permalink }}">{{ .Params.Municipality }}</a></h2>
+        </div>
+        <div class="col-12 col-md-5 d-flex">
+          <div class="card text-white border-0 bg-success mb-2 flex-fill">
+            <div class="card-header">Volledig gevaccineerd 🚀</div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-4">
+                  <h2 class="card-title">{{ range last 1 $data.history_adults.timeseries_second_dose }}{{ . }}{{ end }}%</h2>
+                </div>
+                <div class="col-8">
+                  <p class="card-text ml-3">Dat zijn <strong>{{ $data.history_adults.second_dose }}</strong> van de
+                    <strong>{{ lang.NumFmt 0 $data.history_adults.population "- , ." }}</strong> volwassen {{ $inhabitants }}.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-5 d-flex">
+          <div class="card text-white bg-primary mb-2 flex-fill">
+            <div class="card-header">Minstens 1 dosis gehad 🤗</div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-4">
+                  <h2 class="card-title">{{ range last 1 $data.history_adults.timeseries_minimum_one_dose }}{{ . }}{{ end }}%</h2>
+                </div>
+                <div class="col-8">
+                  <p class="card-text">Dat zijn <strong>{{ $data.history_adults.minimum_one_dose }}</strong> van de
+                  <strong>{{ lang.NumFmt 0 $data.history_adults.population "- , ." }}</strong> volwassen {{ $inhabitants }}.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {{ end }}
+    </div>
+
+    <div class="row py-5 border-top" style="opacity: 0.7">
+      <div class="row">
+        <div class="col-12 text-center">
+          <h6>Bron van de cijfers 🔍</h6>
+          <small class="text-muted"><a href="https://www.laatjevaccineren.be/vaccinnet" target="_blank">Vaccinnet+</a> is
+            het vaccinatie platform van de Vlaamse Overheid.<br>Cijfers worden dagelijks in de voormiddag geïmporteerd,
+            behalve op weekenddagen.</small><br><small class="text-muted">Laatste update: {{ $last_date }}</small>
+        </div>
+      </div>
+    </div>
+
+    <footer class="pt-4 pt-md-4 border-top" style="opacity: 0.7">
+      <div class="row">
+        <!-- col-md-12 col-lg-3 -->
+        <div class="col-md-12 col-lg-6 col-md mb-3">
+          <small class="text-muted">Deze pagina focust enkel op de vaccinatie cijfers <strong>per gemeente</strong>.<br>
+          De cijfers van België kan je volgen via <a href="https://covid-vaccinatie.be/nl" target="_blank">covid-vaccinatie.be</a>
+          van <a href="https://twitter.com/jorisvaesen" target="_blank">@jorisvaesen</a></small>
+        </div>
+        <div class="col-md-12 col-lg-6 col-md mb-3">
+          <small class="d-block mb-3 text-muted">
+            👨‍💻 Pagina onderhouden door <a href="https://lukin.be" target="_blank">{{ .Site.Author.name }}</a><br>
+            💡 Feedback of vragen: <a href="mailto:{{ .Site.Author.email }}?subject=Vaccinatie cijfers per gemeente">{{ .Site.Author.email }}</a><br>
+            ⚡ ️Bekijk de code op <a href="https://github.com/lukin0110/vaccinations-lommel" target="_blank">GitHub</a>
+          </small>
+        </div>
+      </div>
+    </footer>
+  </main>
+</body>
+</html>
