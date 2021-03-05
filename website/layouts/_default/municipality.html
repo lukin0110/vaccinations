@@ -55,11 +55,11 @@
         /*background-image: linear-gradient(150deg,transparent 70%,red 95%);*/
         /*box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);*/
     }
-    @media only screen and (min-width: 1200px) {
-      #main {
-        max-width: 80%;
-      }
-    }
+    /*@media only screen and (min-width: 1200px) {*/
+    /*  #main {*/
+    /*    max-width: 80%;*/
+    /*  }*/
+    /*}*/
 	</style>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.css" integrity="sha512-/zs32ZEJh+/EO2N1b0PEdoA10JkdC3zJ8L5FTiQu82LR9S/rOQNfQN7U59U9BC12swNeRAz3HSzIL2vpp4fv3w==" crossorigin="anonymous" />
@@ -435,7 +435,8 @@
               var percentage =  (PER_AGE_PERCENTAGE_FIRST_DOSE[i] + PER_AGE_PERCENTAGE_SECOND_DOSE[i]).toFixed(2);
               var persons = Math.floor(PER_AGE_FIRST_DOSE[i] + PER_AGE_SECOND_DOSE[i]).toLocaleString().replace(",", ".");
               var population = Math.floor(PER_AGE_POPULATION[i]).toLocaleString().replace(",", ".");
-              return p + percentage.toString().replace(".", ",") + "%\n" + p + persons + " van de " + population;
+              var text = "\n" + p + persons + " van de " + population;
+              return p + percentage.toString().replace(".", ",") + "%" + (window.innerWidth < 750 ? "" : text);
             },
             display: function (context) {
               return context.datasetIndex === 1;
@@ -504,4 +505,3 @@
 	</script>
 </body>
 </html>
-
