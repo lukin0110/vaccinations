@@ -12,6 +12,7 @@ locale.setlocale(locale.LC_ALL, "nl_BE")
 CSV_ENDPOINT = "https://www.laatjevaccineren.be/vaccination-info/get"
 MUNICIPALITIES = [
     "Alken",
+    "Antwerpen",
     "Beringen",
     "Bilzen",
     "Bree",
