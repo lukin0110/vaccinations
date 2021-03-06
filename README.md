@@ -33,10 +33,3 @@ python process.py crunch
 ## Deployment
 
 Webpage is hosted on [AWS Amplify](https://aws.amazon.com/amplify/) and automatically deployed on each commit. 
-
-
-## TODO
-- Navigeer naar ander gemeente
-- Graph Distribution per gender
-- Github Actions
-- Generate og image with current stats
