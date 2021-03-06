@@ -16,8 +16,11 @@
       -webkit-user-select: none;
       -ms-user-select: none;
     }
-      body {
-        background-image: linear-gradient(150deg,#ffffff 30%,#F8F8F8 95%);
+    body {
+     background-image: linear-gradient(150deg,#ffffff 30%,#F8F8F8 95%);
+    }
+    .container {
+      background-color: white;
     }
     .card-header {
       font-size: 1.5em;
@@ -116,7 +119,7 @@
       <div class="row">
         <div class="col-12 text-center mb-4">
           <p class="follow mb-0 pb-0">Volg de dagelijkse updates via <strong>vaccinaties.lukin.be/{{ lower $municipality }}/</strong></p>
-          <small class="text-muted">Laatste update: {{ $data.last_date }} <strong>//</strong> Bron van de cijfers: <strong>Vaccinnet+</strong></small>
+          <small class="text-muted">Bron van de cijfers: <strong>Vaccinnet+</strong></small>
         </div>
       </div>
     </div>
@@ -170,7 +173,7 @@
       <div class="row">
         <div class="col-12 text-center mb-4">
           <p class="follow mb-0 pb-0">Volg de dagelijkse updates via <strong>vaccinaties.lukin.be/{{ lower $municipality }}/</strong></p>
-          <small class="text-muted">Laatste update: {{ $data.last_date }} <strong>//</strong> Bron van de cijfers: <strong>Vaccinnet+</strong></small>
+          <small class="text-muted">Bron van de cijfers: <strong>Vaccinnet+</strong></small>
         </div>
       </div>
     </div>
