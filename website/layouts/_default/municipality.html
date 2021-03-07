@@ -102,7 +102,7 @@
                 <div class="card text-white border-0 bg-success mb-3 flex-fill">
                   <div class="card-header">Volledig gevaccineerd 🚀</div>
                   <div class="card-body">
-                    <h3 class="card-title">{{ range last 1 $data.history_all.timeseries_second_dose }}{{ lang.NumFmt 2 . }}{{ end }}%</h3>
+                    <h3 class="card-title">{{ range last 1 $data.history_all.timeseries_percentage_second_dose }}{{ lang.NumFmt 2 . }}{{ end }}%</h3>
                     <p class="card-text">Dat zijn <strong>{{ $data.history_all.second_dose }}</strong> van de
                       <strong>{{ lang.NumFmt 0 $data.history_all.population "- , ." }}</strong> {{ $inhabitants }}.</p>
                   </div>
@@ -113,7 +113,7 @@
                 <div class="card text-white border-0 bg-primary flex-fill">
                   <div class="card-header">Minstens 1 dosis gehad 🤗</div>
                   <div class="card-body">
-                    <h3 class="card-title">{{ range last 1 $data.history_all.timeseries_minimum_one_dose }}{{ lang.NumFmt 2 . }}{{ end }}%</h3>
+                    <h3 class="card-title">{{ range last 1 $data.history_all.timeseries_percentage_minimum_one_dose }}{{ lang.NumFmt 2 . }}{{ end }}%</h3>
                     <p class="card-text">Dat zijn <strong>{{ $data.history_all.minimum_one_dose }}</strong> van de
                       <strong>{{ lang.NumFmt 0 $data.history_all.population "- , ." }}</strong> {{ $inhabitants }}.</p>
                   </div>
