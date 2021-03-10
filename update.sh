@@ -13,3 +13,4 @@ cd ..
 
 git add data/ website/data/
 git commit -m "Update ${yesterday}"
+git push
