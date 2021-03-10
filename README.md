@@ -33,3 +33,7 @@ python process.py crunch
 ## Deployment
 
 Webpage is hosted on [AWS Amplify](https://aws.amazon.com/amplify/) and automatically deployed on each commit. 
+
+## Other
+
+* [How are inhabitants called?](https://nl.wikipedia.org/wiki/Lijst_van_inwonersbenamingen_naar_plaats-_of_streeknaam_in_Belgi%C3%AB)
