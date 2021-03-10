@@ -6,47 +6,10 @@ import requests
 import typer
 from os import path
 from datetime import date, datetime, timedelta
-from typing import Any, Dict
+from typing import Any, Dict, List
 locale.setlocale(locale.LC_ALL, "nl_BE")
 
 CSV_ENDPOINT = "https://www.laatjevaccineren.be/vaccination-info/get"
-MUNICIPALITIES = [
-    "Alken",
-    "Antwerpen",
-    "Balen",
-    "Beringen",
-    "Bierbeek",
-    "Bilzen",
-    "Boom",
-    "Bree",
-    "Bocholt",
-    "Deinze",
-    "Genk",
-    "Gent",
-    "Hamont-Achel",
-    "Hasselt",
-    "Hechtel-Eksel",
-    "Hemiksem",
-    "Heusden-Zolder",
-    "Houthalen-Helchteren",
-    "Herk-de-Stad",
-    "Ichtegem",
-    "Leopoldsburg",
-    "Lokeren",
-    "Lommel",
-    "Mol",
-    "Nijlen",
-    "Olen",
-    "Oudenaarde",
-    "Oudsbergen",
-    "Peer",
-    "Pelt",
-    "Tongeren",
-    "Turnhout",
-    "Wetteren",
-    "Zoersel",
-    "Zonhoven"
-]
 
 
 def data_path(date_of_file: date) -> str:
@@ -195,6 +158,11 @@ def crunch(df: pd.DataFrame, start_date: date, end_date: date, municipality: str
     }
 
 
+def municipalities(df: pd.DataFrame) -> List[str]:
+    """Return a list of all available municipalities."""
+    return df["MUNICIPALITY"].unique().tolist()
+
+
 cli = typer.Typer()
 
 
@@ -217,13 +185,15 @@ def do_crunch() -> None:
     print(f"Loading data from {_start_date} to {_end_date}")
     df = load_range(_start_date, _end_date)
     print(f"Crunch daily numbers")
-    for municipality in MUNICIPALITIES:
+    ms = municipalities(df)
+    for municipality in ms:
     # for municipality in ["Lommel"]:
         data = crunch(df, _start_date, _end_date, municipality)
         jp = json_path(municipality)
         print(f"Store JSON: {jp}")
         # print(data)
         json.dump(data, open(jp, "w"), indent=4)
+    print(f"Processed: {len(ms)}")
 
 
 if __name__ == "__main__":
