@@ -28,6 +28,7 @@ MUNICIPALITIES = [
     "Hechtel-Eksel",
     "Heusden-Zolder",
     "Houthalen-Helchteren",
+    "Herk-de-Stad",
     "Ichtegem",
     "Leopoldsburg",
     "Lokeren",
