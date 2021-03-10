@@ -1,6 +1,6 @@
 ---
 layout: screenshots
-data: numbers_lommel
-municipality: Lommel
-inhabitants: Lommelaars
+data: numbers_dentergem
+municipality: Dentergem
+inhabitants: Dentergemnaars
 ---
