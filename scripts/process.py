@@ -26,6 +26,7 @@ MUNICIPALITIES = [
     "Hamont-Achel",
     "Hasselt",
     "Hechtel-Eksel",
+    "Hemiksem",
     "Heusden-Zolder",
     "Houthalen-Helchteren",
     "Herk-de-Stad",
