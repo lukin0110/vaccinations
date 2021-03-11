@@ -41,7 +41,7 @@ Shortcut to download, crunch, commit & push a daily update.
 
 Webpage is hosted on [AWS Amplify](https://aws.amazon.com/amplify/) and automatically deployed on each commit. 
 
-AWS Amplify build script (needs to be copy/pasted to the AWS Console).
+AWS Amplify build script. Needs to be copy/pasted in the AWS Amplify Console.
 ```yaml
 version: 1
 applications:
