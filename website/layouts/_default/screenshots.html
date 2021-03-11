@@ -215,7 +215,7 @@
           fill: false,
           pointRadius: 0,
           pointHoverRadius: 0,
-          lineTension: 0.09,
+          lineTension: 0.25,
           datalabels: {color: colorGreen},
 					backgroundColor: colorGreen,
 					borderColor: colorGreen,
@@ -225,7 +225,7 @@
 					fill: false,
           pointRadius: 0,
           pointHoverRadius: 0,
-          lineTension: 0.09,
+          lineTension: 0.25,
           datalabels: {color: colorBlue},
 					backgroundColor: colorBlue,
 					borderColor: colorBlue,
@@ -275,6 +275,7 @@
             ticks: {
               fontSize: fontSize2,
               suggestedMax: 10,
+              min: 0,
               callback: function(v, i, vv) {
                   return v.toFixed(2).toString().replace(".", ".") + "%";
               }

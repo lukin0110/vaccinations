@@ -107,11 +107,11 @@ def crunch_history(df: pd.DataFrame) -> Dict[str, Any]:
         "minimum_one_dose": total_first_dose + total_second_dose,
         "first_dose": total_first_dose,
         "second_dose": total_second_dose,
-        "timeseries_minimum_one_dose": [0] + grouped["VACCINATED_ONE_DOSIS_NBR"].tolist(),
-        "timeseries_second_dose": [0] + grouped["VACCINATED_SECOND_DOSIS_NBR"].tolist(),
-        "timeseries_percentage_minimum_one_dose": [0] + grouped["VACCINATED_ONE_DOSIS_NBR"].apply(
+        "timeseries_minimum_one_dose": grouped["VACCINATED_ONE_DOSIS_NBR"].tolist(),
+        "timeseries_second_dose": grouped["VACCINATED_SECOND_DOSIS_NBR"].tolist(),
+        "timeseries_percentage_minimum_one_dose": grouped["VACCINATED_ONE_DOSIS_NBR"].apply(
             lambda v: round(v / population * 100, 2)).tolist(),
-        "timeseries_percentage_second_dose": [0] + grouped["VACCINATED_SECOND_DOSIS_NBR"].apply(
+        "timeseries_percentage_second_dose": grouped["VACCINATED_SECOND_DOSIS_NBR"].apply(
             lambda v: round(v / population * 100, 2)).tolist()
     }
 
@@ -236,7 +236,7 @@ def do_fetch(date_to_fetch: str = typer.Argument(...)) -> None:
 def do_crunch() -> None:
     """Compute timeseries & store results to a JSON file."""
     # _start_date = date(2021, 1, 11)
-    _start_date = date(2021, 2, 24)
+    _start_date = date(2021, 2, 25)
     _end_date = date.today() - timedelta(days=1)
     print(f"Loading data from {_start_date} to {_end_date}")
     df = load_range(_start_date, _end_date)
