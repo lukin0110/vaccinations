@@ -1,39 +1,62 @@
-# Vaccination Stats per municipality
-Dashboard to visualize the progress of the covid vaccination per municipality.
+# Vaccination stats per municipality
+Dashboard to visualize the progress of covid vaccinations per municipality.
 
-Numbers are imported on a daily basis from [Vaccinnet+](https://www.laatjevaccineren.be/vaccinnet). Vaccinnet+ is a 
-platform from the Flemish Government.
+Numbers are imported on a daily basis from [Vaccinnet+](https://www.laatjevaccineren.be/vaccinnet). Vaccinnet+ is the 
+platform of the Flemish Government to manage the covid vaccinations.
 
 CSV endpoint: https://www.laatjevaccineren.be/vaccination-info/get
 
-## Hugo commands
+## Build Hugo website
+A statically generated Hugo site. 
 
-Build
+Build:
 ```bash
 cd website
 hugo -D --minify
 ```
 
-Dev server
+Dev server (http://localhost:1313):
 ```bash
 cd website
 hugo server --minify --ignoreCache
 ```
 
 ## Import & process CSV
-A script that downloads the CSV, with the daily vaccination status, and compute the numbers for a given municipality 
-(eg: Lommel). The CSV will be added to the [data folder](./data). The output of the crunched numbers will be added to 
-the [Hugo data folder](./website/data/).
+A python script that downloads the CSV, with the daily vaccination status, and computes the numbers for all available 
+municipalities. The CSV will be added to the [data folder](./data). The output of the crunched numbers (JSON dumps) 
+will be added to the [Hugo data folder](./website/data/) per municipality.
 
 ```bash
 cd scripts
-python process.py fetch
+python process.py fetch 11-03-2021
 python process.py crunch
+```
+
+Shortcut to download, crunch, commit & push a daily update.
+```bash
+./update.sh
 ```
 
 ## Deployment
 
 Webpage is hosted on [AWS Amplify](https://aws.amazon.com/amplify/) and automatically deployed on each commit. 
+
+AWS Amplify build script (needs to be copy/pasted to the AWS Console).
+```yaml
+version: 1
+applications:
+  - frontend:
+      phases:
+        build:
+          commands:
+            - hugo -D --minify
+      artifacts:
+        baseDirectory: public
+        files:
+          - '**/*'
+    appRoot: website
+```
+
 
 ## Other
 

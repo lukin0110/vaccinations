@@ -161,6 +161,8 @@ def crunch(df: pd.DataFrame, start_date: date, end_date: date, municipality: str
     mdf = df[df["MUNICIPALITY"] == municipality]
     config = load_config()
     entry = config[config["MUNICIPALITY"] == municipality]["INHABITANTS"]
+    province = mdf["PROVINCE"].tolist()[0]
+    zone = mdf["EERSTELIJNSZONE"].tolist()[0]
     inhabitants = entry.values[0] if len(entry.values) else "inwoners"
 
     return {
@@ -180,6 +182,8 @@ def crunch(df: pd.DataFrame, start_date: date, end_date: date, municipality: str
             **crunch_per_age(mdf.copy())
         },
         "municipality": municipality,
+        "province": province,
+        "zone": zone,
         "inhabitants": inhabitants,
         "last_date": f"{df.last_date:%d/%m/%Y}"
     }

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 {{ $last_date := (index $.Site.Data "numbers_lommel" ).last_date }}
-{{ $title := printf "Covid Vaccinaties per gemeente" }}
-{{ $description := printf "Dagelijkse update over de vaccinatie cijfers in jouw gemeente."}}
+{{ $title := .Site.Title }}
+{{ $description := printf "Vaccinatieteller: dagelijkse update over de vooruitgang van de vaccinatie cijfers in jouw gemeente."}}
 
 <html lang="nl"
       xmlns:og="http://opengraphprotocol.org/schema/"
@@ -9,7 +9,9 @@
       xmlns="http://www.w3.org/1999/html">
 <head>
   <meta charset="utf-8">
+  <link rel="canonical" href="{{ .Permalink }}">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="keywords" content="Vaccinatieteller,covid,vaccinaties,gemeente,vlaanderen">
   <meta name="description" content="{{ $description }}">
   <meta name="author" content="{{ .Site.Author.name }}">
   <link rel="icon" type="image/svg+xml" href="/img/syringe.svg">

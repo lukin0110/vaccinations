@@ -3,9 +3,11 @@
 {{ $dirname := printf "numbers_%s" (lower (replace .Dir "/" "")) }}
 {{ $data := (index $.Site.Data $dirname )}}
 {{ $municipality := $data.municipality }}
+{{ $province := $data.province }}
+{{ $zone := $data.zone }}
 {{ $inhabitants := $data.inhabitants }}
-{{ $title := printf "Covid Vaccinaties %s" $municipality }}
-{{ $description := printf "Dagelijkse update over de vaccinatie cijfers in %s." $municipality }}
+{{ $title := printf "Vaccinatieteller %s" $municipality }}
+{{ $description := printf "Vaccinatieteller: dagelijkse update over de vaccinatie cijfers in %s." $municipality }}
 {{ $ogImage := (cond (ne ($.Param "og") nil) .Params.Og "default.png") }}
 
 <html lang="nl"
@@ -14,17 +16,19 @@
       xmlns="http://www.w3.org/1999/html">
 <head>
   <meta charset="utf-8">
+  <link rel="canonical" href="{{ .Permalink }}">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="keywords" content="Vaccinatieteller,{{ $municipality }},{{ $province }},{{ $zone }},covid,vaccinaties">
   <meta name="description" content="{{ $description }}">
   <meta name="author" content="{{ .Site.Author.name }}">
   <link rel="icon" type="image/svg+xml" href="/img/syringe.svg">
   <link rel="icon" type="image/png" href="/img/syringe.png">
   <meta name="theme-color" content="#198754">
   <meta name="robots" content="index, follow">
-  <link rel='dns-prefetch' href='//cdnjs.cloudflare.com'/>
-  <link rel='dns-prefetch' href='//maxcdn.bootstrapcdn.com'/>
-  <link rel='dns-prefetch' href='//code.jquery.com'/>
-  <link rel='dns-prefetch' href='//cdn.jsdelivr.net'/>
+  <link rel="dns-prefetch" href="//cdnjs.cloudflare.com"/>
+  <link rel="dns-prefetch" href="//maxcdn.bootstrapcdn.com"/>
+  <link rel="dns-prefetch" href="//code.jquery.com"/>
+  <link rel="dns-prefetch" href="//cdn.jsdelivr.net"/>
   <title>{{ $title }}</title>
   <meta property="og:title" content="{{ $title }}">
   <meta property="og:locale" content="nl_BE">
@@ -70,10 +74,10 @@
   <main class="container" id="main">
     <div class="px-3 py-3 py-md-5 mb-4 mx-auto text-center">
       <h1 class="display-4">Covid Vaccinaties in {{ $municipality }} 💉</h1>
-      <p class="lead mb-0">Dagelijkse update over de vaccinatie cijfers van inwoners van {{ $municipality }}. 💚 </p>
+      <p class="lead mb-2">Dagelijkse update over de vaccinatie cijfers van inwoners van {{ $municipality }} ({{ $province }}). 💚 </p>
       <small class="text-muted">Laatste update: {{ $data.last_date }}
-        <strong>//</strong> Dagelijks in de voormiddag
         <strong>//</strong> Bron: <a href="https://www.laatjevaccineren.be/vaccinnet" target="_blank">Vaccinnet+</a>
+        <strong>//</strong> Eerstelijnszone: {{ $zone }}
       </small>
     </div>
 
