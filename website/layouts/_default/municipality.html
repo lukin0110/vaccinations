@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <!-- Define Data from the Hugo data folder. Eg: `numbers_lommel` -->
-{{ $data := (index $.Site.Data .Params.Data )}}
-{{ $municipality := .Params.Municipality }}
+{{ $dirname := printf "numbers_%s" (lower (replace .Dir "/" "")) }}
+{{ $data := (index $.Site.Data $dirname )}}
+{{ $municipality := $data.municipality }}
 {{ $inhabitants := .Params.Inhabitants }}
 {{ $title := printf "Covid Vaccinaties %s" .Params.Municipality }}
 {{ $description := printf "Dagelijkse update over de vaccinatie cijfers in %s." .Params.Municipality }}

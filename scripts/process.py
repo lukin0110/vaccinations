@@ -154,6 +154,7 @@ def crunch(df: pd.DataFrame, start_date: date, end_date: date, municipality: str
             "labels": ["80+", "60-79", "40-59", "20-39", "0-19"],
             **crunch_per_age(mdf.copy())
         },
+        "municipality": municipality,
         "last_date": f"{df.last_date:%d/%m/%Y}"
     }
 

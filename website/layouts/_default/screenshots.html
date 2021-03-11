@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <!-- Define Data from the Hugo data folder. Eg: `numbers_lommel` -->
-{{ $data := (index $.Site.Data .Params.Data )}}
-{{ $municipality := .Params.Municipality }}
+{{ $dirname := printf "numbers_%s" (lower (replace .Dir "/" "")) }}
+{{ $data := (index $.Site.Data $dirname )}}
+{{ $municipality := $data.municipality }}
 {{ $inhabitants := .Params.Inhabitants }}
 
 <html lang="nl">
@@ -9,7 +10,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex">
-  <title>Generate image</title>
+  <title>Genereer screenshots</title>
   <style>
     canvas{
       -moz-user-select: none;
@@ -58,12 +59,14 @@
   </div>
 
   <div id="rendered" style="display: none">
+    <p class="alert alert-danger">OPGELET: open deze pagina op <strong>een computer en NIET op je smartphone</strong> . Op en een
+      smartphone renderen de screenshots niet goed.</p>
     <h1 class="border-bottom">Screenshot percentage volwassenen</h1>
-    <p>Gerenderde screenshot. Rechts klikken om te downloaden.</p>
+    <p>Rechts klikken om te downloaden.</p>
     <div class="screenshot mb-5" id="target-history-adults"></div>
 
     <h1 class="border-bottom">Screenshot per leeftijd</h1>
-    <p>Gerenderde screenshot. Rechts klikken om te downloaden.</p>
+    <p>Rechts klikken om te downloaden.</p>
     <div class="screenshot mb-5" id="target-per-age" title="Right click to download the image"></div>
   </div>
 

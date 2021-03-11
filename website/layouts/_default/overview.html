@@ -85,10 +85,12 @@
     <div class="row pb-5 pb-md-5">
       {{ range where .Site.Pages "Params.layout" "municipality" }}
       {{ $inhabitants := .Params.Inhabitants }}
-      {{ $data := (index $.Site.Data .Params.Data )}}
+      {{ $dirname := printf "numbers_%s" (lower (replace .File.Dir "/" "")) }}
+      {{ $data := (index $.Site.Data $dirname )}}
+      {{ $municipality := $data.municipality }}
       <div class="municipality row py-4 border-top" onclick="window.location = '{{ .Permalink }}'">
         <div class="col-12 col-md-2">
-          <h2><a href="{{ .Permalink }}">{{ .Params.Municipality }}</a></h2>
+          <h2><a href="{{ .Permalink }}">{{ $municipality }}</a></h2>
         </div>
         <div class="col-12 col-md-5 d-flex">
           <div class="card text-white border-0 bg-success mb-2 flex-fill">
