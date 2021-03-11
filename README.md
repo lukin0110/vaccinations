@@ -1,5 +1,5 @@
-# vaccinations-lommel
-Dashboard to visualize the progress of the covid vaccination in Lommel.
+# Vaccination Stats per municipality
+Dashboard to visualize the progress of the covid vaccination per municipality.
 
 Numbers are imported on a daily basis from [Vaccinnet+](https://www.laatjevaccineren.be/vaccinnet). Vaccinnet+ is a 
 platform from the Flemish Government.
@@ -21,8 +21,9 @@ hugo server --minify --ignoreCache
 ```
 
 ## Import & process CSV
-A script that downloads the CSV and compute the numbers for a given municipality (eg: Lommel). The CSV will be added to 
-the [data folder](./data). The output of the crunched numbers will be added to the [Hugo data folder](./website/data/).
+A script that downloads the CSV, with the daily vaccination status, and compute the numbers for a given municipality 
+(eg: Lommel). The CSV will be added to the [data folder](./data). The output of the crunched numbers will be added to 
+the [Hugo data folder](./website/data/).
 
 ```bash
 cd scripts
