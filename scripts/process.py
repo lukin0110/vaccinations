@@ -4,6 +4,9 @@ import locale
 import pandas as pd
 import requests
 import typer
+import os
+import re
+import unicodedata
 from os import path
 from datetime import date, datetime, timedelta
 from typing import Any, Dict, List
@@ -11,6 +14,16 @@ from functools import lru_cache
 locale.setlocale(locale.LC_ALL, "nl_BE")
 
 CSV_ENDPOINT = "https://www.laatjevaccineren.be/vaccination-info/get"
+
+
+def slugify(value: str, allow_unicode: bool = False) -> str:
+    """Create a slug from a given string."""
+    if allow_unicode:
+        value = unicodedata.normalize("NFKC", value)
+    else:
+        value = unicodedata.normalize("NFKD", value).encode("ascii", "ignore").decode("ascii")
+    value = re.sub(r"[^\w\s\-.]", "", value).strip().lower()
+    return re.sub(r"[\s\-.]+", "-", value)
 
 
 def data_path(date_of_file: date) -> str:
@@ -22,7 +35,7 @@ def data_path(date_of_file: date) -> str:
 def json_path(municipality: str) -> str:
     """Construct absolute path of the JSON output."""
     output_dir = path.realpath(path.join(path.dirname(path.realpath(__file__)), "..", "website", "data"))
-    return path.join(output_dir, f"numbers_{municipality.lower()}.json")
+    return path.join(output_dir, f"numbers_{slugify(municipality)}.json")
 
 
 def fetch(date_to_store: date, endpoint: str = CSV_ENDPOINT) -> None:
@@ -177,7 +190,36 @@ def municipalities(df: pd.DataFrame) -> List[str]:
     return df["MUNICIPALITY"].unique().tolist()
 
 
+def create_content(df: pd.DataFrame) -> None:
+    """Create Hugo content folders for each municipality."""
+    ms = municipalities(df)
+    content_path = path.realpath(path.join(path.dirname(path.realpath(__file__)), "..", "website", "content"))
+    for municipality in ms:
+        slug = slugify(municipality)
+        dir_path = path.join(content_path, slug)
+        index_path = path.join(content_path, slug, "_index.md")
+        screenshots_path = path.join(content_path, slug, "screenshots.md")
+        os.makedirs(dir_path, exist_ok=True)
+        if not path.exists(index_path):
+            with open(index_path, "w") as fh_index:
+                fh_index.write("---\nlayout: municipality\n---")
+        if not path.exists(screenshots_path):
+            with open(screenshots_path, "w") as fh_screenshots:
+                fh_screenshots.write("---\nlayout: screenshots\n---")
+
+
 cli = typer.Typer()
+
+
+@cli.command(name="content")
+def do_content() -> None:
+    """Create municipality directories."""
+    _start_date = date(2021, 2, 24)
+    _end_date = date.today() - timedelta(days=1)
+    print(f"Loading data from {_start_date} to {_end_date}")
+    df = load_range(_start_date, _end_date)
+    print("Creating directories ...")
+    create_content(df)
 
 
 @cli.command(name="fetch")
