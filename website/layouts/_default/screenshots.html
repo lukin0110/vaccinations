@@ -32,6 +32,9 @@
     .screenshot {
       border: 1px solid black;
     }
+    .message {
+      border: 1px solid black;
+    }
     .source .container {
       width: 1000px;
       background-color: white;
@@ -68,8 +71,25 @@
     <h1 class="border-bottom">Screenshot per leeftijd</h1>
     <p>Rechts klikken om te downloaden.</p>
     <div class="screenshot mb-5" id="target-per-age" title="Right click to download the image"></div>
-  </div>
 
+    <h1 class="border-bottom">Facebook bericht</h1>
+    <div class="my-3 p-2 message">
+<pre id="message">📣 Wekelijkse vaccinatieteller update {{ $data.last_date }} 💉 💚
+
+👌 {{ range last 1 $data.history_adults.timeseries_percentage_second_dose }}{{ lang.NumFmt 2 . }}{{ end }}% van de volwassen {{ $inhabitants }} zijn volledig gevaccineerd. Dat zijn {{ lang.NumFmt 0 $data.history_adults.second_dose "- , ." }} van de {{ lang.NumFmt 0 $data.history_adults.population "- , ." }} mensen.
+
+📈 {{ range last 1 $data.history_adults.timeseries_percentage_minimum_one_dose }}{{ lang.NumFmt 2 . }}{{ end }}% van de volwassen {{ $inhabitants }} hebben al een eerste prik gehad. Dat zijn {{ lang.NumFmt 0 $data.history_adults.minimum_one_dose "- , ." }} van de {{ lang.NumFmt 0 $data.history_adults.population "- , ." }} mensen.
+
+🙏 {{ lang.NumFmt 2 (index $data.per_age.percentage_second_dose 0) }}% van de 80-plussers zijn volledig gevaccineerd. Dat zijn {{ lang.NumFmt 0 (index $data.per_age.second_dose 0) "- , ." }} van de {{ lang.NumFmt 0 (index $data.per_age.population 0) "- , ." }} mensen.</p>
+</pre>
+    </div>
+    <button class="btn btn-primary"
+            data-trigger="click"
+            data-clipboard-target="#message"
+            data-toggle="tooltip"
+            data-placement="bottom"
+            title="Gekopieerd">Copy</button>
+  </div>
 
   <div id="source">
     <h1 class="border-bottom">Source for rendering ... </h1>
@@ -140,7 +160,7 @@
             <div class="card-body">
               <div class="row">
                 <div class="col-4">
-                  <h2 class="card-title">{{  lang.NumFmt 2 (index $data.per_age.percentage_second_dose 0) }}%</h2>
+                  <h2 class="card-title">{{ lang.NumFmt 2 (index $data.per_age.percentage_second_dose 0) }}%</h2>
                 </div>
                 <div class="col-8">
                   <p class="card-text ml-3">Dat zijn <strong>{{ lang.NumFmt 0 (index $data.per_age.second_dose 0) "- , ." }}</strong> van de
@@ -182,9 +202,15 @@
     </div>
   </div>
 
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.min.js" integrity="sha512-SuxO9djzjML6b9w9/I07IWnLnQhgyYVSpHZx0JV97kGBfTIsUYlWflyuW4ypnvhBrslz1yJ3R+S14fdCWmSmSA==" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"></script>
+  <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js" integrity="sha512-s/XK4vYVXTGeUSv4bRPOuxSDmDlTedEpMEcAQk0t/FMd9V6ft8iXdwSBxV0eD60c6w/tjotSlKu9J2AAW1ckTA==" crossorigin="anonymous"></script>-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js" integrity="sha512-OqcrADJLG261FZjar4Z6c4CfLqd861A3yPNMb+vRQ2JwzFT49WT4lozrh3bcKxHxtDTgNiqgYbEUStzvZQRfgQ==" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
 
   <script>
     // Data for the datasets
@@ -318,7 +344,7 @@
               size: fontSize1
             },
             formatter: function (value, context) {
-              var p = "     ";
+              var p = "      ";
               var i = context.dataIndex;
               var percentage =  (PER_AGE_PERCENTAGE_FIRST_DOSE[i] + PER_AGE_PERCENTAGE_SECOND_DOSE[i]).toFixed(2);
               var persons = Math.floor(PER_AGE_FIRST_DOSE[i] + PER_AGE_SECOND_DOSE[i]).toLocaleString().replace(",", ".");
@@ -365,8 +391,6 @@
     }
 	</script>
 
-  <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js" integrity="sha512-s/XK4vYVXTGeUSv4bRPOuxSDmDlTedEpMEcAQk0t/FMd9V6ft8iXdwSBxV0eD60c6w/tjotSlKu9J2AAW1ckTA==" crossorigin="anonymous"></script>-->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js" integrity="sha512-OqcrADJLG261FZjar4Z6c4CfLqd861A3yPNMb+vRQ2JwzFT49WT4lozrh3bcKxHxtDTgNiqgYbEUStzvZQRfgQ==" crossorigin="anonymous"></script>
   <script>
     function render(sourceId, targetId) {
       var source = document.getElementById(sourceId);
@@ -384,6 +408,10 @@
       new Chart(ctx, Object.assign({}, configHistory, dataHistory));
       var ctxPerAge = document.getElementById('canvasPerAge').getContext('2d');
       new Chart(ctxPerAge, Object.assign({}, configPerAge, dataPerAge));
+      $(function () {
+        new ClipboardJS('.btn');
+        $('[data-toggle="tooltip"]').tooltip()
+      })
 
       setTimeout(function () {
         render("source-history-adults", "target-history-adults");
