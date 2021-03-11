@@ -1,0 +1,4 @@
+---
+layout: municipality
+inhabitants: Oudenburgers
+---
