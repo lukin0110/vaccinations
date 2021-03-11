@@ -4,8 +4,8 @@
 {{ $data := (index $.Site.Data $dirname )}}
 {{ $municipality := $data.municipality }}
 {{ $inhabitants := .Params.Inhabitants }}
-{{ $title := printf "Covid Vaccinaties %s" .Params.Municipality }}
-{{ $description := printf "Dagelijkse update over de vaccinatie cijfers in %s." .Params.Municipality }}
+{{ $title := printf "Covid Vaccinaties %s" $municipality }}
+{{ $description := printf "Dagelijkse update over de vaccinatie cijfers in %s." $municipality }}
 {{ $ogImage := (cond (ne ($.Param "og") nil) .Params.Og "default.png") }}
 
 <html lang="nl"
