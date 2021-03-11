@@ -7,6 +7,7 @@ import typer
 from os import path
 from datetime import date, datetime, timedelta
 from typing import Any, Dict, List
+from functools import lru_cache
 locale.setlocale(locale.LC_ALL, "nl_BE")
 
 CSV_ENDPOINT = "https://www.laatjevaccineren.be/vaccination-info/get"
@@ -62,6 +63,14 @@ def load_range(start_date: date, end_date: date) -> pd.DataFrame:
     all_df = pd.concat(dfs)
     all_df.last_date = last_date
     return all_df
+
+
+@lru_cache(maxsize=1)
+def load_config() -> pd.DataFrame:
+    """Load municipality config into a DataFrame."""
+    data_dir = path.realpath(path.join(path.dirname(path.realpath(__file__)), "..", "data"))
+    config_path = path.join(data_dir, "config.csv")
+    return pd.read_csv(config_path)
 
 
 def crunch_history(df: pd.DataFrame) -> Dict[str, Any]:
@@ -137,6 +146,9 @@ def crunch(df: pd.DataFrame, start_date: date, end_date: date, municipality: str
     # labels = [f"{d:%d-%m}" for d in date_range]
     labels = [f"{d:%d-%b}" for d in date_range]
     mdf = df[df["MUNICIPALITY"] == municipality]
+    config = load_config()
+    entry = config[config["MUNICIPALITY"] == municipality]["INHABITANTS"]
+    inhabitants = entry.values[0] if len(entry.values) else "inwoners"
 
     return {
         # Timeseries: historical numbers, all ages
@@ -155,6 +167,7 @@ def crunch(df: pd.DataFrame, start_date: date, end_date: date, municipality: str
             **crunch_per_age(mdf.copy())
         },
         "municipality": municipality,
+        "inhabitants": inhabitants,
         "last_date": f"{df.last_date:%d/%m/%Y}"
     }
 

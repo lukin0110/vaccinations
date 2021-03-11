@@ -1,4 +1,3 @@
 ---
 layout: screenshots
-inhabitants: Wetteraars
 ---

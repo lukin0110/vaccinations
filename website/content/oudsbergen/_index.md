@@ -1,4 +1,3 @@
 ---
 layout: municipality
-inhabitants: Oudsbergenaren
 ---

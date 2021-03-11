@@ -3,7 +3,7 @@
 {{ $dirname := printf "numbers_%s" (lower (replace .Dir "/" "")) }}
 {{ $data := (index $.Site.Data $dirname )}}
 {{ $municipality := $data.municipality }}
-{{ $inhabitants := .Params.Inhabitants }}
+{{ $inhabitants := $data.inhabitants }}
 
 <html lang="nl">
 <head>
