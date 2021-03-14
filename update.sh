@@ -8,7 +8,7 @@ set -e
 # 5. AWS Amplify will automatically re-deploy
 
 if [ "$(git status --porcelain)" ]; then
-  echo "Warning: Git is not clean. Commit your changes first."
+  echo "Warning: Git is not clean. Commit (or stash) your changes first."
   exit 1
 fi
 

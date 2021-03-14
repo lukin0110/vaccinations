@@ -153,7 +153,7 @@ def crunch_per_age(df: pd.DataFrame) -> Dict[str, Any]:
     }
 
 
-def crunch(df: pd.DataFrame, start_date: date, end_date: date, municipality: str) -> Any:
+def crunch(df: pd.DataFrame, start_date: date, end_date: date, municipality: str) -> Dict[str, Any]:
     """."""
     date_range = pd.date_range(start=start_date, end=end_date).tolist()
     # labels = [f"{d:%d-%m}" for d in date_range]
