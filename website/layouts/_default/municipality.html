@@ -104,8 +104,10 @@
                   <div class="card-header">Volledig gevaccineerd 🚀</div>
                   <div class="card-body">
                     <h3 class="card-title">{{ range last 1 $data.history_all.timeseries_percentage_second_dose }}{{ lang.NumFmt 2 . }}{{ end }}%</h3>
-                    <p class="card-text">Dat zijn <strong>{{ $data.history_all.second_dose }}</strong> van de
+                    <p class="card-text">Dat zijn <strong>{{ lang.NumFmt 0 $data.history_all.second_dose "- , ." }}</strong> van de
                       <strong>{{ lang.NumFmt 0 $data.history_all.population "- , ." }}</strong> {{ $inhabitants }}.</p>
+                    <hr>
+                    <small class="">Dat is zijn <strong>{{ lang.NumFmt 0 $data.history_all.diff_7_second_dose "- , ."  }}</strong> mensen extra sinds vorige week ({{ $data.date_diff_7 }}).</small>
                   </div>
                 </div>
               </div>
@@ -115,8 +117,10 @@
                   <div class="card-header">Minstens 1 dosis gehad 🤗</div>
                   <div class="card-body">
                     <h3 class="card-title">{{ range last 1 $data.history_all.timeseries_percentage_minimum_one_dose }}{{ lang.NumFmt 2 . }}{{ end }}%</h3>
-                    <p class="card-text">Dat zijn <strong>{{ $data.history_all.minimum_one_dose }}</strong> van de
+                    <p class="card-text">Dat zijn <strong>{{ lang.NumFmt 0 $data.history_all.minimum_one_dose "- , ." }}</strong> van de
                       <strong>{{ lang.NumFmt 0 $data.history_all.population "- , ." }}</strong> {{ $inhabitants }}.</p>
+                    <hr>
+                    <small class="">Dat is zijn <strong>{{ lang.NumFmt 0 $data.history_all.diff_7_minimum_one_dose "- , ."  }}</strong> mensen extra sinds vorige week ({{ $data.date_diff_7 }}).</small>
                   </div>
                 </div>
               </div>
@@ -141,6 +145,8 @@
                     <h3 class="card-title">{{ range last 1 $data.history_adults.timeseries_percentage_second_dose }}{{ lang.NumFmt 2 . }}{{ end }}%</h3>
                     <p class="card-text">Dat zijn <strong>{{ lang.NumFmt 0 $data.history_adults.second_dose "- , ." }}</strong> van de
                       <strong>{{ lang.NumFmt 0 $data.history_adults.population "- , ." }}</strong> volwassen {{ $inhabitants }}.</p>
+                    <hr>
+                    <small class="">Dat is zijn <strong>{{ lang.NumFmt 0 $data.history_adults.diff_7_second_dose "- , ."  }}</strong> mensen extra sinds vorige week ({{ $data.date_diff_7 }}).</small>
                   </div>
                 </div>
               </div>
@@ -152,6 +158,8 @@
                     <h3 class="card-title">{{ range last 1 $data.history_adults.timeseries_percentage_minimum_one_dose }}{{ lang.NumFmt 2 . }}{{ end }}%</h3>
                     <p class="card-text">Dat zijn <strong>{{ lang.NumFmt 0 $data.history_adults.minimum_one_dose "- , ." }}</strong> van de
                       <strong>{{ lang.NumFmt 0 $data.history_adults.population "- , ." }}</strong> volwassen {{ $inhabitants }}.</p>
+                    <hr>
+                    <small class="">Dat is zijn <strong>{{ lang.NumFmt 0 $data.history_adults.diff_7_minimum_one_dose "- , ."  }}</strong> mensen extra sinds vorige week ({{ $data.date_diff_7 }}).</small>
                   </div>
                 </div>
               </div>
@@ -262,6 +270,7 @@
     var colorGreen = '#198754';
     var fontSize1 = 14;
     var fontSize2 = 16;
+    var suggestedMax = 14;
 
     Chart.Tooltip.positioners.custom = function(elements, eventPosition) {
       return {
@@ -356,7 +365,7 @@
 						},
             ticks: {
               fontSize: fontSize2,
-              suggestedMax: 10,
+              suggestedMax: suggestedMax,
               min: 0,
               callback: function(value) {
                   return value.toFixed(2).toString().replace(".", ".") + "%";

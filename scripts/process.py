@@ -3,6 +3,7 @@ import json
 import locale
 import pandas as pd
 import requests
+import time
 import typer
 import os
 import re
@@ -101,14 +102,18 @@ def crunch_history(df: pd.DataFrame) -> Dict[str, Any]:
     population = int(last_df["POPULATION_NBR"].fillna(0).sum())
     total_first_dose = int(last_df["VACCINATED_FIRST_DOSIS_NBR"].fillna(0).sum())
     total_second_dose = int(last_df["VACCINATED_SECOND_DOSIS_NBR"].fillna(0).sum())
+    timeseries_minimum_one_dose = grouped["VACCINATED_ONE_DOSIS_NBR"].tolist()
+    timeseries_second_dose = grouped["VACCINATED_SECOND_DOSIS_NBR"].tolist()
 
     return {
         "population": population,
         "minimum_one_dose": total_first_dose + total_second_dose,
         "first_dose": total_first_dose,
         "second_dose": total_second_dose,
-        "timeseries_minimum_one_dose": grouped["VACCINATED_ONE_DOSIS_NBR"].tolist(),
-        "timeseries_second_dose": grouped["VACCINATED_SECOND_DOSIS_NBR"].tolist(),
+        "diff_7_minimum_one_dose": timeseries_minimum_one_dose[-1] - timeseries_minimum_one_dose[-8],
+        "diff_7_second_dose": timeseries_second_dose[-1] - timeseries_second_dose[-8],
+        "timeseries_minimum_one_dose": timeseries_minimum_one_dose,
+        "timeseries_second_dose": timeseries_second_dose,
         "timeseries_percentage_minimum_one_dose": grouped["VACCINATED_ONE_DOSIS_NBR"].apply(
             lambda v: round(v / population * 100, 2)).tolist(),
         "timeseries_percentage_second_dose": grouped["VACCINATED_SECOND_DOSIS_NBR"].apply(
@@ -185,7 +190,8 @@ def crunch(df: pd.DataFrame, start_date: date, end_date: date, municipality: str
         "province": province,
         "zone": zone,
         "inhabitants": inhabitants,
-        "last_date": f"{df.last_date:%d/%m/%Y}"
+        "last_date": f"{df.last_date:%d/%m/%Y}",
+        "date_diff_7": f"{df.last_date - pd.Timedelta(days=7):%d/%m/%Y}",
     }
 
 
@@ -240,6 +246,7 @@ def do_fetch(date_to_fetch: str = typer.Argument(...)) -> None:
 def do_crunch() -> None:
     """Compute timeseries & store results to a JSON file."""
     # _start_date = date(2021, 1, 11)
+    ts = time.perf_counter()
     _start_date = date(2021, 2, 25)
     _end_date = date.today() - timedelta(days=1)
     print(f"Loading data from {_start_date} to {_end_date}")
@@ -254,6 +261,8 @@ def do_crunch() -> None:
         # print(data)
         json.dump(data, open(jp, "w"), indent=4)
     print(f"Processed: {len(ms)}")
+    te = time.perf_counter()
+    print(f"💥 Timing: {te - ts:.3f}s")
 
 
 if __name__ == "__main__":
