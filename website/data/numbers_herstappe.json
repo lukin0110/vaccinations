@@ -21,14 +21,15 @@
             "14-mrt",
             "15-mrt",
             "16-mrt",
-            "17-mrt"
+            "17-mrt",
+            "18-mrt"
         ],
         "population": 79,
         "minimum_one_dose": 6,
-        "first_dose": 3,
-        "second_dose": 3,
+        "first_dose": 2,
+        "second_dose": 4,
         "diff_7_minimum_one_dose": 0,
-        "diff_7_second_dose": 0,
+        "diff_7_second_dose": 1,
         "timeseries_minimum_one_dose": [
             4,
             4,
@@ -36,6 +37,7 @@
             4,
             5,
             5,
+            6,
             6,
             6,
             6,
@@ -73,7 +75,8 @@
             3,
             3,
             3,
-            3
+            3,
+            4
         ],
         "timeseries_percentage_minimum_one_dose": [
             5.06,
@@ -82,6 +85,7 @@
             5.06,
             6.33,
             6.33,
+            7.59,
             7.59,
             7.59,
             7.59,
@@ -119,7 +123,8 @@
             3.8,
             3.8,
             3.8,
-            3.8
+            3.8,
+            5.06
         ]
     },
     "history_adults": {
@@ -144,14 +149,15 @@
             "14-mrt",
             "15-mrt",
             "16-mrt",
-            "17-mrt"
+            "17-mrt",
+            "18-mrt"
         ],
         "population": 66,
         "minimum_one_dose": 6,
-        "first_dose": 3,
-        "second_dose": 3,
+        "first_dose": 2,
+        "second_dose": 4,
         "diff_7_minimum_one_dose": 0,
-        "diff_7_second_dose": 0,
+        "diff_7_second_dose": 1,
         "timeseries_minimum_one_dose": [
             4,
             4,
@@ -159,6 +165,7 @@
             4,
             5,
             5,
+            6,
             6,
             6,
             6,
@@ -196,7 +203,8 @@
             3,
             3,
             3,
-            3
+            3,
+            4
         ],
         "timeseries_percentage_minimum_one_dose": [
             6.06,
@@ -205,6 +213,7 @@
             6.06,
             7.58,
             7.58,
+            9.09,
             9.09,
             9.09,
             9.09,
@@ -242,7 +251,8 @@
             4.55,
             4.55,
             4.55,
-            4.55
+            4.55,
+            6.06
         ]
     },
     "per_age": {
@@ -264,28 +274,28 @@
             0,
             1,
             1,
-            1,
+            0,
             0
         ],
         "second_dose": [
             2,
             0,
             1,
-            0,
+            1,
             0
         ],
         "percentage_first_dose": [
             0.0,
             4.17,
             5.26,
-            6.25,
+            0.0,
             0.0
         ],
         "percentage_second_dose": [
             33.33,
             0.0,
             5.26,
-            0.0,
+            6.25,
             0.0
         ]
     },
@@ -293,6 +303,6 @@
     "province": "Limburg",
     "zone": "Zuid-Oost Limburg",
     "inhabitants": "inwoners",
-    "last_date": "17/03/2021",
-    "date_diff_7": "10/03/2021"
+    "last_date": "18/03/2021",
+    "date_diff_7": "11/03/2021"
 }
