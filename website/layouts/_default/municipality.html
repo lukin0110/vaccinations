@@ -214,8 +214,8 @@
         <div class="col-12 text-center">
           <h6>Bron van de cijfers 🔍</h6>
           <small class="text-muted"><a href="https://www.laatjevaccineren.be/vaccinnet" target="_blank">Vaccinnet+</a> is
-            het vaccinatie platform van de Vlaamse Overheid.<br>Cijfers worden dagelijks in de voormiddag geïmporteerd,
-            behalve op weekenddagen.</small><br><small class="text-muted">Laatste update: {{ $data.last_date }}</small>
+            het vaccinatie platform van de Vlaamse Overheid.<br>Cijfers worden dagelijks in de voormiddag geïmporteerd.
+          </small><br><small class="text-muted">Laatste update: {{ $data.last_date }}</small>
         </div>
       </div>
     </div>
@@ -411,8 +411,8 @@
               size: fontSize1
             },
             formatter: function (value, context) {
-              var p = "      ";
               var i = context.dataIndex;
+              var p = "  " + Array(Math.round(PER_AGE_PERCENTAGE_FIRST_DOSE[i])).join(" ");
               var percentage =  (PER_AGE_PERCENTAGE_FIRST_DOSE[i] + PER_AGE_PERCENTAGE_SECOND_DOSE[i]).toFixed(2);
               var persons = Math.floor(PER_AGE_FIRST_DOSE[i] + PER_AGE_SECOND_DOSE[i]).toLocaleString().replace(",", ".");
               var population = Math.floor(PER_AGE_POPULATION[i]).toLocaleString().replace(",", ".");

@@ -195,6 +195,32 @@ def crunch(df: pd.DataFrame, start_date: date, end_date: date, municipality: str
     }
 
 
+def crunch_region(df: pd.DataFrame, start_date: date, end_date: date) -> Dict[str, Any]:
+    """."""
+    date_range = pd.date_range(start=start_date, end=end_date).tolist()
+    labels = [f"{d:%d-%b}" for d in date_range]
+
+    return {
+        # Timeseries: historical numbers, all ages
+        "history_all": {
+            "labels": labels,
+            **crunch_history(df)
+        },
+        # Timeseries: historical numbers for adults (18+)
+        "history_adults": {
+            "labels": labels,
+            **crunch_history(df[df["ADULT_FL(18+)"] == 1])
+        },
+        # Numbers per age
+        "per_age": {
+            "labels": ["80+", "60-79", "40-59", "20-39", "0-19"],
+            **crunch_per_age(df.copy())
+        },
+        "last_date": f"{df.last_date:%d/%m/%Y}",
+        "date_diff_7": f"{df.last_date - pd.Timedelta(days=7):%d/%m/%Y}",
+    }
+
+
 def municipalities(df: pd.DataFrame) -> List[str]:
     """Return a list of all available municipalities."""
     return df["MUNICIPALITY"].unique().tolist()
@@ -260,6 +286,13 @@ def do_crunch() -> None:
         print(f"Store JSON: {jp}")
         # print(data)
         json.dump(data, open(jp, "w"), indent=4)
+
+    # Crunch Flanders
+    data = crunch_region(df, _start_date, _end_date)
+    jp = json_path("vlaanderen")
+    print(f"Store JSON: {jp}")
+    json.dump(data, open(jp, "w"), indent=4)
+
     print(f"Processed: {len(ms)}")
     te = time.perf_counter()
     print(f"💥 Timing: {te - ts:.3f}s")
