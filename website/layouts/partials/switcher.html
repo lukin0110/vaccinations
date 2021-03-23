@@ -7,11 +7,21 @@
     z-index: 1;
     top: 0;
     left: 0;
-    background-color: #198754 !important;
+    /*background-color: #198754 !important;*/
+    background-color: rgba(25, 135, 84, 0.96) !important;
     overflow-x: hidden;
-    padding-top: 60px;
-    transition: 0.5s;
+    padding-top: 30px;
+    transition: 0.7s;
     color: white;
+  }
+
+  .switcher .alphabet h1 {
+    display: inline-block;
+  }
+
+  .switcher .alphabet a {
+    display: inline-block;
+    padding: 8px 20px;
   }
 
   /* The navigation menu links */
@@ -64,6 +74,14 @@
   <a href="javascript:void(0)" class="closebtn" onclick="closeSwitch()">&times;</a>
   <div class="container">
     <div class="row">
+      <div class="col-12 alphabet">
+        {{ $letters := split "ABCDEFGHIJKLMNOPQRSTUVWXYZ" "" }}
+        {{ range $letters }}
+          <h1><a href="#{{ . }}">{{ . }}</a></h1>
+        {{ end }}
+      </div>
+    </div>
+    <div class="row">
       {{ $.Scratch.Set "first" "" }}
       {{ range where .Site.Pages "Params.layout" "municipality" }}
       {{ $dirname := printf "numbers_%s" (lower (replace .File.Dir "/" "")) }}
@@ -72,7 +90,7 @@
 
       {{ if ne ($.Scratch.Get "first") (upper (substr $municipality 0 1)) }}
         {{ $.Scratch.Set "first" (upper (substr $municipality 0 1)) }}
-        <div class="col-12"><h1 class="border-bottom mt-4">{{ $.Scratch.Get "first" }}</h1></div>
+        <div class="col-12"><h1 class="border-bottom mt-4" id='{{ $.Scratch.Get "first" }}'>{{ $.Scratch.Get "first" }}</h1></div>
       {{ end }}
 
       <div class="col-xs-12 col-sm-6 col-md-3">
