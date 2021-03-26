@@ -346,8 +346,8 @@
               size: fontSize1
             },
             formatter: function (value, context) {
-              var p = "      ";
               var i = context.dataIndex;
+              var p = "  " + Array(Math.round(PER_AGE_PERCENTAGE_FIRST_DOSE[i])).join(" ");
               var percentage =  (PER_AGE_PERCENTAGE_FIRST_DOSE[i] + PER_AGE_PERCENTAGE_SECOND_DOSE[i]).toFixed(2);
               var persons = Math.floor(PER_AGE_FIRST_DOSE[i] + PER_AGE_SECOND_DOSE[i]).toLocaleString().replace(",", ".");
               var population = Math.floor(PER_AGE_POPULATION[i]).toLocaleString().replace(",", ".");
