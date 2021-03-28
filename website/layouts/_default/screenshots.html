@@ -234,6 +234,7 @@
     var colorGreen = '#198754';
     var fontSize1 = 17;
     var fontSize2 = 20;
+    var suggestedMax = 16;
 
     var dataHistory = {
 			data: {
@@ -302,7 +303,7 @@
 						},
             ticks: {
               fontSize: fontSize2,
-              suggestedMax: 10,
+              suggestedMax: suggestedMax,
               min: 0,
               callback: function(v, i, vv) {
                   return v.toFixed(2).toString().replace(".", ".") + "%";
