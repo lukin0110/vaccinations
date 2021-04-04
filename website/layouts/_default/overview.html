@@ -58,6 +58,19 @@
       box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.4);
       transform: scale(1.03);
     }
+
+    .s {
+      color: #198754 !important;
+    }
+
+    .p {
+      color: #0d6efd !important;
+    }
+
+    tr:hover {
+      background-color: #eee;
+      cursor: pointer;
+    }
 	</style>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.css" integrity="sha512-/zs32ZEJh+/EO2N1b0PEdoA10JkdC3zJ8L5FTiQu82LR9S/rOQNfQN7U59U9BC12swNeRAz3HSzIL2vpp4fv3w==" crossorigin="anonymous" />
@@ -76,65 +89,35 @@
       </small>
     </div>
 
-    <div class="row mb-5 justify-content-md-center">
-      <div class="col-12 col-md-6">
-        <div class="alert alert-success" role="alert">
-          <h4 class="alert-heading">👋 Welkom</h4>
-          <p>Website was origineel bedoeld om de <a href="/lommel/">vaccinatie cijfers van <strong>Lommel</strong> te
-            visualiseren</a>. Ik heb ondertussen de vraag gekregen om dit ook voor andere gemeentes te doen.</p>
-          <p>Ik doe dit vrijwillig en heb niet alle tijd van de wereld. Feedback wordt stap voor stap verwerkt. 🙏</p>
-          <hr>
-          <p class="text-center mb-0">Neem gerust contact op: <a href="mailto:{{ .Site.Author.email }}?subject=Vaccinatie cijfers per gemeente">Maarten Huijsmans</a></p>
-        </div>
-      </div>
-    </div>
-
-    <div class="row pb-5 pb-md-5">
+    <table class="table">
+      <thead style="background-color: #eee;">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Te vaccineren inwoners (18+)</th>
+          <th scope="col">Volledig gevaccineerd 🚀</th>
+          <th scope="col">Minstens 1 dosis gehad 🤗</th>
+        </tr>
+      </thead>
+      <tbody>
       {{ range where .Site.Pages "Params.layout" "municipality" }}
       {{ $dirname := printf "numbers_%s" (lower (replace .File.Dir "/" "")) }}
       {{ $data := (index $.Site.Data $dirname )}}
       {{ $municipality := $data.municipality }}
       {{ $inhabitants := $data.inhabitants }}
+      {{ $all_population := lang.NumFmt 0 $data.history_all.population "- , ." }}
+      {{ $adult_population := lang.NumFmt 0 $data.history_adults.population "- , ." }}
+      {{ $history_second_name := lang.NumFmt 0 $data.history_adults.second_dose "- , ." }}
+      {{ $history_minimum_one_dose := lang.NumFmt 0 $data.history_adults.minimum_one_dose "- , ." }}
 
-      <div class="municipality row py-4 border-top" onclick="window.location = '{{ .Permalink }}'">
-        <div class="col-12 col-md-2">
-          <h2><a href="{{ .Permalink }}">{{ $municipality }}</a></h2>
-        </div>
-        <div class="col-12 col-md-5 d-flex">
-          <div class="card text-white border-0 bg-success mb-2 flex-fill">
-            <div class="card-header">Volledig gevaccineerd 🚀</div>
-            <div class="card-body">
-              <div class="row">
-                <div class="col-4">
-                  <h2 class="card-title">{{ range last 1 $data.history_adults.timeseries_percentage_second_dose }}{{ lang.NumFmt 2 . }}{{ end }}%</h2>
-                </div>
-                <div class="col-8">
-                  <p class="card-text ml-3">Dat zijn <strong>{{ lang.NumFmt 0 $data.history_adults.second_dose "- , ." }}</strong> van de
-                    <strong>{{ lang.NumFmt 0 $data.history_adults.population "- , ." }}</strong> volwassen {{ $inhabitants }}.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-12 col-md-5 d-flex">
-          <div class="card text-white bg-primary mb-2 flex-fill">
-            <div class="card-header">Minstens 1 dosis gehad 🤗</div>
-            <div class="card-body">
-              <div class="row">
-                <div class="col-4">
-                  <h2 class="card-title">{{ range last 1 $data.history_adults.timeseries_percentage_minimum_one_dose }}{{ lang.NumFmt 2 . }}{{ end }}%</h2>
-                </div>
-                <div class="col-8">
-                  <p class="card-text">Dat zijn <strong>{{ lang.NumFmt 0 $data.history_adults.minimum_one_dose "- , ." }}</strong> van de
-                  <strong>{{ lang.NumFmt 0 $data.history_adults.population "- , ." }}</strong> volwassen {{ $inhabitants }}.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+        <tr onclick="window.location = '{{ .RelPermalink }}'" title="Bekijk gedetailleerde grefieken over {{ $municipality }}">
+          <td data-toggle="tooltip" data-placement="right" title="Bekijk gedetailleerde grafieken over {{ $municipality }}"><a href="{{ .RelPermalink }}">{{ $municipality }}</a></td>
+          <td data-toggle="tooltip" data-placement="left" title="Dat zijn {{ $adult_population }} van alle {{ $all_population }} {{ $inhabitants }}">{{ $adult_population }}</td>
+          <td data-toggle="tooltip" data-placement="left" title="Dat zijn {{ $history_second_name }} van de {{ $adult_population }} volwassen {{ $inhabitants }}"><span class="s">{{ range last 1 $data.history_adults.timeseries_percentage_second_dose }}{{ lang.NumFmt 2 . }}{{ end }}%</span> <small class="text-muted">{{ $history_second_name }} personen</small></td>
+          <td data-toggle="tooltip" data-placement="left" title="Dat zijn {{ $history_minimum_one_dose }} van de {{ $adult_population }} volwassen {{ $inhabitants }}"><span class="p">{{ range last 1 $data.history_adults.timeseries_percentage_minimum_one_dose }}{{ lang.NumFmt 2 . }}{{ end }}%</span> <small class="text-muted">{{ $history_minimum_one_dose }} personen</small></td>
+        </tr>
       {{ end }}
-    </div>
+      </tbody>
+    </table>
 
     <div class="row py-5 border-top" style="opacity: 0.7">
       <div class="row">
@@ -157,7 +140,7 @@
         </div>
         <div class="col-md-12 col-lg-6 col-md mb-3">
           <small class="d-block mb-3 text-muted">
-            👨‍💻 Pagina onderhouden door <a href="https://lukin.be" target="_blank">{{ .Site.Author.name }}</a><br>
+            👨‍💻 Pagina vrijwillig onderhouden door <a href="https://lukin.be" target="_blank">{{ .Site.Author.name }}</a><br>
             💡 Feedback of vragen: <a href="mailto:{{ .Site.Author.email }}?subject=Vaccinatie cijfers per gemeente">{{ .Site.Author.email }}</a><br>
             ⚡ ️Bekijk de code op <a href="https://github.com/lukin0110/vaccinations" target="_blank">GitHub</a>
           </small>
@@ -165,5 +148,15 @@
       </div>
     </footer>
   </main>
+
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <script>
+    $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+  </script>
 </body>
 </html>

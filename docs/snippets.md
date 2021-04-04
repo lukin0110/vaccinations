@@ -23,4 +23,18 @@
 }
 ```
 
+```html
+    <div class="row mb-5 justify-content-md-center">
+      <div class="col-12 col-md-8">
+        <div class="alert alert-success" role="alert">
+          <h4 class="alert-heading">👋 Welkom</h4>
+          <p>Website was origineel bedoeld om de <a href="/lommel/">vaccinatie cijfers van <strong>Lommel</strong> te
+            visualiseren</a>. Ik heb ondertussen de vraag gekregen om dit ook voor andere gemeentes te doen.</p>
+          <p>Ik doe dit vrijwillig en heb niet alle tijd van de wereld. Feedback wordt stap voor stap verwerkt. 🙏</p>
+          <hr>
+          <p class="text-center mb-0">Neem gerust contact op: <a href="mailto:{{ .Site.Author.email }}?subject=Vaccinatie cijfers per gemeente">Maarten Huijsmans</a></p>
+        </div>
+      </div>
+    </div>
+```
 
