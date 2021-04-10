@@ -193,7 +193,8 @@
       </div>
     </div>
 
-    <div class="row py-3 py-md-5 my-md-5 border-top">
+    <!--<div class="row py-3 py-md-5 my-md-5 border-top">-->
+    <div class="row pt-3 pt-md-5 mt-md-5 border-top">
       <div class="col-md-12 col-lg-8 mt-md-5 pb-3 h-100">
         <h5 class="text-center">Percentage van gevaccineerde {{ $inhabitants }} per leeftijdscategorie</h5>
         <canvas id="canvasPerAge"></canvas>
@@ -213,7 +214,7 @@
 
           <div class="col-md-6 col-lg-12 d-flex">
             <div class="card card-primary mb-3 flex-fill">
-              <div class="card-header">80-plussers met enkel 1 dosis 🤗</div>
+              <div class="card-header">80-plussers die nog een 2de vaccin moeten krijgen 🤗</div>
               <div class="card-body">
                 <h3 class="card-title">{{ lang.NumFmt 2 (index $data.per_age.percentage_first_dose 0) }}%</h3>
                 <p class="card-text">Dat zijn <strong>{{ lang.NumFmt 0 (index $data.per_age.first_dose 0) "- , ." }}</strong> van de
@@ -222,6 +223,14 @@
             </div>
           </div>
         </div>
+      </div>
+    </div>
+    <div class="row pb-3 pb-md-4 my-md-4 justify-content-md-center">
+      <div class="col-md-8 text-center">
+        <p class="text-muted">Het totale aantal inwoners per leeftijd is gebaseerd op de bevolkingscijfers van 2020
+          (laatst gepubliceerde cijfers van Statbel). Intussen zijn mensen natuurlijk weer wat ouder geworden. In
+          kleinere leeftijdscohortes zoals de 90+’ers <strong>kan er daardoor een vaccinatiegraad van meer dan 100% bereikt
+          worden.</strong></p>
       </div>
     </div>
 
@@ -370,7 +379,7 @@
               fontSize: fontSize1
 						},
             ticks: {
-              fontSize: fontSize2
+              fontSize: fontSize2,
             }
 					}],
 					yAxes: [{
@@ -402,10 +411,22 @@
         }, {
           label: 'Enkel 1 dosis gehad',
           backgroundColor: colorBlue,
-          data: PER_AGE_PERCENTAGE_FIRST_DOSE
+          data: PER_AGE_PERCENTAGE_FIRST_DOSE,
+          datalabels: {
+            // align: 'end',
+            anchor: 'end'
+          }
         }]
       }
     };
+
+    function getAgeContext (i) {
+      return {
+        percentage: (PER_AGE_PERCENTAGE_FIRST_DOSE[i] + PER_AGE_PERCENTAGE_SECOND_DOSE[i]).toFixed(2),
+        persons: Math.floor(PER_AGE_FIRST_DOSE[i] + PER_AGE_SECOND_DOSE[i]).toLocaleString().replace(",", "."),
+        population: Math.floor(PER_AGE_POPULATION[i]).toLocaleString().replace(",", ".")
+      }
+    }
 
 		var configPerAge = {
       plugins: [ChartDataLabels],
@@ -422,18 +443,21 @@
         },
         plugins: {
           datalabels: {
-            align: 'right',
+            align: function (context) {
+              var ageContext = getAgeContext(context.dataIndex);
+              return ageContext.percentage > 70 ? 'start' : 'end';
+            },
+            color: function (context) {
+              var ageContext = getAgeContext(context.dataIndex);
+              return ageContext.percentage > 70 ? 'white' : '#6c757d';
+            },
             font: {
               size: fontSize1
             },
             formatter: function (value, context) {
-              var i = context.dataIndex;
-              var p = "  " + Array(Math.round(PER_AGE_PERCENTAGE_FIRST_DOSE[i])).join(" ");
-              var percentage =  (PER_AGE_PERCENTAGE_FIRST_DOSE[i] + PER_AGE_PERCENTAGE_SECOND_DOSE[i]).toFixed(2);
-              var persons = Math.floor(PER_AGE_FIRST_DOSE[i] + PER_AGE_SECOND_DOSE[i]).toLocaleString().replace(",", ".");
-              var population = Math.floor(PER_AGE_POPULATION[i]).toLocaleString().replace(",", ".");
-              var text = "\n" + p + persons + " van de " + population;
-              return p + percentage.toString().replace(".", ",") + "%" + (window.innerWidth < 750 ? "" : text);
+              var ageContext = getAgeContext(context.dataIndex);
+              var text = "\n" + ageContext.persons + ' van de ' + ageContext.population;
+              return ageContext.percentage.toString().replace('.', ',') + '%' + (window.innerWidth < 750 ? '' : text);
             },
             display: function (context) {
               return context.datasetIndex === 1;
@@ -460,7 +484,8 @@
             display: true,
             ticks: {
               fontSize: fontSize2,
-              max: 100,
+              // max: 100,
+              suggestedMax: 110,
               callback: function(v, i, vv) {
                return v + "%";
               }

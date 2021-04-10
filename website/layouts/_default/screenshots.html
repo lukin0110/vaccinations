@@ -175,7 +175,7 @@
 
         <div class="col-md-6 d-flex">
           <div class="card text-white border-0 bg-primary mb-2 flex-fill">
-            <div class="card-header">80-plussers met enkel 1 dosis 🤗</div>
+            <div class="card-header">80-plussers die nog een 2de vaccin moeten krijgen 🤗</div>
             <div class="card-body">
               <div class="row">
                 <div class="col-4">
@@ -324,10 +324,22 @@
         }, {
           label: 'Enkel 1 dosis gehad',
           backgroundColor: colorBlue,
-          data: PER_AGE_PERCENTAGE_FIRST_DOSE
+          data: PER_AGE_PERCENTAGE_FIRST_DOSE,
+          datalabels: {
+            // align: 'end',
+            anchor: 'end'
+          }
         }]
       }
     };
+
+    function getAgeContext (i) {
+      return {
+        percentage: (PER_AGE_PERCENTAGE_FIRST_DOSE[i] + PER_AGE_PERCENTAGE_SECOND_DOSE[i]).toFixed(2),
+        persons: Math.floor(PER_AGE_FIRST_DOSE[i] + PER_AGE_SECOND_DOSE[i]).toLocaleString().replace(",", "."),
+        population: Math.floor(PER_AGE_POPULATION[i]).toLocaleString().replace(",", ".")
+      }
+    }
 
 		var configPerAge = {
       plugins: [ChartDataLabels],
@@ -342,17 +354,21 @@
         },
         plugins: {
           datalabels: {
-            align: 'right',
+            align: function (context) {
+              var ageContext = getAgeContext(context.dataIndex);
+              return ageContext.percentage > 70 ? 'start' : 'end';
+            },
+            color: function (context) {
+              var ageContext = getAgeContext(context.dataIndex);
+              return ageContext.percentage > 70 ? 'white' : '#6c757d';
+            },
             font: {
               size: fontSize1
             },
             formatter: function (value, context) {
-              var i = context.dataIndex;
-              var p = "  " + Array(Math.round(PER_AGE_PERCENTAGE_FIRST_DOSE[i])).join(" ");
-              var percentage =  (PER_AGE_PERCENTAGE_FIRST_DOSE[i] + PER_AGE_PERCENTAGE_SECOND_DOSE[i]).toFixed(2);
-              var persons = Math.floor(PER_AGE_FIRST_DOSE[i] + PER_AGE_SECOND_DOSE[i]).toLocaleString().replace(",", ".");
-              var population = Math.floor(PER_AGE_POPULATION[i]).toLocaleString().replace(",", ".");
-              return p + percentage.toString().replace(".", ",") + "%\n" + p + persons + " van de " + population;
+              var ageContext = getAgeContext(context.dataIndex);
+              var text = "\n" + ageContext.persons + ' van de ' + ageContext.population;
+              return ageContext.percentage.toString().replace('.', ',') + '%' + (window.innerWidth < 750 ? '' : text);
             },
             display: function (context) {
               return context.datasetIndex === 1;
@@ -368,7 +384,8 @@
             stacked: true,
             display: true,
             ticks: {
-              max: 100,
+              // max: 100,
+              suggestedMax: 110,
               fontSize: fontSize2
             },
             scaleLabel: {
