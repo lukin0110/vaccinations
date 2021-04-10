@@ -141,7 +141,7 @@ def crunch_per_age(df: pd.DataFrame) -> Dict[str, Any]:
             return "60-79"
         return "80+"
 
-    # df["AGE_CD"] = df.apply(lambda row: re_arrange(row["AGE_CD"]), axis=1)
+    df["AGE_CD"] = df.apply(lambda row: re_arrange(row["AGE_CD"]), axis=1)
     last_date = pd.Timestamp(sorted(df["DATE"].unique(), reverse=True)[0])
     df = df[df["DATE"] == last_date]
     df_ages = df.groupby("AGE_CD", as_index=False).agg({
