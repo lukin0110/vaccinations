@@ -64,6 +64,12 @@ def load_range(start_date: date, end_date: date) -> pd.DataFrame:
         df = None
         try:
             df = pd.read_csv(data_path(d))
+
+            # CSV format has changed after 2021-04-09
+            if d == pd.Timestamp("2021-04-09"):
+                df["VACCINATED_FIRST_DOSIS_NBR"] = df["PARTLY_VACCINATED_AMT"]
+                df["VACCINATED_SECOND_DOSIS_NBR"] = df["FULLY_VACCINATED_AMT"]
+
             last_date = d
         except FileNotFoundError:
             # If it fails re-use the previous DataFrame. There is no data for the weekends for
@@ -135,14 +141,13 @@ def crunch_per_age(df: pd.DataFrame) -> Dict[str, Any]:
             return "60-79"
         return "80+"
 
-    df["AGE_CD"] = df.apply(lambda row: re_arrange(row["AGE_CD"]), axis=1)
+    # df["AGE_CD"] = df.apply(lambda row: re_arrange(row["AGE_CD"]), axis=1)
     last_date = pd.Timestamp(sorted(df["DATE"].unique(), reverse=True)[0])
     df = df[df["DATE"] == last_date]
-    # print(df)
     df_ages = df.groupby("AGE_CD", as_index=False).agg({
-        'POPULATION_NBR': sum,
-        'VACCINATED_FIRST_DOSIS_NBR': sum,
-        'VACCINATED_SECOND_DOSIS_NBR': sum
+        "POPULATION_NBR": sum,
+        "VACCINATED_FIRST_DOSIS_NBR": sum,
+        "VACCINATED_SECOND_DOSIS_NBR": sum,
     })
     df_ages = df_ages.sort_values(by='AGE_CD', ascending=False)
     population = df_ages['POPULATION_NBR'].values.tolist()
@@ -284,7 +289,6 @@ def do_crunch() -> None:
         data = crunch(df, _start_date, _end_date, municipality)
         jp = json_path(municipality)
         print(f"Store JSON: {jp}")
-        # print(data)
         json.dump(data, open(jp, "w"), indent=4)
 
     # Crunch Flanders
