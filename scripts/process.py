@@ -163,40 +163,64 @@ def crunch_per_age(df: pd.DataFrame) -> Dict[str, Any]:
     }
 
 
-def crunch(df: pd.DataFrame, start_date: date, end_date: date, municipality: str) -> Dict[str, Any]:
-    """."""
-    date_range = pd.date_range(start=start_date, end=end_date).tolist()
-    # labels = [f"{d:%d-%m}" for d in date_range]
-    labels = [f"{d:%d-%b}" for d in date_range]
+def crunch_municipality(df: pd.DataFrame, start_date: date, end_date: date, municipality: str) -> Dict[str, Any]:
+    """Crunch a municipality."""
     mdf = df[df["MUNICIPALITY"] == municipality]
     config = load_config()
     entry = config[config["MUNICIPALITY"] == municipality]["INHABITANTS"]
-    province = mdf["PROVINCE"].tolist()[0]
-    zone = mdf["EERSTELIJNSZONE"].tolist()[0]
     inhabitants = entry.values[0] if len(entry.values) else "inwoners"
+    return crunch_location(mdf, start_date, end_date, df.last_date, municipality, inhabitants)
+
+
+def crunch_province(df: pd.DataFrame, start_date: date, end_date: date, province: str) -> Dict[str, Any]:
+    """Crunch a province."""
+    pdf = df[df["PROVINCE"] == province]
+    inhabitants = {
+        "oost-vlaanderen": "Oost-Vlamingen",
+        "west-vlaanderen": "West-Vlamingen",
+        "antwerpen": "Antwerpenaars",
+        "limburg": "Limburgers",
+        "vlaams-brabant": "Vlaams-Brabanders"
+    }.get(province.lower(), "inwoners")
+    return crunch_location(pdf, start_date, end_date, df.last_date, province, inhabitants)
+
+
+def crunch_location(
+    df: pd.DataFrame,
+    start_date: date,
+    end_date: date,
+    last_date: date,
+    location: str,
+    inhabitants: str
+) -> Dict[str, Any]:
+    """."""
+    date_range = pd.date_range(start=start_date, end=end_date).tolist()
+    labels = [f"{d:%d-%b}" for d in date_range]
+    province = df["PROVINCE"].tolist()[0]
+    zone = df["EERSTELIJNSZONE"].tolist()[0]
 
     return {
         # Timeseries: historical numbers, all ages
         "history_all": {
             "labels": labels,
-            **crunch_history(mdf)
+            **crunch_history(df)
         },
         # Timeseries: historical numbers for adults (18+)
         "history_adults": {
             "labels": labels,
-            **crunch_history(mdf[mdf["ADULT_FL(18+)"] == 1])
+            **crunch_history(df[df["ADULT_FL(18+)"] == 1])
         },
         # Numbers per age
         "per_age": {
             "labels": ["80+", "60-79", "40-59", "20-39", "0-19"],
-            **crunch_per_age(mdf.copy())
+            **crunch_per_age(df.copy())
         },
-        "municipality": municipality,
+        "location": location,
         "province": province,
         "zone": zone,
         "inhabitants": inhabitants,
-        "last_date": f"{df.last_date:%d/%m/%Y}",
-        "date_diff_7": f"{df.last_date - pd.Timedelta(days=7):%d/%m/%Y}",
+        "last_date": f"{last_date:%d/%m/%Y}",
+        "date_diff_7": f"{last_date - pd.Timedelta(days=7):%d/%m/%Y}",
     }
 
 
@@ -231,19 +255,24 @@ def municipalities(df: pd.DataFrame) -> List[str]:
     return df["MUNICIPALITY"].unique().tolist()
 
 
+def provinces(df: pd.DataFrame) -> List[str]:
+    """Return a list of all available provinces."""
+    return df["PROVINCE"].unique().tolist()
+
+
 def create_content(df: pd.DataFrame) -> None:
     """Create Hugo content folders for each municipality."""
-    ms = municipalities(df)
+    items = municipalities(df) + [f"provincie-{p}" for p in provinces(df)]
     content_path = path.realpath(path.join(path.dirname(path.realpath(__file__)), "..", "website", "content"))
-    for municipality in ms:
-        slug = slugify(municipality)
+    for item in items:
+        slug = slugify(item)
         dir_path = path.join(content_path, slug)
         index_path = path.join(content_path, slug, "_index.md")
         screenshots_path = path.join(content_path, slug, "screenshots.md")
         os.makedirs(dir_path, exist_ok=True)
         if not path.exists(index_path):
             with open(index_path, "w") as fh_index:
-                fh_index.write("---\nlayout: municipality\n---")
+                fh_index.write("---\nlayout: location\n---")
         if not path.exists(screenshots_path):
             with open(screenshots_path, "w") as fh_screenshots:
                 fh_screenshots.write("---\nlayout: screenshots\n---")
@@ -282,20 +311,27 @@ def do_crunch() -> None:
     _end_date = date.today() - timedelta(days=1)
     print(f"Loading data from {_start_date} to {_end_date}")
     df = load_range(_start_date, _end_date)
+
     print(f"Crunch daily numbers")
     ms = municipalities(df)
     for municipality in ms:
     # for municipality in ["Lommel"]:
-        data = crunch(df, _start_date, _end_date, municipality)
+        data = crunch_municipality(df, _start_date, _end_date, municipality)
         jp = json_path(municipality)
+        print(f"Store JSON: {jp}")
+        json.dump(data, open(jp, "w"), indent=4)
+    ps = provinces(df)
+    for province in ps:
+        data = crunch_province(df, _start_date, _end_date, province)
+        jp = json_path(f"Provincie {province}")
         print(f"Store JSON: {jp}")
         json.dump(data, open(jp, "w"), indent=4)
 
     # Crunch Flanders
-    data = crunch_region(df, _start_date, _end_date)
-    jp = json_path("vlaanderen")
-    print(f"Store JSON: {jp}")
-    json.dump(data, open(jp, "w"), indent=4)
+    # data = crunch_region(df, _start_date, _end_date)
+    # jp = json_path("vlaanderen")
+    # print(f"Store JSON: {jp}")
+    # json.dump(data, open(jp, "w"), indent=4)
 
     print(f"Processed: {len(ms)}")
     te = time.perf_counter()
