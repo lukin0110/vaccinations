@@ -66,7 +66,7 @@ def load_range(start_date: date, end_date: date) -> pd.DataFrame:
             df = pd.read_csv(data_path(d))
 
             # CSV format has changed after 2021-04-09
-            if d == pd.Timestamp("2021-04-09"):
+            if d >= pd.Timestamp("2021-04-09"):
                 df["VACCINATED_FIRST_DOSIS_NBR"] = df["PARTLY_VACCINATED_AMT"]
                 df["VACCINATED_SECOND_DOSIS_NBR"] = df["FULLY_VACCINATED_AMT"]
 
