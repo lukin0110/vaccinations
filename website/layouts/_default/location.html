@@ -86,7 +86,7 @@
   <main class="container" id="main">
     <div class="px-3 py-3 py-md-5 mb-4 mx-auto text-center" style="position: relative">
       <h1 class="display-4">Covid Vaccinaties in <a href="javascript:openSwitch()" title="Bekijk een andere gemeente">{{ $municipality }}</a> 💉</h1>
-      <p class="lead mb-2">Dagelijkse update over de vaccinatie cijfers van inwoners van {{ if $is_province }}Provincie {{ end }}{{ $municipality }} {{ if not $is_province }}(<a href="/provincie-{{ lower $province }}/">Provincie {{ $province }}</a>){{ end }}. 💚 </p>
+      <p class="lead mb-2">Dagelijkse update over de vaccinatie cijfers van inwoners van {{ if $is_province }}de provincie {{ end }}{{ $municipality }} {{ if not $is_province }}(<a href="/provincie-{{ lower $province }}/">Provincie {{ $province }}</a>){{ end }}. 💚 </p>
       <small class="text-muted">Laatste update: {{ $data.last_date }}
         <strong>//</strong> Bron: <a href="https://www.laatjevaccineren.be/vaccinnet" target="_blank">Vaccinnet+</a>
         {{ if not $is_province }}<strong>//</strong> Eerstelijnszone: {{ $zone }}{{ end }}
