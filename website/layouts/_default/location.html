@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <!-- Define Data from the Hugo data folder. Eg: `numbers_lommel` -->
 {{ $dirname := printf "numbers_%s" (lower (replace .Dir "/" "")) }}
+{{ $is_province := (in $dirname "provincie-") }}
 {{ $data := (index $.Site.Data $dirname )}}
-{{ $municipality := $data.municipality }}
+{{ $municipality := $data.location }}
 {{ $province := $data.province }}
 {{ $zone := $data.zone }}
 {{ $inhabitants := $data.inhabitants }}
@@ -85,10 +86,10 @@
   <main class="container" id="main">
     <div class="px-3 py-3 py-md-5 mb-4 mx-auto text-center" style="position: relative">
       <h1 class="display-4">Covid Vaccinaties in <a href="javascript:openSwitch()" title="Bekijk een andere gemeente">{{ $municipality }}</a> 💉</h1>
-      <p class="lead mb-2">Dagelijkse update over de vaccinatie cijfers van inwoners van {{ $municipality }} ({{ $province }}). 💚 </p>
+      <p class="lead mb-2">Dagelijkse update over de vaccinatie cijfers van inwoners van {{ if $is_province }}Provincie {{ end }}{{ $municipality }} {{ if not $is_province }}(<a href="/provincie-{{ lower $province }}/">Provincie {{ $province }}</a>){{ end }}. 💚 </p>
       <small class="text-muted">Laatste update: {{ $data.last_date }}
         <strong>//</strong> Bron: <a href="https://www.laatjevaccineren.be/vaccinnet" target="_blank">Vaccinnet+</a>
-        <strong>//</strong> Eerstelijnszone: {{ $zone }}
+        {{ if not $is_province }}<strong>//</strong> Eerstelijnszone: {{ $zone }}{{ end }}
       </small>
     </div>
 
@@ -245,7 +246,7 @@
       </div>
     </div>
 
-    <footer class="pt-4 pt-md-4 border-top" style="opacity: 0.7">
+    <footer class="pt-4 pt-md-4 pb-md-4 border-top" style="opacity: 0.7">
       <div class="row">
         <!-- col-md-12 col-lg-3 -->
         <div class="col-md-12 col-lg-6 col-md mb-3">
@@ -295,7 +296,7 @@
     var colorGreen = '#198754';
     var fontSize1 = 14;
     var fontSize2 = 16;
-    var suggestedMax = 25;
+    var suggestedMax = 30;
 
     Chart.Tooltip.positioners.custom = function(elements, eventPosition) {
       return {

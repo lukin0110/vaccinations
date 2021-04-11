@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <!-- Define Data from the Hugo data folder. Eg: `numbers_lommel` -->
 {{ $dirname := printf "numbers_%s" (lower (replace .Dir "/" "")) }}
+{{ $is_province := (in $dirname "provincie-") }}
 {{ $data := (index $.Site.Data $dirname )}}
-{{ $municipality := $data.municipality }}
+{{ $municipality := $data.location }}
 {{ $inhabitants := $data.inhabitants }}
 
 <html lang="nl">
@@ -82,7 +83,7 @@
 
 🙏 {{ lang.NumFmt 2 (index $data.per_age.percentage_second_dose 0) }}% van de 80-plussers zijn volledig gevaccineerd. Dat zijn {{ lang.NumFmt 0 (index $data.per_age.second_dose 0) "- , ." }} van de {{ lang.NumFmt 0 (index $data.per_age.population 0) "- , ." }} mensen.</p>
 
-👉 Dagelijkse updates kan je steeds volgen via {{ .Site.BaseURL }}{{ lower $data.municipality }}/
+👉 Dagelijkse updates kan je steeds volgen via {{ .Site.BaseURL }}{{ lower $municipality }}/
 </pre>
     </div>
     <button class="btn btn-primary"
@@ -143,7 +144,7 @@
       </div>
       <div class="row">
         <div class="col-12 text-center mb-4">
-          <p class="follow mb-0 pb-0">Volg de dagelijkse updates via <strong>vaccinaties.lukin.be/{{ lower $municipality }}/</strong></p>
+          <p class="follow mb-0 pb-0">Volg de dagelijkse updates via <strong>vaccinaties.lukin.be/{{ if $is_province }}provincie-{{ end }}{{ lower $municipality }}/</strong></p>
           <small class="text-muted">Bron van de cijfers: <strong>Vaccinnet+</strong></small>
         </div>
       </div>
@@ -197,7 +198,7 @@
       </div>
       <div class="row">
         <div class="col-12 text-center mb-4">
-          <p class="follow mb-0 pb-0">Volg de dagelijkse updates via <strong>vaccinaties.lukin.be/{{ lower $municipality }}/</strong></p>
+          <p class="follow mb-0 pb-0">Volg de dagelijkse updates via <strong>vaccinaties.lukin.be/{{ if $is_province }}provincie-{{ end }}{{ lower $municipality }}/</strong></p>
           <small class="text-muted">Bron van de cijfers: <strong>Vaccinnet+</strong></small>
         </div>
       </div>
@@ -234,7 +235,7 @@
     var colorGreen = '#198754';
     var fontSize1 = 17;
     var fontSize2 = 20;
-    var suggestedMax = 25;
+    var suggestedMax = 30;
 
     var dataHistory = {
 			data: {

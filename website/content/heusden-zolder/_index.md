@@ -1,3 +1,3 @@
 ---
-layout: municipality
+layout: location
 ---

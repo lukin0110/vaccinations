@@ -70,9 +70,9 @@
   }, true);
 </script>
 
-<div id="switch" class="switcher">
+<div id="switch" class="switcher pb-5">
   <a href="javascript:void(0)" class="closebtn" onclick="closeSwitch()">&times;</a>
-  <div class="container">
+  <div class="container pb-5">
     <div class="row">
       <div class="col-12 alphabet">
         {{ $letters := split "ABCDEFGHIJKLMNOPQRSTUVWXYZ" "" }}
@@ -83,19 +83,22 @@
     </div>
     <div class="row">
       {{ $.Scratch.Set "first" "" }}
-      {{ range where .Site.Pages "Params.layout" "municipality" }}
-      {{ $dirname := printf "numbers_%s" (lower (replace .File.Dir "/" "")) }}
-      {{ $data := (index $.Site.Data $dirname )}}
-      {{ $municipality := $data.municipality }}
+      {{ range where .Site.Pages "Params.layout" "location" }}
+        {{ $dirname := printf "numbers_%s" (lower (replace .File.Dir "/" "")) }}
+        {{ $is_province := (in $dirname "provincie-") }}
+        {{ if not $is_province }}
+          {{ $data := (index $.Site.Data $dirname )}}
+          {{ $municipality := $data.location }}
 
-      {{ if ne ($.Scratch.Get "first") (upper (substr $municipality 0 1)) }}
-        {{ $.Scratch.Set "first" (upper (substr $municipality 0 1)) }}
-        <div class="col-12"><h1 class="border-bottom mt-4" id='{{ $.Scratch.Get "first" }}'>{{ $.Scratch.Get "first" }}</h1></div>
-      {{ end }}
+          {{ if ne ($.Scratch.Get "first") (upper (substr $municipality 0 1)) }}
+            {{ $.Scratch.Set "first" (upper (substr $municipality 0 1)) }}
+            <div class="col-12"><h1 class="border-bottom mt-4" id='{{ $.Scratch.Get "first" }}'>{{ $.Scratch.Get "first" }}</h1></div>
+          {{ end }}
 
-      <div class="col-xs-12 col-sm-6 col-md-3">
-        <a href="{{ .Permalink }}">{{ $municipality }}</a>
-      </div>
+          <div class="col-xs-12 col-sm-6 col-md-3">
+            <a href="{{ .Permalink }}">{{ $municipality }}</a>
+          </div>
+        {{ end }}
       {{ end }}
     </div>
   </div>

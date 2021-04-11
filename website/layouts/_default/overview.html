@@ -112,22 +112,25 @@
         </tr>
       </thead>
       <tbody>
-      {{ range where .Site.Pages "Params.layout" "municipality" }}
-      {{ $dirname := printf "numbers_%s" (lower (replace .File.Dir "/" "")) }}
-      {{ $data := (index $.Site.Data $dirname )}}
-      {{ $municipality := $data.municipality }}
-      {{ $inhabitants := $data.inhabitants }}
-      {{ $all_population := lang.NumFmt 0 $data.history_all.population "- , ." }}
-      {{ $adult_population := lang.NumFmt 0 $data.history_adults.population "- , ." }}
-      {{ $history_second_name := lang.NumFmt 0 $data.history_adults.second_dose "- , ." }}
-      {{ $history_minimum_one_dose := lang.NumFmt 0 $data.history_adults.minimum_one_dose "- , ." }}
+      {{ range where .Site.Pages "Params.layout" "location" }}
+        {{ $dirname := printf "numbers_%s" (lower (replace .File.Dir "/" "")) }}
+        {{ $is_province := (in $dirname "provincie-") }}
+        {{ if not $is_province }}
+          {{ $data := (index $.Site.Data $dirname )}}
+          {{ $municipality := $data.location }}
+          {{ $inhabitants := $data.inhabitants }}
+          {{ $all_population := lang.NumFmt 0 $data.history_all.population "- , ." }}
+          {{ $adult_population := lang.NumFmt 0 $data.history_adults.population "- , ." }}
+          {{ $history_second_name := lang.NumFmt 0 $data.history_adults.second_dose "- , ." }}
+          {{ $history_minimum_one_dose := lang.NumFmt 0 $data.history_adults.minimum_one_dose "- , ." }}
 
-        <tr onclick="window.location = '{{ .RelPermalink }}'" title="Bekijk gedetailleerde grefieken over {{ $municipality }}">
-          <td data-toggle="tooltip" data-placement="right" title="Bekijk gedetailleerde grafieken over {{ $municipality }}"><a href="{{ .RelPermalink }}">{{ $municipality }}</a></td>
-          <td data-toggle="tooltip" data-placement="left" title="Dat zijn {{ $adult_population }} van alle {{ $all_population }} {{ $inhabitants }}">{{ $adult_population }}</td>
-          <td data-toggle="tooltip" data-placement="left" title="Dat zijn {{ $history_second_name }} van de {{ $adult_population }} volwassen {{ $inhabitants }}"><span class="s">{{ range last 1 $data.history_adults.timeseries_percentage_second_dose }}{{ lang.NumFmt 2 . }}{{ end }}%</span> <small class="text-muted">{{ $history_second_name }} personen</small></td>
-          <td data-toggle="tooltip" data-placement="left" title="Dat zijn {{ $history_minimum_one_dose }} van de {{ $adult_population }} volwassen {{ $inhabitants }}"><span class="p">{{ range last 1 $data.history_adults.timeseries_percentage_minimum_one_dose }}{{ lang.NumFmt 2 . }}{{ end }}%</span> <small class="text-muted">{{ $history_minimum_one_dose }} personen</small></td>
-        </tr>
+            <tr onclick="window.location = '{{ .RelPermalink }}'" title="Bekijk gedetailleerde grefieken over {{ $municipality }}">
+              <td data-toggle="tooltip" data-placement="right" title="Bekijk gedetailleerde grafieken over {{ $municipality }}"><a href="{{ .RelPermalink }}">{{ $municipality }}</a></td>
+              <td data-toggle="tooltip" data-placement="left" title="Dat zijn {{ $adult_population }} van alle {{ $all_population }} {{ $inhabitants }}">{{ $adult_population }}</td>
+              <td data-toggle="tooltip" data-placement="left" title="Dat zijn {{ $history_second_name }} van de {{ $adult_population }} volwassen {{ $inhabitants }}"><span class="s">{{ range last 1 $data.history_adults.timeseries_percentage_second_dose }}{{ lang.NumFmt 2 . }}{{ end }}%</span> <small class="text-muted">{{ $history_second_name }} personen</small></td>
+              <td data-toggle="tooltip" data-placement="left" title="Dat zijn {{ $history_minimum_one_dose }} van de {{ $adult_population }} volwassen {{ $inhabitants }}"><span class="p">{{ range last 1 $data.history_adults.timeseries_percentage_minimum_one_dose }}{{ lang.NumFmt 2 . }}{{ end }}%</span> <small class="text-muted">{{ $history_minimum_one_dose }} personen</small></td>
+            </tr>
+        {{ end }}
       {{ end }}
       </tbody>
     </table>
