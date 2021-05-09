@@ -7,6 +7,7 @@ import time
 import typer
 import os
 import re
+import sys
 import unicodedata
 from os import path
 from datetime import date, datetime, timedelta
@@ -14,7 +15,7 @@ from typing import Any, Dict, List
 from functools import lru_cache
 locale.setlocale(locale.LC_ALL, "nl_BE")
 
-CSV_ENDPOINT = "https://www.laatjevaccineren.be/vaccination-info/get"
+CSV_ENDPOINT = "https://www.laatjevaccineren.be/vaccination-info/getTT"
 
 
 def slugify(value: str, allow_unicode: bool = False) -> str:
@@ -300,6 +301,9 @@ def do_fetch(date_to_fetch: str = typer.Argument(...)) -> None:
     dt = datetime.strptime(date_to_fetch, "%d-%m-%Y")
     typer.echo(f"Fetching {dt.date()}")
     fetch(dt.date())
+
+    # The downloaded file can't be loaded in dataframe the script must fail
+    pd.read_csv(data_path(dt.date()))
 
 
 @cli.command(name="crunch")

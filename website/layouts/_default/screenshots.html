@@ -235,7 +235,7 @@
     var colorGreen = '#198754';
     var fontSize1 = 17;
     var fontSize2 = 20;
-    var suggestedMax = 30;
+    var suggestedMax = {{ $.Site.Params.suggestedMax }};
 
     var dataHistory = {
 			data: {
@@ -245,7 +245,7 @@
           fill: false,
           pointRadius: 0,
           pointHoverRadius: 0,
-          lineTension: 0.25,
+          lineTension: 0.5,
           datalabels: {color: colorGreen},
 					backgroundColor: colorGreen,
 					borderColor: colorGreen,
@@ -255,7 +255,7 @@
 					fill: false,
           pointRadius: 0,
           pointHoverRadius: 0,
-          lineTension: 0.25,
+          lineTension: 0.5,
           datalabels: {color: colorBlue},
 					backgroundColor: colorBlue,
 					borderColor: colorBlue,
