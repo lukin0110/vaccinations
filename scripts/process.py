@@ -15,7 +15,7 @@ from typing import Any, Dict, List
 from functools import lru_cache
 locale.setlocale(locale.LC_ALL, "nl_BE")
 
-CSV_ENDPOINT = "https://www.laatjevaccineren.be/vaccination-info/getTT"
+CSV_ENDPOINT = "https://www.laatjevaccineren.be/vaccination-info/get"
 
 
 def slugify(value: str, allow_unicode: bool = False) -> str:
