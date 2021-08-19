@@ -145,7 +145,7 @@ def crunch_per_age(df: pd.DataFrame) -> Dict[str, Any]:
     # Age ranges changed after 08/08/2021
     def re_arrange2(v):
         if v in ["0-11", "12-17"]:
-            return "0-17"
+            return v
         if v in ["18-29", "30-39"]:
             return "18-39"
         if v in ["40-49", "50-59"]:
@@ -226,7 +226,8 @@ def crunch_location(
         # Numbers per age
         "per_age": {
             # "labels": ["80+", "60-79", "40-59", "20-39", "0-19"],
-            "labels": ["80+", "60-79", "40-59", "18-39", "0-17"],
+            # "labels": ["80+", "60-79", "40-59", "18-39", "0-17"],
+            "labels": ["80+", "60-79", "40-59", "18-39", "12-17", "0-11"],
             **crunch_per_age(df.copy())
         },
         "location": location,
@@ -257,7 +258,8 @@ def crunch_region(df: pd.DataFrame, start_date: date, end_date: date) -> Dict[st
         # Numbers per age
         "per_age": {
             # "labels": ["80+", "60-79", "40-59", "20-39", "0-19"],
-            "labels": ["80+", "60-79", "40-59", "18-39", "0-17"],
+            # "labels": ["80+", "60-79", "40-59", "18-39", "0-17"],
+            "labels": ["80+", "60-79", "40-59", "18-39", "12-17", "0-11"],
             **crunch_per_age(df.copy())
         },
         "last_date": f"{df.last_date:%d/%m/%Y}",
