@@ -187,7 +187,7 @@ def crunch_municipality(df: pd.DataFrame, start_date: date, end_date: date, muni
 
 def crunch_province(df: pd.DataFrame, start_date: date, end_date: date, province: str) -> Dict[str, Any]:
     """Crunch a province."""
-    pdf = df[df["PROVINCE"] == province]
+    pdf = df[df["PROVINCE"].str.lower() == province.lower()]
     inhabitants = {
         "oost-vlaanderen": "Oost-Vlamingen",
         "west-vlaanderen": "West-Vlamingen",
@@ -274,7 +274,8 @@ def municipalities(df: pd.DataFrame) -> List[str]:
 
 def provinces(df: pd.DataFrame) -> List[str]:
     """Return a list of all available provinces."""
-    return df["PROVINCE"].unique().tolist()
+    # return df["PROVINCE"].unique().tolist()
+    return ["West-Vlaanderen", "Antwerpen", "Oost-Vlaanderen", "Vlaams-Brabant", "Limburg"]
 
 
 def create_content(df: pd.DataFrame) -> None:
@@ -333,9 +334,18 @@ def do_crunch() -> None:
     df = load_range(_start_date, _end_date)
 
     print(f"Crunch daily numbers")
-    ms = municipalities(df)
+    # Recently added municipalities
+    temp_exclude = ["Mere", "Sint-Joris-Winge", "Sint-Martens-Voeren", "Moerbeke-Waas", "Ouwegem", "Liezele",
+                    "Sint-Blasius-Boekel", "Beveren-Waas", "Heist-Op-Den-Berg", "Helchteren",
+                    "Overpelt","Helkijn", "Kapelle-Op-Den-Bos", "Opglabbeek", "Scherpenheuvel", "Lovendegem",
+                    "Sint-Maria-Horebeke","Eindhout","Noordschote","Nieuwkerke","Gaasbeek","Hechtel",
+                    "Herk-De-Stad","Woesten","Achel","Berchem",'Maarke-Kerkem', 'Oostham', 'Poelkapelle',
+                    'Moregem', 'Knokke', 'Sint-Maria-Lierde'
+                    ]
+    ms = [m for m in municipalities(df) if m not in temp_exclude]
     for municipality in ms:
     # for municipality in ["Lommel"]:
+    #     print(f"Muni: {municipality}")
         data = crunch_municipality(df, _start_date, _end_date, municipality)
         jp = json_path(municipality)
         print(f"Store JSON: {jp}")
