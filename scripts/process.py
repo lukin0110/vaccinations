@@ -342,13 +342,14 @@ def do_crunch() -> None:
                     "Herk-De-Stad","Woesten","Achel","Berchem",'Maarke-Kerkem', 'Oostham', 'Poelkapelle',
                     'Moregem', 'Knokke', 'Sint-Maria-Lierde', "Moelingen","Sint-Maria-Latem",
                     "Sint-Kwintens-Lennik",'Vorst', 'Huise', 'Deftinge', 'Pollinkhove', 'Houthalen',
-                    'Zulzeke', 'Breendonk', 'Sint-Kornelis-Horebeke', 'Westvleteren'
+                    'Zulzeke', 'Breendonk', 'Sint-Kornelis-Horebeke', 'Westvleteren',
+                    'Wortegem', 'Langemark', 'Etikhove',
                     ]
     ms = [m for m in municipalities(df) if m not in temp_exclude]
     # print(ms[300:])
     for municipality in ms:
     # for municipality in ["Lommel"]:
-    #     print(f"Muni: {municipality}")
+        print(f"Muni: {municipality}")
         data = crunch_municipality(df, _start_date, _end_date, municipality)
         jp = json_path(municipality)
         print(f"Store JSON: {jp}")
