@@ -343,10 +343,12 @@ def do_crunch() -> None:
                     'Moregem', 'Knokke', 'Sint-Maria-Lierde', "Moelingen","Sint-Maria-Latem",
                     "Sint-Kwintens-Lennik",'Vorst', 'Huise', 'Deftinge', 'Pollinkhove', 'Houthalen',
                     'Zulzeke', 'Breendonk', 'Sint-Kornelis-Horebeke', 'Westvleteren',
-                    'Wortegem', 'Langemark', 'Etikhove','Ruisbroek', 'Munkzwalm', 'Westkapelle', 'Spiere'
+                    'Wortegem', 'Langemark', 'Etikhove','Ruisbroek', 'Munkzwalm', 'Westkapelle', 'Spiere',
+                    'Erpe', 'Petegem-Aan-De-Schelde', 'Ruien', 'Bikschote'
                     ]
     ms = [m for m in municipalities(df) if m not in temp_exclude]
     # print(ms[300:])
+    # for municipality in ms[300:]:
     for municipality in ms:
     # for municipality in ["Lommel"]:
         print(f"Muni: {municipality}")
