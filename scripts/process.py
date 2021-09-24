@@ -335,18 +335,16 @@ def do_crunch() -> None:
 
     print(f"Crunch daily numbers")
     # Recently added municipalities
-    temp_exclude = ["Burst", "Mere", "Sint-Joris-Winge", "Sint-Martens-Voeren", "Moerbeke-Waas", "Ouwegem", "Liezele",
-                    "Sint-Blasius-Boekel", "Beveren-Waas", "Heist-Op-Den-Berg", "Helchteren",
-                    "Overpelt","Helkijn", "Kapelle-Op-Den-Bos", "Opglabbeek", "Scherpenheuvel", "Lovendegem",
-                    "Sint-Maria-Horebeke","Eindhout","Noordschote","Nieuwkerke","Gaasbeek","Hechtel",
-                    "Herk-De-Stad","Woesten","Achel","Berchem",'Maarke-Kerkem', 'Oostham', 'Poelkapelle',
-                    'Moregem', 'Knokke', 'Sint-Maria-Lierde', "Moelingen","Sint-Maria-Latem",
-                    "Sint-Kwintens-Lennik",'Vorst', 'Huise', 'Deftinge', 'Pollinkhove', 'Houthalen',
-                    'Zulzeke', 'Breendonk', 'Sint-Kornelis-Horebeke', 'Westvleteren',
-                    'Wortegem', 'Langemark', 'Etikhove','Ruisbroek', 'Munkzwalm', 'Westkapelle', 'Spiere',
+    temp_exclude = ["Burst", "Mere", "Sint-Joris-Winge", "Sint-Martens-Voeren", "Ouwegem", "Liezele",
+                    "Sint-Blasius-Boekel",
+                    "Noordschote","Gaasbeek","Woesten","Berchem",
+                    'Moregem', 'Knokke', "Sint-Maria-Latem",
+                    "Sint-Kwintens-Lennik",'Vorst', 'Deftinge', 'Pollinkhove', 'Houthalen',
+                    'Zulzeke', 'Breendonk', 'Sint-Kornelis-Horebeke',
+                    'Wortegem', 'Langemark', 'Etikhove','Ruisbroek', 'Munkzwalm',  'Spiere',
                     'Erpe', 'Petegem-Aan-De-Schelde', 'Ruien', 'Bikschote', 'Houwaart',
                     'Zingem', 'Sint-Martens-Lennik', 'Oostvleteren', 'Elsegem', 'Reninge', 'Beerlegem',
-                    'Ooike', 'Paulatem'
+                    'Ooike', 'Paulatem','Poelkapelle'
                     ]
     ms = [m for m in municipalities(df) if m not in temp_exclude]
     # print(ms[300:])
