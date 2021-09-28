@@ -351,12 +351,12 @@ def do_crunch() -> None:
         "Noordschote","Gaasbeek","Woesten","Berchem", 'Moregem',"Sint-Kwintens-Lennik",
         'Deftinge', 'Wortegem', 'Ruisbroek', 'Munkzwalm', 'Petegem-Aan-De-Schelde', 'Ruien',
         'Bikschote', 'Houwaart', 'Zingem', 'Sint-Martens-Lennik', 'Oostvleteren', 'Elsegem',
-        'Reninge', 'Beerlegem', 'Ooike', 'Paulatem', 'Poelkapelle'
+        'Reninge', 'Beerlegem', 'Ooike', 'Paulatem', 'Poelkapelle', 'Langemark'
     ]
     ms = [m for m in municipalities(df) if m not in temp_exclude]
     # print(ms[300:])
     # for municipality in ms[300:]:
-    for municipality in ms:
+    for municipality in sorted(ms):
     # for municipality in ["Lommel"]:
         print(f"Muni: {municipality}")
         data = crunch_municipality(df, _start_date, _end_date, municipality)
