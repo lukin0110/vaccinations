@@ -347,11 +347,8 @@ def do_crunch() -> None:
     print(f"Crunch daily numbers")
     # Recently added municipalities
     temp_exclude = [
-        "Burst", "Mere", "Sint-Joris-Winge", "Ouwegem", "Liezele", "Sint-Blasius-Boekel",
-        "Noordschote","Gaasbeek","Woesten","Berchem", 'Moregem',
-        'Deftinge', 'Wortegem', 'Ruisbroek', 'Munkzwalm', 'Petegem-Aan-De-Schelde', 'Ruien',
-        'Bikschote', 'Houwaart', 'Zingem', 'Sint-Martens-Lennik', 'Oostvleteren', 'Elsegem',
-        'Reninge', 'Beerlegem', 'Ooike', 'Paulatem', 'Aaigem'
+        'Petegem-Aan-De-Schelde', 'Bikschote', 'Houwaart', 'Elsegem', 'Beerlegem', 'Ooike', 'Paulatem', 'Aaigem',
+        'Bambrugge', 'Hamont',
     ]
     ms = [m for m in municipalities(df) if m not in temp_exclude]
     # print(ms[300:])
