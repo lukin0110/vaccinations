@@ -347,14 +347,14 @@ def do_crunch() -> None:
     print(f"Crunch daily numbers")
     # Recently added municipalities
     temp_exclude = [
-        'Petegem-Aan-De-Schelde', 'Bikschote', 'Houwaart', 'Elsegem', 'Beerlegem', 'Ooike', 'Paulatem', 'Aaigem',
-        'Bambrugge', 'Hamont',
+        'Petegem-Aan-De-Schelde', 'Elsegem', 'Beerlegem', 'Ooike', 'Paulatem', 'Aaigem',
+        'Bambrugge', 'Hamont','Rozebeke',
     ]
     ms = [m for m in municipalities(df) if m not in temp_exclude]
     # print(ms[300:])
     # for municipality in ms[300:]:
     # for municipality in sorted(ms):
-    for municipality in ms:
+    for municipality in temp_exclude:
     # for municipality in ["Lommel"]:
         print(f"Muni: {municipality}")
         data = crunch_municipality(df, _start_date, _end_date, municipality)
