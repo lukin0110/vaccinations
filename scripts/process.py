@@ -182,18 +182,22 @@ def crunch_per_age(df: pd.DataFrame) -> Dict[str, Any]:
         "POPULATION_NBR": sum,
         "VACCINATED_FIRST_DOSIS_NBR": sum,
         "VACCINATED_SECOND_DOSIS_NBR": sum,
+        "BOOSTER_AMT": sum,
     })
-    df_ages = df_ages.sort_values(by='AGE_CD', ascending=False)
-    population = df_ages['POPULATION_NBR'].values.tolist()
-    first_dose = df_ages['VACCINATED_FIRST_DOSIS_NBR'].values.tolist()
-    second_dose = df_ages['VACCINATED_SECOND_DOSIS_NBR'].values.tolist()
+    df_ages = df_ages.sort_values(by="AGE_CD", ascending=False)
+    population = df_ages["POPULATION_NBR"].values.tolist()
+    first_dose = df_ages["VACCINATED_FIRST_DOSIS_NBR"].values.tolist()
+    second_dose = df_ages["VACCINATED_SECOND_DOSIS_NBR"].values.tolist()
+    booster_dose = df_ages["BOOSTER_AMT"].values.tolist()
 
     return {
         "population": population,
         "first_dose": first_dose,
         "second_dose": second_dose,
+        "booster_dose": booster_dose,
         "percentage_first_dose": [round(100*v/population[i], 2) for i, v in enumerate(first_dose)],
-        "percentage_second_dose": [round(100*v/population[i], 2) for i, v in enumerate(second_dose)]
+        "percentage_second_dose": [round(100*v/population[i], 2) for i, v in enumerate(second_dose)],
+        "percentage_booster_dose": [round(100*v/population[i], 2) for i, v in enumerate(booster_dose)],
     }
 
 

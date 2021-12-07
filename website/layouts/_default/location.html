@@ -139,7 +139,7 @@
               {{ if $lastBooster }}
               <div class="col-md-6 col-lg-12 col-sm-12 d-flex">
                 <div class="card card-warning mb-3 flex-fill">
-                  <div class="card-header">Booster prik ⚡</div>
+                  <div class="card-header">Booster dosis ⚡</div>
                   <div class="card-body">
                     <h3 class="card-title">{{ range last 1 $data.history_all.timeseries_percentage_booster }}{{ lang.NumFmt 2 . }}{{ end }}%</h3>
                     <p class="card-text">Dat zijn <strong>{{ lang.NumFmt 0 $data.history_all.booster "- , ." }}</strong> van de
@@ -199,7 +199,7 @@
               {{ if $lastBooster }}
               <div class="col-md-6 col-lg-12 col-sm-12 d-flex">
                 <div class="card card-warning mb-3 flex-fill">
-                  <div class="card-header">Booster prik ⚡</div>
+                  <div class="card-header">Booster dosis ⚡</div>
                   <div class="card-body">
                     <h3 class="card-title">{{ range last 1 $data.history_adults.timeseries_percentage_booster }}{{ lang.NumFmt 2 . }}{{ end }}%</h3>
                     <p class="card-text">Dat zijn <strong>{{ lang.NumFmt 0 $data.history_adults.booster "- , ." }}</strong> van de
@@ -275,6 +275,17 @@
       <div class="col-md-12 col-lg-4 mt-md-5">
         <div class="row">
           <div class="col-md-6 col-lg-12 col-sm-12 d-flex">
+            <div class="card card-warning mb-3 flex-fill">
+              <div class="card-header">80-plussers met booster dosis ⚡</div>
+              <div class="card-body">
+                <h3 class="card-title">{{ lang.NumFmt 2 (index $data.per_age.percentage_booster_dose 0) }}%</h3>
+                <p class="card-text">Dat zijn <strong>{{ lang.NumFmt 0 (index $data.per_age.booster_dose 0) "- , ." }}</strong> van de
+                  <strong>{{ lang.NumFmt 0 (index $data.per_age.population 0) "- , ." }}</strong> mensen ouder dan 80 jaar.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-lg-12 col-sm-12 d-flex">
             <div class="card card-success mb-3 flex-fill">
               <div class="card-header">Volledig gevaccineerde 80-plussers 🚀</div>
               <div class="card-body">
@@ -300,23 +311,17 @@
     </div>
     <div class="row pb-3 pb-md-4 my-md-4 justify-content-md-center">
       <div class="col-md-9 text-center">
-        <!--
-        <p class="text-muted">Het totale aantal inwoners per leeftijd is gebaseerd op de bevolkingscijfers van 2020
-          (laatst gepubliceerde cijfers van Statbel). Intussen zijn mensen natuurlijk weer wat ouder geworden. In
-          kleinere leeftijdscohortes zoals de 90+’ers <strong>kan er daardoor een vaccinatiegraad van meer dan 100% bereikt
-          worden.</strong></p>
-        -->
-        <p class="text-muted">Om te berekenen hoeveel percent van de bevolking gevaccineerd is, vergelijken we het aantal
+        <small class="text-muted">Om te berekenen hoeveel percent van de bevolking gevaccineerd is, vergelijken we het aantal
           gevaccineerde personen met de officiële bevolkingscijfers van Statbel, het Belgische statistiekbureau.
           Het aantal gevaccineerde personen is up-to-date, telkens iemand gevaccineerd wordt, wordt dat geregistreerd.
           De bevolkingscijfers dateren van 1 januari 2021. Statbel heeft daar recent voorlopige cijfers over gepubliceerd
           die later bij het publiceren van de officiële cijfers nog gecorrigeerd kunnen worden. In de loop van zomer
           verwachten we dat Statbel de officiële bevolkingscijfers van 1/1/2021 beschikbaar heeft en dan zullen we de
-          vaccinatiegraad herrekenen met deze cijfers.</p>
+          vaccinatiegraad herrekenen met deze cijfers.</small>
 
-        <p class="text-muted">Recentelijk heeft Vaccinnet+ de leeftijdscategorieën aangepast omdat men begonnen is met
+        <small class="text-muted d-block mt-3">Recentelijk heeft Vaccinnet+ de leeftijdscategorieën aangepast omdat men begonnen is met
           de vaccinatie van minderjarigen. Dit zorgt ervoor dat de categorieën <strong>0-19</strong> en <strong>20-39</strong>
-          zijn aangepast naar 3 nieuwe categorieën <strong>0-11</strong>, <strong>12-17</strong> en <strong>18-39</strong>.</p>
+          zijn aangepast naar 3 nieuwe categorieën <strong>0-11</strong>, <strong>12-17</strong> en <strong>18-39</strong>.</small>
       </div>
     </div>
 
@@ -371,8 +376,10 @@
     var PER_AGE_LABELS = {{ $data.per_age.labels }};
     var PER_AGE_PERCENTAGE_FIRST_DOSE = {{ $data.per_age.percentage_first_dose }};
     var PER_AGE_PERCENTAGE_SECOND_DOSE = {{ $data.per_age.percentage_second_dose }};
+    var PER_AGE_PERCENTAGE_BOOSTER_DOSE = {{ $data.per_age.percentage_booster_dose }};
     var PER_AGE_FIRST_DOSE = {{ $data.per_age.first_dose }};
     var PER_AGE_SECOND_DOSE = {{ $data.per_age.second_dose }};
+    var PER_AGE_BOOSTER_DOSE = {{ $data.per_age.booster_dose }};
     var PER_AGE_POPULATION = {{ $data.per_age.population }};
   </script>
 
@@ -520,13 +527,27 @@
         datasets: [{
           label: 'Volledig gevaccineerd',
           backgroundColor: colorGreen,
-          data: PER_AGE_PERCENTAGE_SECOND_DOSE
+          data: PER_AGE_PERCENTAGE_SECOND_DOSE,
+          stack: "First Wave",
+          datalabels: {
+            // align: 'end',
+            anchor: 'end'
+          }
         }, {
           label: 'Enkel 1 dosis gehad',
           backgroundColor: colorBlue,
           data: PER_AGE_PERCENTAGE_FIRST_DOSE,
+          stack: "First Wave",
           datalabels: {
             // align: 'end',
+            anchor: 'end'
+          }
+        }, {
+          label: 'Booster dosis',
+          backgroundColor: colorOrange,
+          data: PER_AGE_PERCENTAGE_BOOSTER_DOSE,
+          stack: "Booster Wave",
+          datalabels: {
             anchor: 'end'
           }
         }]
@@ -535,7 +556,8 @@
 
     function getAgeContext (i) {
       return {
-        percentage: (PER_AGE_PERCENTAGE_FIRST_DOSE[i] + PER_AGE_PERCENTAGE_SECOND_DOSE[i]).toFixed(2),
+        percentage: PER_AGE_PERCENTAGE_SECOND_DOSE[i].toFixed(2),
+        booster: PER_AGE_PERCENTAGE_BOOSTER_DOSE[i].toFixed(2),
         persons: Math.floor(PER_AGE_FIRST_DOSE[i] + PER_AGE_SECOND_DOSE[i]).toLocaleString().replace(",", "."),
         population: Math.floor(PER_AGE_POPULATION[i]).toLocaleString().replace(",", ".")
       }
@@ -558,38 +580,44 @@
           datalabels: {
             align: function (context) {
               var ageContext = getAgeContext(context.dataIndex);
-              return ageContext.percentage > 70 ? 'start' : 'end';
+              if (context.datasetIndex === 0) {
+                return ageContext.percentage > 10 ? 'start' : 'end';
+              }
+              return ageContext.booster > 10 ? 'start' : 'end';
             },
             color: function (context) {
               var ageContext = getAgeContext(context.dataIndex);
-              return ageContext.percentage > 70 ? 'white' : '#6c757d';
+              if (context.datasetIndex === 0) {
+                return ageContext.percentage > 10 ? 'white' : '#6c757d';
+              }
+              return ageContext.booster > 10 ? 'white' : '#6c757d';
             },
             font: {
               size: fontSize1
             },
             formatter: function (value, context) {
               var ageContext = getAgeContext(context.dataIndex);
-              var text = "\n" + ageContext.persons + ' van de ' + ageContext.population;
-              return ageContext.percentage.toString().replace('.', ',') + '%' + (window.innerWidth < 750 ? '' : text);
+              // var text = "\n" + ageContext.persons + ' van de ' + ageContext.population;
+              if (context.datasetIndex === 0) {
+                // return ageContext.percentage.toString().replace('.', ',') + '%' + (window.innerWidth < 750 ? '' : text);
+                return ageContext.percentage.toString().replace('.', ',') + '%';
+              }
+              return ageContext.booster.toString().replace('.', ',') + '%';
             },
             display: function (context) {
-              return context.datasetIndex === 1;
+              return context.datasetIndex === 0 || context.datasetIndex === 2;
             }
           }
         },
         tooltips: {
           mode: 'index',
           intersect: true,
-          position: 'custom'
-          // callbacks: {
-          //   footer: function(tooltipItems, data) {
-          //     let total = 0;
-          //     for (let i = 0; i < tooltipItems.length; i++) {
-          //         total += tooltipItems[i].xLabel;
-          //     }
-          //     return 'Totaal: ' + total.toFixed(2) + '%';
-          //   }
-          // }
+          position: 'custom',
+          callbacks: {
+            label: function(tooltipItems, data) {
+              return data.datasets[tooltipItems.datasetIndex].label + ": "+ tooltipItems.xLabel.toFixed(2) + "%";
+            }
+          }
         },
         scales: {
           xAxes: [{
@@ -597,8 +625,8 @@
             display: true,
             ticks: {
               fontSize: fontSize2,
-              // max: 100,
-              suggestedMax: 110,
+              max: 100,
+              // suggestedMax: 110,
               callback: function(v, i, vv) {
                return v + "%";
               }
