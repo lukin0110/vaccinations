@@ -86,8 +86,6 @@
 <!--
 <pre id="message">📣 Wekelijkse vaccinatieteller update {{ $data.last_date }} 💉 💚
 
-⚡ {{ range last 1 $data.history_all.timeseries_percentage_booster }}{{ lang.NumFmt 2 . }}{{ end }}% van de {{ $inhabitants }} hebben al een booster prik gehad. Dat zijn {{ lang.NumFmt 0 $data.history_all.booster  "- , ." }} van de {{ lang.NumFmt 0 $data.history_all.population "- , ." }} mensen.
-
 👌 {{ range last 1 $data.history_all.timeseries_percentage_second_dose }}{{ lang.NumFmt 2 . }}{{ end }}% van de {{ $inhabitants }} zijn volledig gevaccineerd. Dat zijn {{ lang.NumFmt 0 $data.history_all.second_dose "- , ." }} van de {{ lang.NumFmt 0 $data.history_all.population "- , ." }} mensen. Dat zijn {{ lang.NumFmt 0 $data.history_all.diff_7_second_dose "- , ."  }} mensen extra sinds vorige week ({{ $data.date_diff_7 }}).
 
 📈 {{ range last 1 $data.history_all.timeseries_percentage_minimum_one_dose }}{{ lang.NumFmt 2 . }}{{ end }}% van de {{ $inhabitants }} hebben al een eerste prik gehad. Dat zijn {{ lang.NumFmt 0 $data.history_all.minimum_one_dose "- , ." }} van de {{ lang.NumFmt 0 $data.history_all.population "- , ." }} mensen. Dat zijn {{ lang.NumFmt 0 $data.history_all.diff_7_minimum_one_dose "- , ."  }} mensen extra sinds vorige week ({{ $data.date_diff_7 }}).
@@ -99,7 +97,10 @@
 -->
 <pre id="message">📣 Wekelijkse vaccinatieteller update {{ $data.last_date }} 💉 💚
 
-⚡ {{ range last 1 $data.history_all.timeseries_percentage_booster }}{{ lang.NumFmt 2 . }}{{ end }}% van de {{ $inhabitants }} hebben al een booster prik gehad. Dat zijn {{ lang.NumFmt 0 $data.history_all.booster  "- , ." }} van de {{ lang.NumFmt 0 $data.history_all.population "- , ." }} mensen.
+{{ $lastBooster := index (last 1 $data.history_all.timeseries_percentage_booster) 0 }}
+{{ if $lastBooster }}
+⚡ {{ lang.NumFmt 2 $lastBooster }}% van de {{ $inhabitants }} hebben al een booster prik gehad. Dat zijn {{ lang.NumFmt 0 $data.history_all.booster  "- , ." }} van de {{ lang.NumFmt 0 $data.history_all.population "- , ." }} mensen.
+{{ end }}
 
 🙏 {{ lang.NumFmt 2 (index $data.per_age.percentage_booster_dose 0) }}% van de 80-plussers hebben al een booster prik gehad.
 
@@ -125,6 +126,8 @@
         </div>
       </div>
       <div class="row my-3">
+        {{ $lastBooster := index (last 1 $data.history_all.timeseries_percentage_booster) 0 }}
+        {{ if $lastBooster }}
         <div class="col-md-6 d-flex">
           <div class="card card-warning text-white border-0 mb-2 flex-fill">
             <div class="card-header">Booster dosis ⚡</div>
@@ -135,12 +138,13 @@
                 </div>
                 <div class="col-8">
                   <p class="card-text ml-3">Dat zijn <strong>{{ lang.NumFmt 0 $data.history_all.booster "- , ." }}</strong> van de
-                    <strong>{{ lang.NumFmt 0 $data.history_all.population "- , ." }}</strong> volwassen {{ $inhabitants }}.</p>
+                    <strong>{{ lang.NumFmt 0 $data.history_all.population "- , ." }}</strong> {{ $inhabitants }}.</p>
                 </div>
               </div>
             </div>
           </div>
         </div>
+        {{ end }}
 
         <div class="col-md-6 d-flex">
           <div class="card text-white border-0 bg-success mb-2 flex-fill">
@@ -152,7 +156,7 @@
                 </div>
                 <div class="col-8">
                   <p class="card-text ml-3">Dat zijn <strong>{{ lang.NumFmt 0 $data.history_all.second_dose "- , ." }}</strong> van de
-                    <strong>{{ lang.NumFmt 0 $data.history_all.population "- , ." }}</strong> volwassen {{ $inhabitants }}.</p>
+                    <strong>{{ lang.NumFmt 0 $data.history_all.population "- , ." }}</strong> {{ $inhabitants }}.</p>
                 </div>
               </div>
             </div>
