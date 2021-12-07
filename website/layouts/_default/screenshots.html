@@ -43,6 +43,14 @@
     .follow {
       font-size: 1.5em;
     }
+
+    .card-warning .card-header {
+      background-color: #f58442;
+    }
+
+    .card-warning .card-body {
+      background-color: #f58442;
+    }
 	</style>
   <script>
     window.onbeforeunload = function () {
@@ -75,13 +83,27 @@
 
     <h1 class="border-bottom">Facebook bericht</h1>
     <div class="my-3 p-2 message">
+<!--
 <pre id="message">📣 Wekelijkse vaccinatieteller update {{ $data.last_date }} 💉 💚
 
-👌 {{ range last 1 $data.history_adults.timeseries_percentage_second_dose }}{{ lang.NumFmt 2 . }}{{ end }}% van de volwassen {{ $inhabitants }} zijn volledig gevaccineerd. Dat zijn {{ lang.NumFmt 0 $data.history_adults.second_dose "- , ." }} van de {{ lang.NumFmt 0 $data.history_adults.population "- , ." }} mensen. Dat zijn {{ lang.NumFmt 0 $data.history_adults.diff_7_second_dose "- , ."  }} mensen extra sinds vorige week ({{ $data.date_diff_7 }}).
+⚡ {{ range last 1 $data.history_all.timeseries_percentage_booster }}{{ lang.NumFmt 2 . }}{{ end }}% van de {{ $inhabitants }} hebben al een booster prik gehad. Dat zijn {{ lang.NumFmt 0 $data.history_all.booster  "- , ." }} van de {{ lang.NumFmt 0 $data.history_all.population "- , ." }} mensen.
 
-📈 {{ range last 1 $data.history_adults.timeseries_percentage_minimum_one_dose }}{{ lang.NumFmt 2 . }}{{ end }}% van de volwassen {{ $inhabitants }} hebben al een eerste prik gehad. Dat zijn {{ lang.NumFmt 0 $data.history_adults.minimum_one_dose "- , ." }} van de {{ lang.NumFmt 0 $data.history_adults.population "- , ." }} mensen. Dat zijn {{ lang.NumFmt 0 $data.history_adults.diff_7_minimum_one_dose "- , ."  }} mensen extra sinds vorige week ({{ $data.date_diff_7 }}).
+👌 {{ range last 1 $data.history_all.timeseries_percentage_second_dose }}{{ lang.NumFmt 2 . }}{{ end }}% van de {{ $inhabitants }} zijn volledig gevaccineerd. Dat zijn {{ lang.NumFmt 0 $data.history_all.second_dose "- , ." }} van de {{ lang.NumFmt 0 $data.history_all.population "- , ." }} mensen. Dat zijn {{ lang.NumFmt 0 $data.history_all.diff_7_second_dose "- , ."  }} mensen extra sinds vorige week ({{ $data.date_diff_7 }}).
+
+📈 {{ range last 1 $data.history_all.timeseries_percentage_minimum_one_dose }}{{ lang.NumFmt 2 . }}{{ end }}% van de {{ $inhabitants }} hebben al een eerste prik gehad. Dat zijn {{ lang.NumFmt 0 $data.history_all.minimum_one_dose "- , ." }} van de {{ lang.NumFmt 0 $data.history_all.population "- , ." }} mensen. Dat zijn {{ lang.NumFmt 0 $data.history_all.diff_7_minimum_one_dose "- , ."  }} mensen extra sinds vorige week ({{ $data.date_diff_7 }}).
 
 🙏 {{ lang.NumFmt 2 (index $data.per_age.percentage_second_dose 0) }}% van de 80-plussers zijn volledig gevaccineerd. Dat zijn {{ lang.NumFmt 0 (index $data.per_age.second_dose 0) "- , ." }} van de {{ lang.NumFmt 0 (index $data.per_age.population 0) "- , ." }} mensen.</p>
+
+👉 Dagelijkse updates kan je steeds volgen via {{ .Site.BaseURL }}{{ lower $municipality }}/
+</pre>
+-->
+<pre id="message">📣 Wekelijkse vaccinatieteller update {{ $data.last_date }} 💉 💚
+
+⚡ {{ range last 1 $data.history_all.timeseries_percentage_booster }}{{ lang.NumFmt 2 . }}{{ end }}% van de {{ $inhabitants }} hebben al een booster prik gehad. Dat zijn {{ lang.NumFmt 0 $data.history_all.booster  "- , ." }} van de {{ lang.NumFmt 0 $data.history_all.population "- , ." }} mensen.
+
+🙏 {{ lang.NumFmt 2 (index $data.per_age.percentage_booster_dose 0) }}% van de 80-plussers hebben al een booster prik gehad.
+
+👌 {{ range last 1 $data.history_all.timeseries_percentage_second_dose }}{{ lang.NumFmt 2 . }}{{ end }}% van de {{ $inhabitants }} zijn volledig gevaccineerd. Dat zijn {{ lang.NumFmt 0 $data.history_all.second_dose "- , ." }} van de {{ lang.NumFmt 0 $data.history_all.population "- , ." }} mensen. Dat zijn {{ lang.NumFmt 0 $data.history_all.diff_7_second_dose "- , ."  }} mensen extra sinds vorige week ({{ $data.date_diff_7 }}).
 
 👉 Dagelijkse updates kan je steeds volgen via {{ .Site.BaseURL }}{{ lower $municipality }}/
 </pre>
@@ -99,21 +121,21 @@
     <div class="container" id="source-history-adults">
       <div class="row">
         <div class="col-12">
-          <h3 class="text-center mt-3">Percentage van gevaccineerde {{ $inhabitants }} (18+) op {{ $data.last_date }} 💚</h3>
+          <h3 class="text-center mt-3">Percentage van gevaccineerde {{ $inhabitants }} op {{ $data.last_date }} 💚</h3>
         </div>
       </div>
       <div class="row my-3">
         <div class="col-md-6 d-flex">
-          <div class="card text-white border-0 bg-success mb-2 flex-fill">
-            <div class="card-header">Volledig gevaccineerd 🚀</div>
+          <div class="card card-warning text-white border-0 mb-2 flex-fill">
+            <div class="card-header">Booster dosis ⚡</div>
             <div class="card-body">
               <div class="row">
                 <div class="col-4">
-                  <h2 class="card-title">{{ range last 1 $data.history_adults.timeseries_percentage_second_dose }}{{ lang.NumFmt 2 . }}{{ end }}%</h2>
+                  <h2 class="card-title">{{ range last 1 $data.history_all.timeseries_percentage_booster }}{{ lang.NumFmt 2 . }}{{ end }}%</h2>
                 </div>
                 <div class="col-8">
-                  <p class="card-text ml-3">Dat zijn <strong>{{ lang.NumFmt 0 $data.history_adults.second_dose "- , ." }}</strong> van de
-                    <strong>{{ lang.NumFmt 0 $data.history_adults.population "- , ." }}</strong> volwassen {{ $inhabitants }}.</p>
+                  <p class="card-text ml-3">Dat zijn <strong>{{ lang.NumFmt 0 $data.history_all.booster "- , ." }}</strong> van de
+                    <strong>{{ lang.NumFmt 0 $data.history_all.population "- , ." }}</strong> volwassen {{ $inhabitants }}.</p>
                 </div>
               </div>
             </div>
@@ -121,21 +143,40 @@
         </div>
 
         <div class="col-md-6 d-flex">
-          <div class="card text-white bg-primary mb-2 flex-fill">
-            <div class="card-header">Minstens 1 dosis gehad 🤗</div>
+          <div class="card text-white border-0 bg-success mb-2 flex-fill">
+            <div class="card-header">Volledig gevaccineerd 🚀</div>
             <div class="card-body">
               <div class="row">
                 <div class="col-4">
-                  <h2 class="card-title">{{ range last 1 $data.history_adults.timeseries_percentage_minimum_one_dose }}{{ lang.NumFmt 2 . }}{{ end }}%</h2>
+                  <h2 class="card-title">{{ range last 1 $data.history_all.timeseries_percentage_second_dose }}{{ lang.NumFmt 2 . }}{{ end }}%</h2>
                 </div>
                 <div class="col-8">
-                  <p class="card-text">Dat zijn <strong>{{ lang.NumFmt 0 $data.history_adults.minimum_one_dose "- , ." }}</strong> van de
-                  <strong>{{ lang.NumFmt 0 $data.history_adults.population "- , ." }}</strong> volwassen {{ $inhabitants }}.</p>
+                  <p class="card-text ml-3">Dat zijn <strong>{{ lang.NumFmt 0 $data.history_all.second_dose "- , ." }}</strong> van de
+                    <strong>{{ lang.NumFmt 0 $data.history_all.population "- , ." }}</strong> volwassen {{ $inhabitants }}.</p>
                 </div>
               </div>
             </div>
           </div>
         </div>
+
+        <!--
+        <div class="col-md-4 d-flex">
+          <div class="card text-white bg-primary mb-2 flex-fill">
+            <div class="card-header">Minstens 1 dosis gehad 🤗</div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-4">
+                  <h2 class="card-title">{{ range last 1 $data.history_all.timeseries_percentage_minimum_one_dose }}{{ lang.NumFmt 2 . }}{{ end }}%</h2>
+                </div>
+                <div class="col-8">
+                  <p class="card-text ml-3">Dat zijn <strong>{{ lang.NumFmt 0 $data.history_all.minimum_one_dose "- , ." }}</strong> van de
+                  <strong>{{ lang.NumFmt 0 $data.history_all.population "- , ." }}</strong> volwassen {{ $inhabitants }}.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        -->
       </div>
       <div class="row">
         <div class="col-md-12 mb-3 h-100">
@@ -217,9 +258,10 @@
 
   <script>
     // Data for the datasets
-    var HISTORY_ADULTS_LABELS = {{ $data.history_adults.labels }};
-    var HISTORY_ADULTS_PERCENTAGE_ONE_DOSE = {{ $data.history_adults.timeseries_percentage_minimum_one_dose }};
-    var HISTORY_ADULTS_PERCENTAGE_SECOND_DOSE = {{ $data.history_adults.timeseries_percentage_second_dose }};
+    var HISTORY_ALL_LABELS = {{ $data.history_all.labels }};
+    var HISTORY_ALL_PERCENTAGE_ONE_DOSE = {{ $data.history_all.timeseries_percentage_minimum_one_dose }};
+    var HISTORY_ALL_PERCENTAGE_SECOND_DOSE = {{ $data.history_all.timeseries_percentage_second_dose }};
+    var HISTORY_ALL_PERCENTAGE_BOOSTER = {{ $data.history_all.timeseries_percentage_booster }};
     var PER_AGE_LABELS = {{ $data.per_age.labels }};
     var PER_AGE_PERCENTAGE_FIRST_DOSE = {{ $data.per_age.percentage_first_dose }};
     var PER_AGE_PERCENTAGE_SECOND_DOSE = {{ $data.per_age.percentage_second_dose }};
@@ -233,34 +275,45 @@
 
     var colorBlue = '#0d6efd';
     var colorGreen = '#198754';
+    var colorOrange = '#f58442';
     var fontSize1 = 17;
     var fontSize2 = 20;
     var suggestedMax = {{ $.Site.Params.suggestedMax }};
 
     var dataHistory = {
 			data: {
-				labels: HISTORY_ADULTS_LABELS,
+				labels: HISTORY_ALL_LABELS,
         datasets: [{
 					label: 'Volledig gevaccineerd',
           fill: false,
           pointRadius: 0,
           pointHoverRadius: 0,
-          lineTension: 0.7,
+          lineTension: 0.9,
           datalabels: {color: colorGreen},
 					backgroundColor: colorGreen,
 					borderColor: colorGreen,
-          data: HISTORY_ADULTS_PERCENTAGE_SECOND_DOSE
+          data: HISTORY_ALL_PERCENTAGE_SECOND_DOSE
 				}, {
 					label: 'Minstens 1 dosis gehad',
 					fill: false,
           pointRadius: 0,
           pointHoverRadius: 0,
-          lineTension: 0.7,
+          lineTension: 0.9,
           datalabels: {color: colorBlue},
 					backgroundColor: colorBlue,
 					borderColor: colorBlue,
-          data: HISTORY_ADULTS_PERCENTAGE_ONE_DOSE
-				}]
+          data: HISTORY_ALL_PERCENTAGE_ONE_DOSE
+				}, {
+          label: 'Booster dosis',
+          fill: false,
+          pointRadius: 0,
+          pointHoverRadius: 6,
+          lineTension: 0.9,
+          datalabels: {color: colorOrange},
+          backgroundColor: colorOrange,
+          borderColor: colorOrange,
+          data: HISTORY_ALL_PERCENTAGE_BOOSTER
+        }]
 			}
     };
 
@@ -287,7 +340,14 @@
 					xAxes: [{
 						display: true,
             ticks: {
-              fontSize: fontSize2
+              autoSkip: false,
+              fontSize: fontSize2,
+              maxRotation: 0,
+              minRotation: 0,
+              callback: function(val, index) {
+                if (val.startsWith("01")) return val;
+                return null;
+              }
             },
 						scaleLabel: {
 							display: true,
