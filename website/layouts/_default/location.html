@@ -120,7 +120,10 @@
           <div class="col-md-12 col-lg-9 pb-3 h-100">
             <h5 class="text-center">Percentage van gevaccineerde {{ $inhabitants }} (alle leeftijden)</h5>
             <canvas id="canvasHistoryAll"></canvas>
-            <div class="text-center"><small class="text-muted font-italic">* Dagelijkse data is enkel sinds 25/02/2021 beschikbaar.</small></div>
+            <div class="text-center">
+              <small class="text-muted font-italic">* Dagelijkse data is enkel sinds 25/02/2021 beschikbaar.</small><br>
+              <small class="text-muted font-italic" style="color: #f58442 !important;">** Booster data is enkel sinds 03/12/2021 beschikbaar.</small>
+            </div>
           </div>
           <div class="col-md-12 col-lg-3">
             <div class="row">
@@ -159,7 +162,10 @@
           <div class="col-md-12 col-lg-9 pb-3 h-100">
             <h5 class="text-center">Percentage van gevaccineerde {{ $inhabitants }} (enkel volwassenen)</h5>
             <canvas id="canvasHistoryAdults"></canvas>
-            <div class="text-center"><small class="text-muted font-italic">* Dagelijkse data is enkel sinds 25/02/2021 beschikbaar.</small></div>
+            <div class="text-center">
+              <small class="text-muted font-italic">* Dagelijkse data is enkel sinds 25/02/2021 beschikbaar.</small><br>
+              <small class="text-muted font-italic" style="color: #f58442 !important;">** Booster data is enkel sinds 03/12/2021 beschikbaar.</small>
+            </div>
           </div>
           <div class="col-md-12 col-lg-3">
             <div class="row">
@@ -313,9 +319,11 @@
     var HISTORY_ALL_LABELS = {{ $data.history_all.labels }};
     var HISTORY_ALL_PERCENTAGE_ONE_DOSE = {{ $data.history_all.timeseries_percentage_minimum_one_dose }};
     var HISTORY_ALL_PERCENTAGE_SECOND_DOSE = {{ $data.history_all.timeseries_percentage_second_dose }};
+    var HISTORY_ALL_PERCENTAGE_BOOSTER = {{ $data.history_all.timeseries_percentage_booster }};
     var HISTORY_ADULTS_LABELS = {{ $data.history_adults.labels }};
     var HISTORY_ADULTS_PERCENTAGE_ONE_DOSE = {{ $data.history_adults.timeseries_percentage_minimum_one_dose }};
     var HISTORY_ADULTS_PERCENTAGE_SECOND_DOSE = {{ $data.history_adults.timeseries_percentage_second_dose }};
+    var HISTORY_ADULTS_PERCENTAGE_BOOSTER = {{ $data.history_all.timeseries_percentage_booster }};
     var PER_AGE_LABELS = {{ $data.per_age.labels }};
     var PER_AGE_PERCENTAGE_FIRST_DOSE = {{ $data.per_age.percentage_first_dose }};
     var PER_AGE_PERCENTAGE_SECOND_DOSE = {{ $data.per_age.percentage_second_dose }};
@@ -329,8 +337,9 @@
 
     var colorBlue = '#0d6efd';
     var colorGreen = '#198754';
+    var colorOrange = '#f58442';
     var fontSize1 = 14;
-    var fontSize2 = 16;
+    var fontSize2 = 14;
     var suggestedMax = {{ $.Site.Params.suggestedMax }};
 
     Chart.Tooltip.positioners.custom = function(elements, eventPosition) {
@@ -340,7 +349,7 @@
       };
     };
 
-    function dataHistory(labels, second, one) {
+    function dataHistory(labels, second, one, booster) {
       return {
         data: {
           labels: labels,
@@ -349,7 +358,7 @@
             fill: false,
             pointRadius: 0,
             pointHoverRadius: 6,
-            lineTension: 0.7,
+            lineTension: 0.9,
             datalabels: {color: colorGreen},
             backgroundColor: colorGreen,
             borderColor: colorGreen,
@@ -359,11 +368,21 @@
             fill: false,
             pointRadius: 0,
             pointHoverRadius: 6,
-            lineTension: 0.7,
+            lineTension: 0.9,
             datalabels: {color: colorBlue},
             backgroundColor: colorBlue,
             borderColor: colorBlue,
             data: one
+          }, {
+            label: 'Booster dosis',
+            fill: false,
+            pointRadius: 0,
+            pointHoverRadius: 6,
+            lineTension: 0.9,
+            datalabels: {color: colorOrange},
+            backgroundColor: colorOrange,
+            borderColor: colorOrange,
+            data: booster
           }]
         }
       };
@@ -400,7 +419,12 @@
         },
 				tooltips: {
 					mode: 'index',
-					intersect: false
+					intersect: false,
+            callbacks: {
+              label: function(tooltipItems, data) {
+                return data.datasets[tooltipItems.datasetIndex].label + ": "+ tooltipItems.yLabel + "%";
+              }
+            }
 				},
 				hover: {
 					mode: 'nearest',
@@ -415,7 +439,15 @@
               fontSize: fontSize1
 						},
             ticks: {
+              autoSkip: false,
               fontSize: fontSize2,
+              maxRotation: 0,
+              minRotation: 0,
+              // maxTicksLimit: 10,
+              callback: function(val, index) {
+                if (val.startsWith("01")) return val;
+                return null;
+              }
             }
 					}],
 					yAxes: [{
@@ -428,6 +460,7 @@
               fontSize: fontSize2,
               suggestedMax: suggestedMax,
               min: 0,
+              max: 100,
               callback: function(value) {
                   return value.toFixed(2).toString().replace(".", ".") + "%";
               }
@@ -548,8 +581,8 @@
 
     // List all charts to render
     var charts = [
-      ["canvasHistoryAll", Object.assign({}, configHistory, dataHistory(HISTORY_ALL_LABELS, HISTORY_ALL_PERCENTAGE_SECOND_DOSE, HISTORY_ALL_PERCENTAGE_ONE_DOSE))],
-      ["canvasHistoryAdults", Object.assign({}, configHistory, dataHistory(HISTORY_ADULTS_LABELS, HISTORY_ADULTS_PERCENTAGE_SECOND_DOSE, HISTORY_ADULTS_PERCENTAGE_ONE_DOSE))],
+      ["canvasHistoryAll", Object.assign({}, configHistory, dataHistory(HISTORY_ALL_LABELS, HISTORY_ALL_PERCENTAGE_SECOND_DOSE, HISTORY_ALL_PERCENTAGE_ONE_DOSE, HISTORY_ALL_PERCENTAGE_BOOSTER))],
+      ["canvasHistoryAdults", Object.assign({}, configHistory, dataHistory(HISTORY_ADULTS_LABELS, HISTORY_ADULTS_PERCENTAGE_SECOND_DOSE, HISTORY_ADULTS_PERCENTAGE_ONE_DOSE, HISTORY_ADULTS_PERCENTAGE_BOOSTER))],
       ["canvasPerAge", Object.assign({}, configPerAge, dataPerAge)]
     ];
 

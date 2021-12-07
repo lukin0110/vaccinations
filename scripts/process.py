@@ -110,7 +110,8 @@ def crunch_history(df: pd.DataFrame) -> Dict[str, Any]:
     grouped = df.groupby("DATE", as_index=False).agg({
         "POPULATION_NBR": sum,
         "VACCINATED_FIRST_DOSIS_NBR": sum,
-        "VACCINATED_SECOND_DOSIS_NBR": sum
+        "VACCINATED_SECOND_DOSIS_NBR": sum,
+        "BOOSTER_AMT": sum
     }).sort_values(by="DATE", ascending=True)
     grouped["VACCINATED_ONE_DOSIS_NBR"] = grouped.apply(
         lambda r: r["VACCINATED_FIRST_DOSIS_NBR"] + r["VACCINATED_SECOND_DOSIS_NBR"], axis=1)
@@ -120,22 +121,30 @@ def crunch_history(df: pd.DataFrame) -> Dict[str, Any]:
     population = int(last_df["POPULATION_NBR"].fillna(0).sum())
     total_first_dose = int(last_df["VACCINATED_FIRST_DOSIS_NBR"].fillna(0).sum())
     total_second_dose = int(last_df["VACCINATED_SECOND_DOSIS_NBR"].fillna(0).sum())
+    booster = int(last_df["BOOSTER_AMT"].fillna(0).sum())
     timeseries_minimum_one_dose = grouped["VACCINATED_ONE_DOSIS_NBR"].tolist()
     timeseries_second_dose = grouped["VACCINATED_SECOND_DOSIS_NBR"].tolist()
+    timeseries_booster = grouped["BOOSTER_AMT"].fillna(0).tolist()
+    timeseries_booster = [None for _ in range(281)] + timeseries_booster[281:]
+    timeseries_percentage_booster = grouped["BOOSTER_AMT"].apply(lambda v: round(v / population * 100, 2)).tolist()
+    timeseries_percentage_booster = [None for _ in range(281)] + timeseries_percentage_booster[281:]
 
     return {
         "population": population,
         "minimum_one_dose": total_first_dose + total_second_dose,
         "first_dose": total_first_dose,
         "second_dose": total_second_dose,
+        "booster": booster,
         "diff_7_minimum_one_dose": timeseries_minimum_one_dose[-1] - timeseries_minimum_one_dose[-8],
         "diff_7_second_dose": timeseries_second_dose[-1] - timeseries_second_dose[-8],
         "timeseries_minimum_one_dose": timeseries_minimum_one_dose,
         "timeseries_second_dose": timeseries_second_dose,
+        "timeseries_booster": timeseries_booster,
         "timeseries_percentage_minimum_one_dose": grouped["VACCINATED_ONE_DOSIS_NBR"].apply(
             lambda v: round(v / population * 100, 2)).tolist(),
         "timeseries_percentage_second_dose": grouped["VACCINATED_SECOND_DOSIS_NBR"].apply(
-            lambda v: round(v / population * 100, 2)).tolist()
+            lambda v: round(v / population * 100, 2)).tolist(),
+        "timeseries_percentage_booster": timeseries_percentage_booster
     }
 
 
@@ -346,17 +355,14 @@ def do_crunch() -> None:
 
     print(f"Crunch daily numbers")
     # Recently added municipalities
-    temp_exclude = [
-        'Paulatem', 'Aaigem', 'Meilegem','Puurs','Sint-Denijs-Boekel',
-        'Ottergem','Hundelgem'
-    ]
+    temp_exclude = ['Paulatem']
     ms = [m for m in municipalities(df) if m not in temp_exclude]
     # print(ms[300:])
     # for municipality in ms[300:]:
     # for municipality in sorted(ms):
     for municipality in ms:
     # for municipality in ["Lommel"]:
-        print(f"Muni: {municipality}")
+    #     print(f"Muni: {municipality}")
         data = crunch_municipality(df, _start_date, _end_date, municipality)
         jp = json_path(municipality)
         print(f"Store JSON: {jp}")
