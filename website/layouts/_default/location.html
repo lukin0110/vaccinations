@@ -274,6 +274,8 @@
       </div>
       <div class="col-md-12 col-lg-4 mt-md-5">
         <div class="row">
+          {{ $lastBooster := index $data.per_age.percentage_booster_dose 0 }}
+          {{ if $lastBooster }}
           <div class="col-md-6 col-lg-12 col-sm-12 d-flex">
             <div class="card card-warning mb-3 flex-fill">
               <div class="card-header">80-plussers met booster dosis ⚡</div>
@@ -284,6 +286,7 @@
               </div>
             </div>
           </div>
+          {{ end }}
 
           <div class="col-md-6 col-lg-12 col-sm-12 d-flex">
             <div class="card card-success mb-3 flex-fill">

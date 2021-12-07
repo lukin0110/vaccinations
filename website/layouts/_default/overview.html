@@ -108,7 +108,8 @@
       <thead style="background-color: #eee;">
         <tr>
           <th scope="col">#</th>
-          <th scope="col">Te vaccineren inwoners (18+)</th>
+          <th scope="col">Aantal inwoners</th>
+          <th scope="col">Booster dosis ⚡</th>
           <th scope="col">Volledig gevaccineerd 🚀</th>
           <th scope="col">Minstens 1 dosis gehad 🤗</th>
         </tr>
@@ -124,10 +125,12 @@
           {{ $all_population := lang.NumFmt 0 $data.history_all.population "- , ." }}
           {{ $history_second_name := lang.NumFmt 0 $data.history_all.second_dose "- , ." }}
           {{ $history_minimum_one_dose := lang.NumFmt 0 $data.history_all.minimum_one_dose "- , ." }}
+          {{ $booster_percentage := index (last 1 $data.history_all.timeseries_percentage_booster) 0 }}
 
             <tr onclick="window.location = '{{ .RelPermalink }}'" title="Bekijk gedetailleerde grefieken over {{ $municipality }}">
               <td data-toggle="tooltip" data-placement="right" title="Bekijk gedetailleerde grafieken over {{ $municipality }}"><a href="{{ .RelPermalink }}">{{ $municipality }}</a></td>
               <td data-toggle="tooltip" data-placement="left" title="{{ $all_population }} {{ $inhabitants }}">{{ $all_population }}</td>
+              <td data-toggle="tooltip" data-placement="left" title="">{{ if $booster_percentage }}{{ lang.NumFmt 2 $booster_percentage }}%{{ else }}niet beschikbaar{{ end }}</td>
               <td data-toggle="tooltip" data-placement="left" title="Dat zijn {{ $history_second_name }} van alle {{ $all_population }} {{ $inhabitants }}"><span class="s">{{ range last 1 $data.history_all.timeseries_percentage_second_dose }}{{ lang.NumFmt 2 . }}{{ end }}%</span> <small class="text-muted">{{ $history_second_name }} personen</small></td>
               <td data-toggle="tooltip" data-placement="left" title="Dat zijn {{ $history_minimum_one_dose }} van alle {{ $all_population }} {{ $inhabitants }}"><span class="p">{{ range last 1 $data.history_all.timeseries_percentage_minimum_one_dose }}{{ lang.NumFmt 2 . }}{{ end }}%</span> <small class="text-muted">{{ $history_minimum_one_dose }} personen</small></td>
             </tr>
