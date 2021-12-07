@@ -137,6 +137,7 @@ def crunch_history(df: pd.DataFrame) -> Dict[str, Any]:
         "booster": booster,
         "diff_7_minimum_one_dose": timeseries_minimum_one_dose[-1] - timeseries_minimum_one_dose[-8],
         "diff_7_second_dose": timeseries_second_dose[-1] - timeseries_second_dose[-8],
+        "diff_7_booster": timeseries_booster[-1] - timeseries_booster[-8] if timeseries_booster[-8] else None,
         "timeseries_minimum_one_dose": timeseries_minimum_one_dose,
         "timeseries_second_dose": timeseries_second_dose,
         "timeseries_booster": timeseries_booster,

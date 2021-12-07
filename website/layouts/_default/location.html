@@ -75,6 +75,14 @@
     .card-primary .card-title {
       color: #0d6efd !important;
     }
+
+    .card-warning .card-header {
+      color: #f58442 !important;
+    }
+
+    .card-warning .card-title {
+      color: #f58442 !important;
+    }
 	</style>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.css" integrity="sha512-/zs32ZEJh+/EO2N1b0PEdoA10JkdC3zJ8L5FTiQu82LR9S/rOQNfQN7U59U9BC12swNeRAz3HSzIL2vpp4fv3w==" crossorigin="anonymous" />
@@ -105,17 +113,17 @@
       <div class="md-12">
         <ul class="nav nav-pills nav-fill" role="tablist">
           <li class="nav-item">
-            <a class="nav-link active" data-toggle="tab" href="#history-adults" role="tab">Enkel volwassenen (18+)</a>
+            <a class="nav-link active" data-toggle="tab" href="#history-all" role="tab">Alle leeftijden</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#history-all" role="tab">Alle leeftijden</a>
+            <a class="nav-link" data-toggle="tab" href="#history-adults" role="tab">Enkel volwassenen (18+)</a>
           </li>
         </ul>
       </div>
     </div>
 
     <div class="tab-content mb-3 mb-md-5">
-      <div class="tab-pane" id="history-all" role="tabpanel">
+      <div class="tab-pane show active" id="history-all" role="tabpanel">
         <div class="row">
           <div class="col-md-12 col-lg-9 pb-3 h-100">
             <h5 class="text-center">Percentage van gevaccineerde {{ $inhabitants }} (alle leeftijden)</h5>
@@ -127,6 +135,24 @@
           </div>
           <div class="col-md-12 col-lg-3">
             <div class="row">
+              {{ $lastBooster := index (last 1 $data.history_all.timeseries_percentage_booster) 0 }}
+              {{ if $lastBooster }}
+              <div class="col-md-6 col-lg-12 col-sm-12 d-flex">
+                <div class="card card-warning mb-3 flex-fill">
+                  <div class="card-header">Booster prik ⚡</div>
+                  <div class="card-body">
+                    <h3 class="card-title">{{ range last 1 $data.history_all.timeseries_percentage_booster }}{{ lang.NumFmt 2 . }}{{ end }}%</h3>
+                    <p class="card-text">Dat zijn <strong>{{ lang.NumFmt 0 $data.history_all.booster "- , ." }}</strong> van de
+                      <strong>{{ lang.NumFmt 0 $data.history_all.population "- , ." }}</strong> {{ $inhabitants }}.</p>
+                    {{ if $data.history_all.diff_7_booster }}
+                    <hr>
+                    <small class="">Dat zijn <strong>{{ lang.NumFmt 0 $data.history_all.diff_7_booster "- , ."  }}</strong> mensen extra sinds vorige week ({{ $data.date_diff_7 }}).</small>
+                    {{ end }}
+                  </div>
+                </div>
+              </div>
+              {{ end }}
+
               <div class="col-md-6 col-lg-12 col-sm-12 d-flex">
                 <div class="card card-success mb-3 flex-fill">
                   <div class="card-header">Volledig gevaccineerd 🚀</div>
@@ -157,7 +183,7 @@
         </div>
       </div>
 
-      <div class="tab-pane show active" id="history-adults" role="tabpanel">
+      <div class="tab-pane" id="history-adults" role="tabpanel">
         <div class="row">
           <div class="col-md-12 col-lg-9 pb-3 h-100">
             <h5 class="text-center">Percentage van gevaccineerde {{ $inhabitants }} (enkel volwassenen)</h5>
@@ -169,6 +195,24 @@
           </div>
           <div class="col-md-12 col-lg-3">
             <div class="row">
+              {{ $lastBooster := index (last 1 $data.history_adults.timeseries_percentage_booster) 0 }}
+              {{ if $lastBooster }}
+              <div class="col-md-6 col-lg-12 col-sm-12 d-flex">
+                <div class="card card-warning mb-3 flex-fill">
+                  <div class="card-header">Booster prik ⚡</div>
+                  <div class="card-body">
+                    <h3 class="card-title">{{ range last 1 $data.history_adults.timeseries_percentage_booster }}{{ lang.NumFmt 2 . }}{{ end }}%</h3>
+                    <p class="card-text">Dat zijn <strong>{{ lang.NumFmt 0 $data.history_adults.booster "- , ." }}</strong> van de
+                      <strong>{{ lang.NumFmt 0 $data.history_adults.population "- , ." }}</strong> {{ $inhabitants }}.</p>
+                    {{ if $data.history_all.diff_7_booster }}
+                    <hr>
+                    <small class="">Dat zijn <strong>{{ lang.NumFmt 0 $data.history_all.diff_7_booster "- , ."  }}</strong> mensen extra sinds vorige week ({{ $data.date_diff_7 }}).</small>
+                    {{ end }}
+                  </div>
+                </div>
+              </div>
+              {{ end }}
+
               <div class="col-md-6 col-lg-12 col-sm-12 d-flex">
                 <div class="card card-success mb-3 flex-fill">
                   <div class="card-header">Volledig gevaccineerd 🚀</div>
@@ -323,7 +367,7 @@
     var HISTORY_ADULTS_LABELS = {{ $data.history_adults.labels }};
     var HISTORY_ADULTS_PERCENTAGE_ONE_DOSE = {{ $data.history_adults.timeseries_percentage_minimum_one_dose }};
     var HISTORY_ADULTS_PERCENTAGE_SECOND_DOSE = {{ $data.history_adults.timeseries_percentage_second_dose }};
-    var HISTORY_ADULTS_PERCENTAGE_BOOSTER = {{ $data.history_all.timeseries_percentage_booster }};
+    var HISTORY_ADULTS_PERCENTAGE_BOOSTER = {{ $data.history_adults.timeseries_percentage_booster }};
     var PER_AGE_LABELS = {{ $data.per_age.labels }};
     var PER_AGE_PERCENTAGE_FIRST_DOSE = {{ $data.per_age.percentage_first_dose }};
     var PER_AGE_PERCENTAGE_SECOND_DOSE = {{ $data.per_age.percentage_second_dose }};
