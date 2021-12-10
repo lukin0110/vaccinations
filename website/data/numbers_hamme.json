@@ -286,15 +286,17 @@
             "04-dec",
             "05-dec",
             "06-dec",
-            "07-dec"
+            "07-dec",
+            "08-dec",
+            "09-dec"
         ],
         "population": 24980,
-        "minimum_one_dose": 21014,
-        "first_dose": 207,
-        "second_dose": 20807,
-        "booster": 5083,
-        "diff_7_minimum_one_dose": 29,
-        "diff_7_second_dose": 39,
+        "minimum_one_dose": 21015,
+        "first_dose": 193,
+        "second_dose": 20822,
+        "booster": 5438,
+        "diff_7_minimum_one_dose": 30,
+        "diff_7_second_dose": 54,
         "diff_7_booster": null,
         "timeseries_minimum_one_dose": [
             1203,
@@ -582,7 +584,9 @@
             21010,
             21009,
             21009,
-            21014
+            21014,
+            21014,
+            21015
         ],
         "timeseries_second_dose": [
             848,
@@ -870,7 +874,9 @@
             20802,
             20801,
             20801,
-            20807
+            20807,
+            20807,
+            20822
         ],
         "timeseries_booster": [
             null,
@@ -1158,7 +1164,9 @@
             4484.0,
             4498.0,
             4498.0,
-            5083.0
+            5083.0,
+            5083.0,
+            5438.0
         ],
         "timeseries_percentage_minimum_one_dose": [
             4.82,
@@ -1446,7 +1454,9 @@
             84.11,
             84.1,
             84.1,
-            84.12
+            84.12,
+            84.12,
+            84.13
         ],
         "timeseries_percentage_second_dose": [
             3.39,
@@ -1734,7 +1744,9 @@
             83.27,
             83.27,
             83.27,
-            83.29
+            83.29,
+            83.29,
+            83.35
         ],
         "timeseries_percentage_booster": [
             null,
@@ -2022,7 +2034,9 @@
             17.95,
             18.01,
             18.01,
-            20.35
+            20.35,
+            20.35,
+            21.77
         ]
     },
     "history_adults": {
@@ -2312,15 +2326,17 @@
             "04-dec",
             "05-dec",
             "06-dec",
-            "07-dec"
+            "07-dec",
+            "08-dec",
+            "09-dec"
         ],
         "population": 20030,
-        "minimum_one_dose": 19121,
-        "first_dose": 178,
-        "second_dose": 18943,
-        "booster": 5059,
-        "diff_7_minimum_one_dose": 20,
-        "diff_7_second_dose": 27,
+        "minimum_one_dose": 19117,
+        "first_dose": 161,
+        "second_dose": 18956,
+        "booster": 5413,
+        "diff_7_minimum_one_dose": 16,
+        "diff_7_second_dose": 40,
         "diff_7_booster": null,
         "timeseries_minimum_one_dose": [
             1191,
@@ -2608,7 +2624,9 @@
             19119,
             19117,
             19117,
-            19121
+            19121,
+            19121,
+            19117
         ],
         "timeseries_second_dose": [
             839,
@@ -2896,7 +2914,9 @@
             18941,
             18940,
             18940,
-            18943
+            18943,
+            18943,
+            18956
         ],
         "timeseries_booster": [
             null,
@@ -3184,7 +3204,9 @@
             4461.0,
             4475.0,
             4475.0,
-            5059.0
+            5059.0,
+            5059.0,
+            5413.0
         ],
         "timeseries_percentage_minimum_one_dose": [
             5.95,
@@ -3472,7 +3494,9 @@
             95.45,
             95.44,
             95.44,
-            95.46
+            95.46,
+            95.46,
+            95.44
         ],
         "timeseries_percentage_second_dose": [
             4.19,
@@ -3760,7 +3784,9 @@
             94.56,
             94.56,
             94.56,
-            94.57
+            94.57,
+            94.57,
+            94.64
         ],
         "timeseries_percentage_booster": [
             null,
@@ -4048,7 +4074,9 @@
             22.27,
             22.34,
             22.34,
-            25.26
+            25.26,
+            25.26,
+            27.02
         ]
     },
     "per_age": {
@@ -4061,66 +4089,59 @@
             "0-11"
         ],
         "population": [
-            1401.0,
+            4544.0,
             5103.0,
             6894.0,
             6632.0,
-            1807.0,
-            3143.0
+            1807.0
         ],
         "first_dose": [
-            12,
+            28,
             23,
-            39,
-            104,
-            18,
-            11
+            37,
+            89,
+            16
         ],
         "second_dose": [
-            1342,
-            4932,
-            6585,
-            6084,
-            1666,
-            198
+            1540,
+            4928,
+            6587,
+            6099,
+            1668
         ],
         "booster_dose": [
-            1226.0,
-            2271.0,
-            879.0,
-            683.0,
-            24.0,
-            0.0
+            1230.0,
+            2438.0,
+            986.0,
+            759.0,
+            25.0
         ],
         "percentage_first_dose": [
-            0.86,
+            0.62,
             0.45,
-            0.57,
-            1.57,
-            1.0,
-            0.35
+            0.54,
+            1.34,
+            0.89
         ],
         "percentage_second_dose": [
-            95.79,
-            96.65,
-            95.52,
-            91.74,
-            92.2,
-            6.3
+            33.89,
+            96.57,
+            95.55,
+            91.96,
+            92.31
         ],
         "percentage_booster_dose": [
-            87.51,
-            44.5,
-            12.75,
-            10.3,
-            1.33,
-            0.0
+            27.07,
+            47.78,
+            14.3,
+            11.44,
+            1.38
         ]
     },
     "location": "Hamme",
     "province": "Oost-Vlaanderen",
     "zone": "Dender",
     "inhabitants": "inwoners",
-    "last_date": "07/12/2021",
-    "date_diff_7": "30/11/2021"
+    "last_date": "09/12/2021",
+    "date_diff_7": "02/12/2021"
 }

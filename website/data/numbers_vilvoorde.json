@@ -286,15 +286,17 @@
             "04-dec",
             "05-dec",
             "06-dec",
-            "07-dec"
+            "07-dec",
+            "08-dec",
+            "09-dec"
         ],
         "population": 45715,
-        "minimum_one_dose": 31354,
-        "first_dose": 677,
-        "second_dose": 30677,
-        "booster": 5495,
-        "diff_7_minimum_one_dose": 50,
-        "diff_7_second_dose": 40,
+        "minimum_one_dose": 31391,
+        "first_dose": 688,
+        "second_dose": 30703,
+        "booster": 6532,
+        "diff_7_minimum_one_dose": 84,
+        "diff_7_second_dose": 63,
         "diff_7_booster": null,
         "timeseries_minimum_one_dose": [
             1336,
@@ -582,7 +584,9 @@
             31319,
             31327,
             31327,
-            31354
+            31354,
+            31354,
+            31391
         ],
         "timeseries_second_dose": [
             796,
@@ -870,7 +874,9 @@
             30654,
             30657,
             30657,
-            30677
+            30677,
+            30677,
+            30703
         ],
         "timeseries_booster": [
             null,
@@ -1158,7 +1164,9 @@
             4422.0,
             4449.0,
             4449.0,
-            5495.0
+            5495.0,
+            5495.0,
+            6532.0
         ],
         "timeseries_percentage_minimum_one_dose": [
             2.92,
@@ -1446,7 +1454,9 @@
             68.51,
             68.53,
             68.53,
-            68.59
+            68.59,
+            68.59,
+            68.67
         ],
         "timeseries_percentage_second_dose": [
             1.74,
@@ -1734,7 +1744,9 @@
             67.05,
             67.06,
             67.06,
-            67.1
+            67.1,
+            67.1,
+            67.16
         ],
         "timeseries_percentage_booster": [
             null,
@@ -2022,7 +2034,9 @@
             9.67,
             9.73,
             9.73,
-            12.02
+            12.02,
+            12.02,
+            14.29
         ]
     },
     "history_adults": {
@@ -2312,15 +2326,17 @@
             "04-dec",
             "05-dec",
             "06-dec",
-            "07-dec"
+            "07-dec",
+            "08-dec",
+            "09-dec"
         ],
         "population": 33889,
-        "minimum_one_dose": 28454,
-        "first_dose": 561,
-        "second_dose": 27893,
-        "booster": 5488,
-        "diff_7_minimum_one_dose": 44,
-        "diff_7_second_dose": 33,
+        "minimum_one_dose": 28483,
+        "first_dose": 568,
+        "second_dose": 27915,
+        "booster": 6523,
+        "diff_7_minimum_one_dose": 70,
+        "diff_7_second_dose": 53,
         "diff_7_booster": null,
         "timeseries_minimum_one_dose": [
             1336,
@@ -2608,7 +2624,9 @@
             28423,
             28430,
             28430,
-            28454
+            28454,
+            28454,
+            28483
         ],
         "timeseries_second_dose": [
             796,
@@ -2896,7 +2914,9 @@
             27874,
             27877,
             27877,
-            27893
+            27893,
+            27893,
+            27915
         ],
         "timeseries_booster": [
             null,
@@ -3184,7 +3204,9 @@
             4416.0,
             4443.0,
             4443.0,
-            5488.0
+            5488.0,
+            5488.0,
+            6523.0
         ],
         "timeseries_percentage_minimum_one_dose": [
             3.94,
@@ -3472,7 +3494,9 @@
             83.87,
             83.89,
             83.89,
-            83.96
+            83.96,
+            83.96,
+            84.05
         ],
         "timeseries_percentage_second_dose": [
             2.35,
@@ -3760,7 +3784,9 @@
             82.25,
             82.26,
             82.26,
-            82.31
+            82.31,
+            82.31,
+            82.37
         ],
         "timeseries_percentage_booster": [
             null,
@@ -4048,7 +4074,9 @@
             13.03,
             13.11,
             13.11,
-            16.19
+            16.19,
+            16.19,
+            19.25
         ]
     },
     "per_age": {
@@ -4061,66 +4089,59 @@
             "0-11"
         ],
         "population": [
-            2039.0,
+            9922.0,
             6835.0,
             12074.0,
             12941.0,
-            3943.0,
-            7883.0
+            3943.0
         ],
         "first_dose": [
-            29,
-            61,
-            139,
+            56,
+            63,
+            143,
             332,
-            93,
-            23
+            94
         ],
         "second_dose": [
-            1851,
-            6273,
-            10428,
-            9341,
-            2513,
-            271
+            2122,
+            6272,
+            10434,
+            9358,
+            2517
         ],
         "booster_dose": [
-            1574.0,
-            2570.0,
-            869.0,
-            475.0,
-            7.0,
-            0.0
+            1578.0,
+            3488.0,
+            960.0,
+            497.0,
+            9.0
         ],
         "percentage_first_dose": [
-            1.42,
-            0.89,
-            1.15,
+            0.56,
+            0.92,
+            1.18,
             2.57,
-            2.36,
-            0.29
+            2.38
         ],
         "percentage_second_dose": [
-            90.78,
-            91.78,
-            86.37,
-            72.18,
-            63.73,
-            3.44
+            21.39,
+            91.76,
+            86.42,
+            72.31,
+            63.83
         ],
         "percentage_booster_dose": [
-            77.19,
-            37.6,
-            7.2,
-            3.67,
-            0.18,
-            0.0
+            15.9,
+            51.03,
+            7.95,
+            3.84,
+            0.23
         ]
     },
     "location": "Vilvoorde",
     "province": "Vlaams-Brabant",
     "zone": "BraViO",
     "inhabitants": "inwoners",
-    "last_date": "07/12/2021",
-    "date_diff_7": "30/11/2021"
+    "last_date": "09/12/2021",
+    "date_diff_7": "02/12/2021"
 }
