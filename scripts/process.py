@@ -17,6 +17,10 @@ locale.setlocale(locale.LC_ALL, "nl_BE")
 
 CSV_ENDPOINT = "https://www.laatjevaccineren.be/vaccination-info/get"
 
+MERGERS = {
+    "Hamont-Achel": ["Hamont", "Achel"],
+    "Hechtel-Eksel": ["Hechtel", "Eksel"],
+}
 
 def slugify(value: str, allow_unicode: bool = False) -> str:
     """Create a slug from a given string."""
@@ -217,7 +221,8 @@ def crunch_per_age(df: pd.DataFrame) -> Dict[str, Any]:
 
 def crunch_municipality(df: pd.DataFrame, start_date: date, end_date: date, municipality: str) -> Dict[str, Any]:
     """Crunch a municipality."""
-    mdf = df[df["MUNICIPALITY"] == municipality]
+    _selection = [municipality] + MERGERS.get(municipality, [])
+    mdf = df[df["MUNICIPALITY"].isin(_selection)]
     config = load_config()
     entry = config[config["MUNICIPALITY"] == municipality]["INHABITANTS"]
     inhabitants = entry.values[0] if len(entry.values) else "inwoners"
@@ -381,6 +386,7 @@ def do_crunch() -> None:
     # for municipality in sorted(ms):
     for municipality in ms:
     # for municipality in ["Lommel"]:
+    # for municipality in ["Hamont-Achel", "Hechtel-Eksel"]:
     #     print(f"Muni: {municipality}")
         data = crunch_municipality(df, _start_date, _end_date, municipality)
         jp = json_path(municipality)
