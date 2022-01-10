@@ -316,16 +316,19 @@
             "03-jan",
             "04-jan",
             "05-jan",
-            "06-jan"
+            "06-jan",
+            "07-jan",
+            "08-jan",
+            "09-jan"
         ],
         "population": 11710,
-        "minimum_one_dose": 9898,
-        "first_dose": 49,
+        "minimum_one_dose": 9897,
+        "first_dose": 48,
         "second_dose": 9849,
-        "booster": 6096,
+        "booster": 6555,
         "diff_7_minimum_one_dose": -1,
-        "diff_7_second_dose": 14,
-        "diff_7_booster": 822.0,
+        "diff_7_second_dose": 15,
+        "diff_7_booster": 1273.0,
         "timeseries_minimum_one_dose": [
             651,
             651,
@@ -642,7 +645,10 @@
             9898,
             9899,
             9895,
-            9898
+            9898,
+            9898,
+            9898,
+            9897
         ],
         "timeseries_second_dose": [
             511,
@@ -960,6 +966,9 @@
             9834,
             9831,
             9844,
+            9849,
+            9849,
+            9849,
             9849
         ],
         "timeseries_booster": [
@@ -1278,7 +1287,10 @@
             5282.0,
             5695.0,
             5884.0,
-            6096.0
+            6096.0,
+            6096.0,
+            6096.0,
+            6555.0
         ],
         "timeseries_percentage_minimum_one_dose": [
             5.56,
@@ -1596,7 +1608,10 @@
             84.53,
             84.53,
             84.5,
-            84.53
+            84.53,
+            84.53,
+            84.53,
+            84.52
         ],
         "timeseries_percentage_second_dose": [
             4.36,
@@ -1914,6 +1929,9 @@
             83.98,
             83.95,
             84.06,
+            84.11,
+            84.11,
+            84.11,
             84.11
         ],
         "timeseries_percentage_booster": [
@@ -2232,7 +2250,10 @@
             45.11,
             48.63,
             50.25,
-            52.06
+            52.06,
+            52.06,
+            52.06,
+            55.98
         ]
     },
     "history_adults": {
@@ -2552,16 +2573,19 @@
             "03-jan",
             "04-jan",
             "05-jan",
-            "06-jan"
+            "06-jan",
+            "07-jan",
+            "08-jan",
+            "09-jan"
         ],
         "population": 9524,
-        "minimum_one_dose": 9016,
-        "first_dose": 44,
-        "second_dose": 8972,
-        "booster": 6068,
-        "diff_7_minimum_one_dose": -1,
+        "minimum_one_dose": 9014,
+        "first_dose": 43,
+        "second_dose": 8971,
+        "booster": 6522,
+        "diff_7_minimum_one_dose": -2,
         "diff_7_second_dose": 4,
-        "diff_7_booster": 816.0,
+        "diff_7_booster": 1262.0,
         "timeseries_minimum_one_dose": [
             650,
             650,
@@ -2878,7 +2902,10 @@
             9016,
             9016,
             9013,
-            9016
+            9016,
+            9016,
+            9016,
+            9014
         ],
         "timeseries_second_dose": [
             510,
@@ -3196,7 +3223,10 @@
             8967,
             8964,
             8967,
-            8972
+            8972,
+            8972,
+            8972,
+            8971
         ],
         "timeseries_booster": [
             null,
@@ -3514,7 +3544,10 @@
             5260.0,
             5672.0,
             5856.0,
-            6068.0
+            6068.0,
+            6068.0,
+            6068.0,
+            6522.0
         ],
         "timeseries_percentage_minimum_one_dose": [
             6.82,
@@ -3832,7 +3865,10 @@
             94.67,
             94.67,
             94.63,
-            94.67
+            94.67,
+            94.67,
+            94.67,
+            94.65
         ],
         "timeseries_percentage_second_dose": [
             5.35,
@@ -4150,7 +4186,10 @@
             94.15,
             94.12,
             94.15,
-            94.2
+            94.2,
+            94.2,
+            94.2,
+            94.19
         ],
         "timeseries_percentage_booster": [
             null,
@@ -4468,7 +4507,10 @@
             55.23,
             59.55,
             61.49,
-            63.71
+            63.71,
+            63.71,
+            63.71,
+            68.48
         ]
     },
     "per_age": {
@@ -4493,7 +4535,7 @@
         "first_dose": [
             8,
             6,
-            14,
+            13,
             16,
             2,
             3,
@@ -4501,26 +4543,26 @@
         ],
         "second_dose": [
             761,
-            2523,
+            2524,
             3149,
-            2539,
-            769,
+            2537,
+            770,
             108,
             0
         ],
         "booster_dose": [
             696.0,
-            2338.0,
-            2376.0,
-            658.0,
-            28.0,
+            2380.0,
+            2630.0,
+            816.0,
+            33.0,
             0.0,
             0.0
         ],
         "percentage_first_dose": [
             1.02,
             0.23,
-            0.42,
+            0.39,
             0.57,
             0.25,
             0.36,
@@ -4528,19 +4570,19 @@
         ],
         "percentage_second_dose": [
             96.82,
-            96.33,
+            96.37,
             95.08,
-            90.45,
-            94.47,
+            90.38,
+            94.59,
             13.06,
             0.0
         ],
         "percentage_booster_dose": [
             88.55,
-            89.27,
-            71.74,
-            23.44,
-            3.44,
+            90.87,
+            79.41,
+            29.07,
+            4.05,
             0.0,
             0.0
         ]
@@ -4549,6 +4591,6 @@
     "province": "Antwerpen",
     "zone": "Pallieterland",
     "inhabitants": "inwoners",
-    "last_date": "06/01/2022",
-    "date_diff_7": "30/12/2021"
+    "last_date": "09/01/2022",
+    "date_diff_7": "02/01/2022"
 }
