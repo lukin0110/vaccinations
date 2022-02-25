@@ -380,7 +380,7 @@ def do_crunch() -> None:
 
     print(f"Crunch daily numbers")
     # Recently added municipalities
-    temp_exclude = ["Dikkele"]
+    temp_exclude = ["Dikkele", "Dranouter", "Eksel"]
     ms = [m for m in municipalities(df) if m not in temp_exclude]
     # print(ms[300:])
     # for municipality in sorted(ms):
