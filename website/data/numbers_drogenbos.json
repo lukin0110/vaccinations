@@ -375,16 +375,18 @@
             "03-mrt",
             "04-mrt",
             "05-mrt",
-            "06-mrt"
+            "06-mrt",
+            "07-mrt",
+            "08-mrt"
         ],
         "population": 5699,
         "minimum_one_dose": 4103,
         "first_dose": 154,
         "second_dose": 3949,
-        "booster": 2737,
+        "booster": 2743,
         "diff_7_minimum_one_dose": 0,
-        "diff_7_second_dose": 4,
-        "diff_7_booster": 7.0,
+        "diff_7_second_dose": 0,
+        "diff_7_booster": 10.0,
         "timeseries_minimum_one_dose": [
             237,
             237,
@@ -750,6 +752,8 @@
             4095,
             4095,
             4095,
+            4103,
+            4103,
             4103,
             4103,
             4103,
@@ -1137,6 +1141,8 @@
             3949,
             3949,
             3949,
+            3949,
+            3949,
             3949
         ],
         "timeseries_booster": [
@@ -1514,7 +1520,9 @@
             2736.0,
             2736.0,
             2736.0,
-            2737.0
+            2737.0,
+            2737.0,
+            2743.0
         ],
         "timeseries_percentage_minimum_one_dose": [
             4.16,
@@ -1881,6 +1889,8 @@
             71.85,
             71.85,
             71.85,
+            72.0,
+            72.0,
             72.0,
             72.0,
             72.0,
@@ -2268,6 +2278,8 @@
             69.29,
             69.29,
             69.29,
+            69.29,
+            69.29,
             69.29
         ],
         "timeseries_percentage_booster": [
@@ -2645,7 +2657,9 @@
             48.01,
             48.01,
             48.01,
-            48.03
+            48.03,
+            48.03,
+            48.13
         ]
     },
     "history_adults": {
@@ -3024,16 +3038,18 @@
             "03-mrt",
             "04-mrt",
             "05-mrt",
-            "06-mrt"
+            "06-mrt",
+            "07-mrt",
+            "08-mrt"
         ],
         "population": 4439,
         "minimum_one_dose": 3730,
         "first_dose": 141,
         "second_dose": 3589,
-        "booster": 2724,
+        "booster": 2730,
         "diff_7_minimum_one_dose": 0,
-        "diff_7_second_dose": 0,
-        "diff_7_booster": 7.0,
+        "diff_7_second_dose": -1,
+        "diff_7_booster": 10.0,
         "timeseries_minimum_one_dose": [
             237,
             237,
@@ -3399,6 +3415,8 @@
             3659,
             3659,
             3659,
+            3730,
+            3730,
             3730,
             3730,
             3730,
@@ -3786,6 +3804,8 @@
             3589,
             3589,
             3589,
+            3589,
+            3589,
             3589
         ],
         "timeseries_booster": [
@@ -4163,7 +4183,9 @@
             2723.0,
             2723.0,
             2723.0,
-            2724.0
+            2724.0,
+            2724.0,
+            2730.0
         ],
         "timeseries_percentage_minimum_one_dose": [
             5.34,
@@ -4530,6 +4552,8 @@
             82.43,
             82.43,
             82.43,
+            84.03,
+            84.03,
             84.03,
             84.03,
             84.03,
@@ -4917,6 +4941,8 @@
             80.85,
             80.85,
             80.85,
+            80.85,
+            80.85,
             80.85
         ],
         "timeseries_percentage_booster": [
@@ -5294,7 +5320,9 @@
             61.34,
             61.34,
             61.34,
-            61.37
+            61.37,
+            61.37,
+            61.5
         ]
     },
     "per_age": {
@@ -5337,8 +5365,8 @@
         "booster_dose": [
             260.0,
             769.0,
-            1017.0,
-            678.0,
+            1018.0,
+            683.0,
             13.0,
             0.0,
             0.0
@@ -5364,8 +5392,8 @@
         "percentage_booster_dose": [
             79.51,
             80.52,
-            64.69,
-            42.78,
+            64.76,
+            43.09,
             2.84,
             0.0,
             0.0
@@ -5375,6 +5403,6 @@
     "province": "Vlaams-Brabant",
     "zone": "Zennevallei",
     "inhabitants": "inwoners",
-    "last_date": "06/03/2022",
-    "date_diff_7": "27/02/2022"
+    "last_date": "08/03/2022",
+    "date_diff_7": "01/03/2022"
 }
